@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Уманец AI — ИИ-кураторы и автоматизация для онлайн-школ</title>
+<meta name="description" content="Внедряем ИИ в онлайн-школы: кураторы, которые отвечают ученикам 24/7, автомонтаж до 100 видео в день, возврат остывших лидов. Работает в «Московском долголетии» и Академии Натальи Эдис.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Piazzolla:ital,opsz,wght@0,8..30,600;0,8..30,700;0,8..30,800;1,8..30,600;1,8..30,700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#06090F;
+  --ink-2:#0A0F18;
+  --ink-3:#0E1522;
+  --line:rgba(214,226,255,.08);
+  --line-2:rgba(214,226,255,.14);
+  --txt:#E9EEF9;
+  --txt-2:#93A0B8;
+  --txt-3:#5C6980;
+  --amber:#FFB454;
+  --amber-2:#FF8A3D;
+  --amber-dim:rgba(255,180,84,.14);
+  --cyan:#6FD3E8;
+  --serif:'Piazzolla',Georgia,serif;
+  --sans:'Golos Text',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --r:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--txt);font-family:var(--sans);
+  font-size:17px;line-height:1.6;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--amber);color:#160D00}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.08;letter-spacing:-.01em}
+em{font-style:italic;color:var(--amber)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+
+/* grain + мягкое свечение фона */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* курсор */
+.cursor,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%}
+.cursor{width:6px;height:6px;background:var(--amber);transform:translate(-50%,-50%)}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(255,180,84,.45);transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s}
+.cursor-ring.hot{width:56px;height:56px;border-color:var(--amber)}
+@media (hover:none),(max-width:900px){.cursor,.cursor-ring{display:none}}
+
+/* шапка */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:rgba(6,9,15,.55);border-bottom:1px solid var(--line);
+  transition:transform .4s;
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:var(--mono);font-size:14px;letter-spacing:.1em;display:flex;align-items:center;gap:10px}
+.logo b{color:var(--amber)}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px var(--amber);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.nav-links{display:flex;gap:34px;font-size:14.5px;color:var(--txt-2)}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--amber)}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 26px;border-radius:100px;font-weight:600;font-size:15px;
+  border:1px solid transparent;cursor:pointer;transition:.25s;white-space:nowrap;
+}
+.btn-solid{background:var(--amber);color:#160D00}
+.btn-solid:hover{background:#FFC77E;transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,180,84,.28)}
+.btn-ghost{border-color:var(--line-2);color:var(--txt)}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+.btn-sm{padding:9px 20px;font-size:14px}
+.burger{display:none;background:none;border:0;color:var(--txt);font-size:26px;cursor:pointer}
+
+/* герой */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:130px 0 80px}
+#stars{position:absolute;inset:0;z-index:0}
+.hero-glow{
+  position:absolute;z-index:0;width:900px;height:900px;border-radius:50%;
+  right:-260px;top:-180px;filter:blur(90px);opacity:.55;
+  background:radial-gradient(circle at 50% 50%,rgba(255,138,61,.28),rgba(255,180,84,.10) 45%,transparent 70%);
+  animation:breathe 9s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center;width:100%}
+.badge{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:100px;
+  border:1px solid var(--line-2);background:rgba(14,21,34,.6);font-family:var(--mono);
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--txt-2);
+}
+.badge i{width:7px;height:7px;border-radius:50%;background:#54E08B;box-shadow:0 0 10px #54E08B;animation:pulse 2s infinite}
+.hero h1{font-size:clamp(42px,5.6vw,76px);margin:28px 0 24px;font-weight:800}
+.hero h1 .time{
+  font-family:var(--mono);font-weight:500;color:var(--amber);
+  background:var(--amber-dim);border:1px solid rgba(255,180,84,.3);border-radius:14px;
+  padding:0 14px;white-space:nowrap;font-size:.82em;vertical-align:baseline;
+}
+.hero p.lead{font-size:19px;color:var(--txt-2);max-width:560px;margin-bottom:38px}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.hero-note{margin-top:22px;font-size:13.5px;color:var(--txt-3);display:flex;gap:8px;align-items:center}
+
+/* 3D чат-сцена героя */
+.scene{perspective:1200px;position:relative;height:520px}
+.chat3d{
+  position:relative;width:100%;height:100%;transform-style:preserve-3d;
+  transition:transform .18s ease-out;
+}
+.chip{
+  position:absolute;border-radius:16px;padding:14px 18px;max-width:290px;
+  background:rgba(14,21,34,.82);border:1px solid var(--line-2);
+  backdrop-filter:blur(10px);box-shadow:0 24px 60px rgba(0,0,0,.5);
+  font-size:14.5px;line-height:1.45;
+}
+.chip .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-3);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.chip.ai{border-color:rgba(255,180,84,.35);background:linear-gradient(160deg,rgba(255,180,84,.10),rgba(14,21,34,.85) 55%)}
+.chip.ai .who{color:var(--amber)}
+.chip .t{color:var(--txt-3);font-family:var(--mono);font-size:10px;margin-top:8px}
+.float-a{animation:floatA 7s ease-in-out infinite}
+.float-b{animation:floatB 8.5s ease-in-out infinite}
+.float-c{animation:floatC 9.5s ease-in-out infinite}
+@keyframes floatA{0%,100%{transform:translateZ(60px) translateY(0)}50%{transform:translateZ(60px) translateY(-14px)}}
+@keyframes floatB{0%,100%{transform:translateZ(120px) translateY(0)}50%{transform:translateZ(120px) translateY(-20px)}}
+@keyframes floatC{0%,100%{transform:translateZ(30px) translateY(0)}50%{transform:translateZ(30px) translateY(-10px)}}
+
+/* бегущая строка */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:20px 0;overflow:hidden;background:var(--ink-2);position:relative;
+}
+.marquee-track{display:flex;gap:56px;width:max-content;animation:mq 36s linear infinite}
+.marquee-track span{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-3);display:flex;align-items:center;gap:16px;white-space:nowrap}
+.marquee-track span::after{content:"✦";color:var(--amber);font-size:11px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* секции */
+section{padding:110px 0;position:relative;scroll-margin-top:70px}
+.sec-tag{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.sec-tag::before{content:"";width:34px;height:1px;background:var(--amber)}
+.sec-title{font-size:clamp(32px,4vw,52px);max-width:760px;margin-bottom:18px}
+.sec-sub{color:var(--txt-2);max-width:640px;font-size:18px}
+
+/* появление при скролле */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.65,.25,1),transform .8s cubic-bezier(.2,.65,.25,1)}
+.reveal.on{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* боли */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.pain{
+  border:1px solid var(--line);border-radius:var(--r);padding:34px 30px;background:var(--ink-2);
+  position:relative;overflow:hidden;transition:border-color .3s;
+}
+.pain:hover{border-color:var(--line-2)}
+.pain .num{font-family:var(--mono);color:var(--txt-3);font-size:12px;margin-bottom:18px}
+.pain h3{font-size:22px;margin-bottom:12px}
+.pain p{color:var(--txt-2);font-size:15.5px}
+.pain::after{
+  content:"";position:absolute;right:-40px;bottom:-40px;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,138,61,.13),transparent 70%);
+}
+
+/* демо-чат */
+.demo{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center;margin-top:60px}
+.phone{
+  width:100%;max-width:400px;margin:0 auto;border-radius:34px;border:1px solid var(--line-2);
+  background:linear-gradient(175deg,var(--ink-3),var(--ink-2));
+  box-shadow:0 40px 100px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);
+  overflow:hidden;
+}
+.phone-top{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.ava{
+  width:38px;height:38px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(140deg,var(--amber),var(--amber-2));color:#160D00;font-weight:700;font-size:15px;font-family:var(--mono);
+}
+.phone-top .nm{font-weight:600;font-size:15px}
+.phone-top .st{font-size:12px;color:#54E08B;display:flex;align-items:center;gap:6px}
+.phone-top .st::before{content:"";width:6px;height:6px;border-radius:50%;background:#54E08B}
+.phone-log{height:400px;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:hidden;justify-content:flex-end}
+.msg{max-width:82%;padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.45;opacity:0;transform:translateY(14px) scale(.97);transition:.45s cubic-bezier(.2,.65,.25,1)}
+.msg.show{opacity:1;transform:none}
+.msg.stu{align-self:flex-end;background:#1B2436;border-bottom-right-radius:5px}
+.msg.bot{align-self:flex-start;background:linear-gradient(150deg,rgba(255,180,84,.16),rgba(255,138,61,.07));border:1px solid rgba(255,180,84,.22);border-bottom-left-radius:5px}
+.msg .mt{display:block;font-family:var(--mono);font-size:10px;color:var(--txt-3);margin-top:6px}
+.typing{align-self:flex-start;display:none;gap:5px;padding:13px 16px;background:rgba(255,180,84,.1);border-radius:16px;border-bottom-left-radius:5px}
+.typing.show{display:flex}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:tp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.feat{display:flex;flex-direction:column;gap:26px}
+.feat-item{display:flex;gap:20px;align-items:flex-start}
+.feat-ico{
+  width:46px;height:46px;flex:none;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:var(--amber-dim);border:1px solid rgba(255,180,84,.25);font-size:20px;
+}
+.feat-item h3{font-size:19px;margin-bottom:6px;font-family:var(--sans);font-weight:600}
+.feat-item p{color:var(--txt-2);font-size:15.5px}
+
+/* цифры */
+.stats{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat{text-align:center;padding:20px 10px}
+.stat .v{font-family:var(--serif);font-weight:800;font-size:clamp(40px,4.6vw,62px);color:var(--amber);font-variant-numeric:tabular-nums}
+.stat .v small{font-size:.55em}
+.stat .l{color:var(--txt-2);font-size:14.5px;margin-top:8px}
+
+/* кейсы */
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:56px}
+.case{
+  border:1px solid var(--line);border-radius:var(--r);padding:40px;background:linear-gradient(165deg,var(--ink-3),var(--ink-2));
+  position:relative;transition:transform .35s,border-color .35s;overflow:hidden;
+}
+.case:hover{transform:translateY(-6px);border-color:rgba(255,180,84,.3)}
+.case .mono{color:var(--amber);margin-bottom:20px}
+.case h3{font-size:26px;margin-bottom:14px}
+.case p{color:var(--txt-2);font-size:15.5px;margin-bottom:22px}
+.case .res{display:flex;flex-wrap:wrap;gap:10px}
+.case .res span{font-family:var(--mono);font-size:12px;padding:7px 14px;border-radius:100px;border:1px solid var(--line-2);color:var(--txt)}
+.case .res span b{color:var(--amber);font-weight:500}
+
+/* услуги */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.svc{
+  border:1px solid var(--line);border-radius:var(--r);padding:34px 28px;background:var(--ink-2);
+  transform-style:preserve-3d;transition:border-color .3s,box-shadow .3s;position:relative;
+}
+.svc:hover{border-color:rgba(255,180,84,.35);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.svc.hot{grid-column:span 3;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;
+  background:linear-gradient(130deg,rgba(255,138,61,.10),var(--ink-2) 55%);border-color:rgba(255,180,84,.3)}
+.svc .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:16px;display:inline-block;padding:5px 12px;border:1px solid rgba(255,180,84,.3);border-radius:100px}
+.svc h3{font-size:23px;margin-bottom:12px}
+.svc p{color:var(--txt-2);font-size:15px;margin-bottom:20px}
+.svc .price{font-family:var(--mono);font-size:14px;color:var(--txt)}
+.svc .price b{color:var(--amber);font-size:19px;font-weight:500}
+.svc ul{list-style:none;margin:18px 0 24px;display:flex;flex-direction:column;gap:10px}
+.svc ul li{padding-left:26px;position:relative;color:var(--txt-2);font-size:15px}
+.svc ul li::before{content:"→";position:absolute;left:0;color:var(--amber)}
+
+/* команда */
+.team-note{
+  border:1px solid rgba(255,180,84,.25);background:linear-gradient(140deg,rgba(255,180,84,.07),transparent 60%);
+  border-radius:var(--r);padding:30px 34px;margin:56px 0 26px;display:flex;gap:20px;align-items:flex-start;
+}
+.team-note p{color:var(--txt-2);font-size:16px}
+.team-note p b{color:var(--txt)}
+.team{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.tm{
+  border:1px solid var(--line);border-radius:var(--r);padding:26px 20px;background:var(--ink-2);
+  text-align:center;transition:transform .3s,border-color .3s;position:relative;
+}
+.tm:hover{transform:translateY(-8px);border-color:rgba(255,180,84,.35)}
+.tm.human{background:linear-gradient(160deg,rgba(111,211,232,.07),var(--ink-2) 60%)}
+.tm .face{
+  width:66px;height:66px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:28px;background:var(--ink-3);border:1px solid var(--line-2);
+}
+.tm.human .face{border-color:rgba(111,211,232,.4)}
+.tm h3{font-size:17px;font-family:var(--sans);font-weight:600;margin-bottom:4px}
+.tm .role{font-size:13px;color:var(--txt-2);margin-bottom:12px;min-height:38px}
+.tm .st{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#54E08B;display:inline-flex;gap:7px;align-items:center}
+.tm .st::before{content:"";width:6px;height:6px;border-radius:50%;background:#54E08B;box-shadow:0 0 8px #54E08B;animation:pulse 2s infinite}
+.tm .st.dim{color:var(--cyan)}
+.tm .st.dim::before{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+
+/* процесс */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative}
+.steps::before{content:"";position:absolute;top:29px;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 15%,var(--line-2) 85%,transparent)}
+.step{padding:0 22px;text-align:center;position:relative}
+.step .n{
+  width:58px;height:58px;margin:0 auto 22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--ink-3);border:1px solid var(--line-2);font-family:var(--mono);color:var(--amber);font-size:15px;
+  position:relative;z-index:1;box-shadow:0 0 0 8px var(--ink);
+}
+.step h3{font-size:19px;font-family:var(--sans);font-weight:600;margin-bottom:8px}
+.step p{color:var(--txt-2);font-size:14.5px}
+.step .dur{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;display:block;margin-top:12px}
+
+/* FAQ */
+.faq{max-width:800px;margin:56px auto 0}
+.q{border-bottom:1px solid var(--line)}
+.q button{
+  width:100%;background:none;border:0;color:var(--txt);text-align:left;cursor:pointer;
+  padding:26px 50px 26px 0;font-size:18.5px;font-weight:600;font-family:var(--sans);position:relative;
+}
+.q button::after{
+  content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font-size:26px;font-weight:300;color:var(--amber);transition:transform .3s;
+}
+.q.open button::after{transform:translateY(-50%) rotate(45deg)}
+.q .a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.65,.25,1)}
+.q .a p{color:var(--txt-2);padding:0 0 26px;font-size:16px;max-width:700px}
+
+/* финальный CTA */
+.final{position:relative;overflow:hidden;text-align:center;padding:150px 0}
+.final .glow2{
+  position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:1100px;height:700px;
+  background:radial-gradient(ellipse at center,rgba(255,138,61,.16),transparent 65%);filter:blur(40px);pointer-events:none;
+}
+.final h2{font-size:clamp(38px,5vw,68px);max-width:900px;margin:0 auto 24px}
+.final p{color:var(--txt-2);font-size:19px;max-width:560px;margin:0 auto 44px}
+.final .mono{color:var(--txt-3);margin-top:26px;display:block}
+
+footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(--txt-3)}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+/* адаптив */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:30px}
+  .scene{height:420px;max-width:560px}
+  .pains,.services{grid-template-columns:1fr 1fr}
+  .svc.hot{grid-column:span 2;grid-template-columns:1fr}
+  .team{grid-template-columns:repeat(3,1fr)}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr 1fr;gap:40px 0}
+  .steps::before{display:none}
+  .demo{grid-template-columns:1fr;gap:50px}
+}
+@media(max-width:680px){
+  .nav-links{display:none}
+  .nav-links.mob{
+    display:flex;position:fixed;top:66px;left:0;right:0;flex-direction:column;gap:0;
+    background:rgba(6,9,15,.97);border-bottom:1px solid var(--line-2);padding:10px 24px 20px;
+  }
+  .nav-links.mob a{padding:14px 0;font-size:17px;border-bottom:1px solid var(--line)}
+  .burger{display:block}
+  .nav .btn{display:none}
+  .pains,.services,.cases{grid-template-columns:1fr}
+  .svc.hot{grid-column:span 1}
+  .team{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr}
+  section{padding:80px 0}
+  .hero{padding-top:110px}
+  .scene{height:380px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor"></div><div class="cursor-ring"></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#"><span class="logo-dot"></span>УМАНЕЦ<b>·AI</b></a>
+    <nav class="nav-links">
+      <a href="#demo">Как это работает</a>
+      <a href="#cases">Кейсы</a>
+      <a href="#services">Услуги</a>
+      <a href="#team">Команда</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn btn-solid btn-sm" href="#contact">Получить разбор</a>
+    <button class="burger" aria-label="Меню">☰</button>
+  </div>
+</header>
+
+<!-- ГЕРОЙ -->
+<section class="hero">
+  <canvas id="stars"></canvas>
+  <div class="hero-glow"></div>
+  <div class="wrap hero-inner">
+    <div>
+      <span class="badge"><i></i>ИИ-отдел для онлайн-школ · работает прямо сейчас</span>
+      <h1>Ваша школа отвечает ученику в <span class="time" id="liveTime">03:47</span>.<br><em>Сама.</em></h1>
+      <p class="lead">Внедряю ИИ-кураторов и автоматизацию, которые снимают рутину с команды: поддержка учеников 24/7, монтаж уроков без монтажёра, возврат остывших лидов. Уже работает в реальных школах.</p>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="#contact">Получить бесплатный разбор школы</a>
+        <a class="btn btn-ghost" href="#demo">Посмотреть демо ↓</a>
+      </div>
+      <div class="hero-note">✦&nbsp; Разбор — 30 минут в Zoom: покажу, где ваша школа теряет деньги на рутине.</div>
+    </div>
+    <div class="scene" id="scene">
+      <div class="chat3d" id="chat3d">
+        <div class="chip float-a" style="left:4%;top:6%">
+          <div class="who">Ученица · 03:41</div>
+          Не могу найти запись вчерашнего урока по акварели 😔
+          <div class="t">отправлено ночью</div>
+        </div>
+        <div class="chip ai float-b" style="right:2%;top:26%">
+          <div class="who">◈ ИИ-куратор · 03:41</div>
+          Нашла! Запись урока «Акварель: свет и тень» уже в вашем кабинете, модуль 4. Отправила ссылку на почту. Хорошего просмотра! 🎨
+          <div class="t">ответ за 9 секунд</div>
+        </div>
+        <div class="chip float-c" style="left:10%;top:56%">
+          <div class="who">Ученик · 03:52</div>
+          А когда следующий эфир с преподавателем?
+        </div>
+        <div class="chip ai float-a" style="right:6%;bottom:2%">
+          <div class="who">◈ ИИ-куратор · 03:52</div>
+          В четверг в 19:00 мск. Добавила напоминание — придёт за час до начала ⏰
+          <div class="t">куратор не спит. никогда.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- БЕГУЩАЯ СТРОКА -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="mq">
+    <span>отвечает ученикам ночью</span><span>монтирует 100 видео в день</span><span>возвращает остывших лидов</span><span>не уходит в отпуск</span><span>помнит каждого ученика</span><span>интегрируется с вашей платформой</span><span>эскалирует сложное живым людям</span>
+  </div>
+</div>
+
+<!-- БОЛИ -->
+<section id="pains">
+  <div class="wrap">
+    <div class="sec-tag reveal">Знакомо?</div>
+    <h2 class="sec-title reveal d1">Школа растёт — и рутина растёт <em>быстрее выручки</em></h2>
+    <div class="pains">
+      <div class="pain reveal d1">
+        <div class="num">01</div>
+        <h3>Поддержка тонет</h3>
+        <p>Кураторы отвечают по 6 часов, ученики злятся и уходят. Ночью и в выходные вопросы просто копятся. Каждый новый поток — новый куратор в штат.</p>
+      </div>
+      <div class="pain reveal d2">
+        <div class="num">02</div>
+        <h3>Контент дорожает</h3>
+        <p>Монтажёр — узкое горлышко: записи уроков неделями ждут монтажа, шортсы для продвижения «когда-нибудь потом». Продакшн съедает маржу.</p>
+      </div>
+      <div class="pain reveal d3">
+        <div class="num">03</div>
+        <h3>Лиды остывают</h3>
+        <p>Заявка, оставленная вечером, к утру уже холодная. Менеджеры не успевают прозванивать базу, «спящие» ученики не возвращаются на новые потоки.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ДЕМО -->
+<section id="demo" style="background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-tag reveal">Продукт в деле</div>
+    <h2 class="sec-title reveal d1">Это не чат-бот с кнопками.<br>Это <em>куратор</em>, который знает вашу школу</h2>
+    <p class="sec-sub reveal d2">Обучен на ваших курсах, расписании и правилах. Отвечает как живой человек — потому что понимает контекст, а не ищет ключевые слова.</p>
+    <div class="demo">
+      <div class="reveal d2">
+        <div class="phone">
+          <div class="phone-top">
+            <div class="ava">ИИ</div>
+            <div>
+              <div class="nm">Куратор Академии</div>
+              <div class="st">онлайн · всегда</div>
+            </div>
+          </div>
+          <div class="phone-log" id="chatlog"></div>
+        </div>
+      </div>
+      <div class="feat reveal d3">
+        <div class="feat-item">
+          <div class="feat-ico">🧠</div>
+          <div><h3>Знает все ваши курсы</h3><p>Загружаю программы, уроки, FAQ и регламенты — куратор отвечает по делу, а не «обратитесь в поддержку».</p></div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-ico">🔌</div>
+          <div><h3>Живёт там, где ученики</h3><p>Telegram, VK, виджет на сайте, интеграция с GetCourse и вашей LMS. Скоро — прямо в Zoom-эфирах.</p></div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-ico">🤝</div>
+          <div><h3>Сложное — людям</h3><p>Конфликт, возврат, нестандартный вопрос? Куратор мгновенно передаёт диалог живому сотруднику с полным контекстом.</p></div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-ico">📈</div>
+          <div><h3>Отчёты каждую неделю</h3><p>Что спрашивают, где ученики буксуют, какие уроки вызывают вопросы — данные для роста школы, а не просто логи.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЦИФРЫ -->
+<section class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat reveal"><div class="v"><span data-count="9">0</span> <small>сек</small></div><div class="l">среднее время ответа ученику</div></div>
+    <div class="stat reveal d1"><div class="v">24/7</div><div class="l">куратор на связи без выходных</div></div>
+    <div class="stat reveal d2"><div class="v">до <span data-count="100">0</span></div><div class="l">видео в день монтирует автомонтаж</div></div>
+    <div class="stat reveal d3"><div class="v"><span data-count="2">0</span> <small>нед</small></div><div class="l">от знакомства до работающего пилота</div></div>
+  </div>
+</section>
+
+<!-- КЕЙСЫ -->
+<section id="cases">
+  <div class="wrap">
+    <div class="sec-tag reveal">Кейсы</div>
+    <h2 class="sec-title reveal d1">Проверено на <em>живых школах</em> — включая мою собственную</h2>
+    <p class="sec-sub reveal d2">Я совладелец онлайн-школы, поэтому каждый инструмент сначала работает у меня — и только потом у клиентов.</p>
+    <div class="cases">
+      <div class="case reveal d1">
+        <div class="mono">Кейс 01 · Госпрограмма</div>
+        <h3>«Московское долголетие»</h3>
+        <p>ИИ-кураторы сопровождают участников образовательной программы: отвечают на вопросы о расписании, курсах и записях занятий — тысячам людей старшего возраста, которым нужен простой и терпеливый собеседник.</p>
+        <div class="res"><span>поддержка <b>24/7</b></span><span>масштаб <b>без найма</b></span></div>
+      </div>
+      <div class="case reveal d2">
+        <div class="mono">Кейс 02 · Онлайн-школа</div>
+        <h3>Академия Натальи Эдис</h3>
+        <p>Полный ИИ-контур в школе искусства и творчества: кураторы в чатах учеников, автомонтаж записей занятий из Zoom с обложками и выгрузкой — до 100 роликов в день без монтажёра в штате.</p>
+        <div class="res"><span>до <b>100 видео/день</b></span><span>кураторы <b>в каждом чате</b></span><span>скоро <b>ИИ в Zoom</b></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- УСЛУГИ -->
+<section id="services" style="background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-tag reveal">Услуги</div>
+    <h2 class="sec-title reveal d1">Начните с одного продукта — <em>остальное подключим, когда окупится</em></h2>
+    <div class="services">
+      <div class="svc hot reveal">
+        <div>
+          <span class="tag">Флагман · с этого начинают</span>
+          <h3>ИИ-куратор под ключ</h3>
+          <p>Куратор, обученный на материалах вашей школы. Внедрение за 2–4 недели: аудит, обучение модели, интеграция с платформой и чатами, тестовый период с доводкой.</p>
+          <ul>
+            <li>Отвечает ученикам в Telegram, VK и на сайте</li>
+            <li>Передаёт сложные случаи живой команде</li>
+            <li>Еженедельная аналитика вопросов и узких мест</li>
+          </ul>
+          <a class="btn btn-solid" href="#contact">Обсудить внедрение</a>
+        </div>
+        <div class="price" style="text-align:center">
+          внедрение<br><b>от 90 000 ₽</b><br><br>сопровождение<br><b>от 15 000 ₽/мес</b>
+        </div>
+      </div>
+      <div class="svc reveal d1">
+        <span class="tag">Контент</span>
+        <h3>Автомонтаж видео</h3>
+        <p>Система сама забирает записи из Zoom, монтирует, ставит заставку и обложку, выгружает на платформу. До 100 роликов в день.</p>
+        <div class="price"><b>от 40 000 ₽/мес</b></div>
+      </div>
+      <div class="svc reveal d2">
+        <span class="tag">Продажи</span>
+        <h3>ИИ-обзвон базы</h3>
+        <p>Голосовой агент прозванивает остывших лидов и «спящих» учеников, зовёт на новые потоки и передаёт тёплых менеджеру.</p>
+        <div class="price"><b>от 60 000 ₽</b> + минуты</div>
+      </div>
+      <div class="svc reveal d3">
+        <span class="tag">Каскад 3 · обучение</span>
+        <h3>Работа + обучение команды</h3>
+        <p>Делаю задачу вашей школы и параллельно учу вашу команду повторять это самостоятельно. Навык остаётся у вас.</p>
+        <div class="price"><b>+30–50%</b> к стоимости работы</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КОМАНДА -->
+<section id="team">
+  <div class="wrap">
+    <div class="sec-tag reveal">Команда</div>
+    <h2 class="sec-title reveal d1">Моя команда не спит, не болеет<br>и <em>не увольняется</em></h2>
+    <div class="team-note reveal d2">
+      <div class="feat-ico" style="flex:none">💡</div>
+      <p><b>Честно: моя команда — это я и мой ИИ-отдел.</b> Я — живой человек, совладелец онлайн-школы, инженер и дизайнер. Агенты — программы, которые я построил и обучил. Именно такую команду я соберу и для вашей школы: она масштабируется за дни, а не за месяцы найма.</p>
+    </div>
+    <div class="team">
+      <div class="tm human reveal">
+        <div class="face">👨‍💻</div>
+        <h3>Иван Уманец</h3>
+        <div class="role">Основатель. Совладелец онлайн-школы, инженер ИИ-систем, арт-директор</div>
+        <div class="st dim">человек · на связи</div>
+      </div>
+      <div class="tm reveal d1">
+        <div class="face">◈</div>
+        <h3>Куратор</h3>
+        <div class="role">Ведёт учеников: вопросы, расписание, записи, мотивация</div>
+        <div class="st">online · 24/7</div>
+      </div>
+      <div class="tm reveal d2">
+        <div class="face">✂</div>
+        <h3>Монтажёр</h3>
+        <div class="role">Zoom → монтаж → обложка → публикация. До 100 видео в день</div>
+        <div class="st">online · 24/7</div>
+      </div>
+      <div class="tm reveal d3">
+        <div class="face">☎</div>
+        <h3>Обзвонщик</h3>
+        <div class="role">Прозванивает лидов и спящую базу, зовёт на новые потоки</div>
+        <div class="st">online · 24/7</div>
+      </div>
+      <div class="tm reveal d4">
+        <div class="face">◎</div>
+        <h3>Аналитик</h3>
+        <div class="role">Считает вопросы, узкие места и отток — каждую неделю</div>
+        <div class="st">online · 24/7</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОЦЕСС -->
+<section id="process" style="background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-tag reveal">Как мы работаем</div>
+    <h2 class="sec-title reveal d1">От знакомства до работающего ИИ — <em>прозрачно и по шагам</em></h2>
+    <div class="steps">
+      <div class="step reveal"><div class="n">01</div><h3>Разбор школы</h3><p>Смотрим ваши процессы и считаем, где рутина съедает деньги. Вы получаете план, даже если не купите.</p><span class="dur">30 минут · бесплатно</span></div>
+      <div class="step reveal d1"><div class="n">02</div><h3>Пилот</h3><p>Запускаем куратора на одном потоке или чате. Обучаем на ваших материалах, доводим ответы до идеала.</p><span class="dur">2 недели</span></div>
+      <div class="step reveal d2"><div class="n">03</div><h3>Запуск</h3><p>Разворачиваем на всю школу: интеграции, регламенты эскалации, обучение вашей команды.</p><span class="dur">1–2 недели</span></div>
+      <div class="step reveal d3"><div class="n">04</div><h3>Сопровождение</h3><p>Слежу за качеством ответов, дообучаю агентов, присылаю еженедельную аналитику.</p><span class="dur">постоянно</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-tag reveal">Вопросы</div>
+    <h2 class="sec-title reveal d1">То, что спрашивают <em>до покупки</em></h2>
+    <div class="faq reveal d2">
+      <div class="q"><button>ИИ заменит моих кураторов?</button><div class="a"><p>Нет — он заберёт у них рутину. 80% вопросов учеников повторяются: расписание, записи, «где ссылка». Их закрывает ИИ мгновенно, а живые кураторы занимаются тем, что действительно требует человека: мотивацией, конфликтами, сложными случаями. Школы чаще не сокращают кураторов, а перестают нанимать новых при росте.</p></div></div>
+      <div class="q"><button>А если ИИ ответит ерунду?</button><div class="a"><p>Куратор отвечает только по базе знаний вашей школы — я настраиваю границы: чего он не знает, то честно передаёт живому сотруднику, а не выдумывает. Первые две недели пилота мы вместе вычитываем ответы и доводим их до вашего тона. Плюс еженедельный контроль качества на сопровождении.</p></div></div>
+      <div class="q"><button>С какими платформами это работает?</button><div class="a"><p>Telegram, VK, виджет на сайте, GetCourse и большинство LMS — через API или вебхуки. Если у вас самописная платформа, посмотрю на разборе: обычно интеграция возможна. Скоро добавится работа прямо в Zoom-эфирах.</p></div></div>
+      <div class="q"><button>Сколько времени это займёт у моей команды?</button><div class="a"><p>Минимум: от вас нужны материалы курсов и 2–3 созвона. Всю техническую работу делаю я. Через 2 недели пилот уже отвечает вашим ученикам.</p></div></div>
+      <div class="q"><button>Почему вы, а не агентство?</button><div class="a"><p>Я сам совладелец онлайн-школы — каждый инструмент сначала обкатан на моих учениках, а не на слайдах. Вы работаете напрямую с человеком, который строит систему, а не с менеджером проекта. И я учу вашу команду пользоваться всем этим — знание остаётся у вас.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ФИНАЛЬНЫЙ CTA -->
+<section class="final" id="contact">
+  <div class="glow2"></div>
+  <div class="wrap">
+    <div class="sec-tag reveal" style="justify-content:center">Следующий шаг</div>
+    <h2 class="reveal d1">Пока вы читали эту страницу,<br>чей-то ученик <em>не получил ответ</em></h2>
+    <p class="reveal d2">Приходите на бесплатный разбор: за 30 минут покажу, сколько денег ваша школа теряет на рутине — и что из этого ИИ заберёт уже через две недели.</p>
+    <div class="reveal d3">
+      <a class="btn btn-solid" style="font-size:17px;padding:18px 40px" href="https://t.me/USERNAME" target="_blank">Записаться на разбор в Telegram →</a>
+    </div>
+    <span class="mono reveal d4">отвечаю лично · обычно в течение часа</span>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Уманец·AI — внедрение ИИ в онлайн-школы</div>
+    <div>Telegram: <a href="https://t.me/USERNAME" style="color:var(--amber)">@USERNAME</a></div>
+  </div>
+</footer>
+
+<script>
+// ===== живое время в заголовке
+function tick(){
+  const d=new Date();
+  document.getElementById('liveTime').textContent=
+    String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+tick();setInterval(tick,20000);
+
+// ===== canvas: созвездие
+const cv=document.getElementById('stars'),cx=cv.getContext('2d');
+let W,Hh,pts=[];
+function resize(){
+  W=cv.width=cv.offsetWidth*devicePixelRatio;
+  Hh=cv.height=cv.offsetHeight*devicePixelRatio;
+  const n=Math.min(90,Math.floor(cv.offsetWidth/14));
+  pts=Array.from({length:n},()=>({
+    x:Math.random()*W,y:Math.random()*Hh,
+    vx:(Math.random()-.5)*.12*devicePixelRatio,vy:(Math.random()-.5)*.12*devicePixelRatio,
+    r:(Math.random()*1.4+.4)*devicePixelRatio
+  }));
+}
+resize();addEventListener('resize',resize);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function draw(){
+  cx.clearRect(0,0,W,Hh);
+  const link=110*devicePixelRatio;
+  for(const p of pts){
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>Hh)p.vy*=-1;
+  }
+  cx.lineWidth=devicePixelRatio*.5;
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+    const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);
+    if(d<link){
+      cx.strokeStyle=`rgba(255,180,84,${(1-d/link)*.16})`;
+      cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke();
+    }
+  }
+  for(const p of pts){
+    cx.fillStyle='rgba(233,238,249,.55)';
+    cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill();
+  }
+  if(!reduce)requestAnimationFrame(draw);
+}
+draw();
+
+// ===== 3D-наклон сцены за курсором
+const scene=document.getElementById('scene'),chat3d=document.getElementById('chat3d');
+if(matchMedia('(hover:hover)').matches&&!reduce){
+  scene.addEventListener('mousemove',e=>{
+    const r=scene.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    chat3d.style.transform=`rotateY(${x*14}deg) rotateX(${-y*10}deg)`;
+  });
+  scene.addEventListener('mouseleave',()=>chat3d.style.transform='');
+}
+
+// ===== курсор
+const cur=document.querySelector('.cursor'),ring=document.querySelector('.cursor-ring');
+if(matchMedia('(hover:hover)').matches){
+  let rx=0,ry=0,tx=0,ty=0;
+  addEventListener('mousemove',e=>{
+    tx=e.clientX;ty=e.clientY;
+    cur.style.left=tx+'px';cur.style.top=ty+'px';
+  });
+  (function lerp(){
+    rx+=(tx-rx)*.16;ry+=(ty-ry)*.16;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(lerp);
+  })();
+  document.querySelectorAll('a,button,.svc,.tm').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hot'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hot'));
+  });
+}
+
+// ===== счётчики (запускается из sweep ниже)
+function runCount(el){
+  const end=+el.dataset.count,t0=performance.now();
+  const iv=setInterval(()=>{
+    const k=Math.min(1,(performance.now()-t0)/1400),ease=1-Math.pow(1-k,3);
+    el.textContent=Math.round(end*ease);
+    if(k>=1)clearInterval(iv);
+  },16);
+}
+
+// ===== демо-диалог
+const script=[
+  {who:'stu',txt:'Здравствуйте! Я оплатила курс, но не понимаю, с чего начать 😅',t:'22:14'},
+  {who:'bot',txt:'Добрый вечер, Марина! Поздравляю с покупкой «Истории искусства» 🎉 Начните с модуля 1 — «Как смотреть на картину». Ссылка уже в вашем кабинете. Первый урок — 18 минут.',t:'22:14 · за 8 сек'},
+  {who:'stu',txt:'А если я не успею пройти модуль за неделю?',t:'22:16'},
+  {who:'bot',txt:'Ничего страшного — доступ у вас на год, темп свободный. Но советую смотреть хотя бы один урок в неделю: так интереснее в общем чате потока 😊 Поставить вам мягкие напоминания?',t:'22:16 · за 6 сек'},
+  {who:'stu',txt:'Да, давайте! Спасибо, вы очень быстро отвечаете 😍',t:'22:17'},
+  {who:'bot',txt:'Готово, напоминания по вторникам в 19:00! Я на связи круглосуточно — обращайтесь в любое время, даже ночью 🌙',t:'22:17 · за 5 сек'}
+];
+const log=document.getElementById('chatlog');
+let si=0;
+function nextMsg(){
+  if(si>=script.length){
+    setTimeout(()=>{log.innerHTML='';si=0;nextMsg()},6000);return;
+  }
+  const m=script[si];
+  const show=()=>{
+    const div=document.createElement('div');
+    div.className='msg '+m.who;
+    div.innerHTML=m.txt+'<span class="mt">'+m.t+'</span>';
+    log.appendChild(div);
+    setTimeout(()=>div.classList.add('show'),30);
+    si++;setTimeout(nextMsg,m.who==='bot'?2600:1700);
+  };
+  if(m.who==='bot'){
+    const tp=document.createElement('div');
+    tp.className='typing show';tp.innerHTML='<i></i><i></i><i></i>';
+    log.appendChild(tp);
+    setTimeout(()=>{tp.remove();show()},1100);
+  }else show();
+}
+let chatStarted=false; // старт из sweep ниже
+
+// ===== FAQ
+document.querySelectorAll('.q button').forEach(b=>b.addEventListener('click',()=>{
+  const q=b.parentElement,a=q.querySelector('.a'),open=q.classList.contains('open');
+  document.querySelectorAll('.q.open').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=0});
+  if(!open){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px'}
+}));
+
+// ===== мобильное меню
+const burger=document.querySelector('.burger'),navLinks=document.querySelector('.nav-links');
+burger.addEventListener('click',()=>navLinks.classList.toggle('mob'));
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('mob')));
+
+// ===== дублируем бегущую строку
+const mq=document.getElementById('mq');
+mq.innerHTML+=mq.innerHTML;
+
+// ===== скрытие шапки при скролле вниз
+let lastY=0;
+addEventListener('scroll',()=>{
+  const y=scrollY;
+  document.getElementById('hdr').style.transform=(y>400&&y>lastY)?'translateY(-100%)':'';
+  lastY=y;
+},{passive:true});
+
+// ===== единый «проявитель»: работает по позициям, не зависит от IntersectionObserver
+const pendReveal=[...document.querySelectorAll('.reveal')];
+const pendCount=[...document.querySelectorAll('[data-count]')];
+function inView(el,k){
+  const r=el.getBoundingClientRect();
+  return r.top<innerHeight*(k||.88)&&r.bottom>0;
+}
+let sweepBusy=false;
+function sweep(){
+  if(sweepBusy)return;
+  sweepBusy=true;setTimeout(()=>sweepBusy=false,80);
+  for(let i=pendReveal.length-1;i>=0;i--)
+    if(inView(pendReveal[i])){pendReveal[i].classList.add('on');pendReveal.splice(i,1)}
+  for(let i=pendCount.length-1;i>=0;i--)
+    if(inView(pendCount[i],.95)){runCount(pendCount[i]);pendCount.splice(i,1)}
+  if(!chatStarted&&inView(log,.9)){chatStarted=true;nextMsg()}
+  if(!pendReveal.length&&!pendCount.length&&chatStarted){
+    removeEventListener('scroll',sweep);clearInterval(sweepTimer);
+  }
+}
+addEventListener('scroll',sweep,{passive:true});
+addEventListener('resize',sweep);
+const sweepTimer=setInterval(sweep,600); // страховка: контент никогда не останется скрытым
+sweep();
+</script>
+</body>
+</html>
