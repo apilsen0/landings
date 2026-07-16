@@ -134,11 +134,20 @@ header{
 
 /* МАНИФЕСТ */
 .manif{padding:0}
-.manif .frame{min-height:92svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 0}
-.manif h2{font-size:clamp(36px,5.6vw,78px);max-width:1040px;font-weight:700}
+.manif .frame{min-height:72svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 0;position:relative;overflow:hidden}
+.manif .frame+.frame{border-top:1px solid var(--line)}
+.manif h2{font-size:clamp(36px,5.6vw,78px);max-width:1040px;font-weight:700;position:relative;z-index:1}
 .manif h2 em{font-style:normal;color:var(--acc)}
 .manif h2 s{text-decoration:line-through;text-decoration-color:var(--acc);text-decoration-thickness:3px;color:var(--txt3)}
-.manif .idx{display:block;margin-bottom:28px;color:var(--txt3)}
+.ghost{
+  position:absolute;right:-2%;top:50%;transform:translateY(-50%);z-index:0;
+  font-family:var(--disp);font-weight:800;line-height:1;pointer-events:none;user-select:none;
+  font-size:clamp(220px,34vw,460px);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.07);
+}
+.m-chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:46px;position:relative;z-index:1}
+.m-chips span{font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:11px 20px;border-radius:100px;border:1px solid var(--line2);color:var(--txt2);background:rgba(30,29,34,.5)}
+.m-chips span b{color:var(--acc);font-weight:500}
+.m-chips.bad span b{color:var(--txt3);text-decoration:line-through;text-decoration-color:var(--acc)}
 
 /* КЕЙСЫ — липкий стек */
 .cases-head{padding:120px 0 60px}
@@ -340,20 +349,36 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
 
 <!-- МАНИФЕСТ -->
 <section class="manif">
-  <div class="frame"><div class="wrap rv">
-    <h2><span class="mono idx fade">01 / 03</span>
+  <div class="frame"><span class="ghost" aria-hidden="true">01</span><div class="wrap rv">
+    <h2>
     <span class="lr"><span>Рутина — самый дорогой</span></span>
     <span class="lr"><span>сотрудник вашей школы.</span></span></h2>
+    <div class="m-chips bad">
+      <span class="fade">куратор отвечает <b>по 6 часов</b></span>
+      <span class="fade d1">монтажёр — <b>80 000 ₽/мес</b></span>
+      <span class="fade d2">ночная заявка <b>остыла к утру</b></span>
+      <span class="fade d3">новый поток — <b>новый найм</b></span>
+    </div>
   </div></div>
-  <div class="frame"><div class="wrap rv">
-    <h2><span class="mono idx fade">02 / 03</span>
+  <div class="frame"><span class="ghost" aria-hidden="true">02</span><div class="wrap rv">
+    <h2>
     <span class="lr"><span>Она не увольняется сама.</span></span>
     <span class="lr"><span>Я <s>нанимаю</s> строю ей замену.</span></span></h2>
+    <div class="m-chips">
+      <span class="fade">ИИ-куратор — ответ за <b>9 секунд</b></span>
+      <span class="fade d1">автомонтаж — <b>100 видео/день</b></span>
+      <span class="fade d2">обзвон — <b>вся база за вечер</b></span>
+    </div>
   </div></div>
-  <div class="frame"><div class="wrap rv">
-    <h2><span class="mono idx fade">03 / 03</span>
+  <div class="frame"><span class="ghost" aria-hidden="true">03</span><div class="wrap rv">
+    <h2>
     <span class="lr"><span>Вы платите за систему один раз —</span></span>
     <span class="lr"><span><em>работает она каждый день.</em></span></span></h2>
+    <div class="m-chips">
+      <span class="fade">окупаемость — <b>до 30 дней</b></span>
+      <span class="fade d1">работает <b>24/7 без зарплаты</b></span>
+      <span class="fade d2">масштаб — <b>без найма</b></span>
+    </div>
   </div></div>
 </section>
 
