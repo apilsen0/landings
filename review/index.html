@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Отзыв о работе с aipilsen — 3 минуты</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#131215;--panel:#1E1D22;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.18);
+  --txt:#F2F1F4;--txt2:#A8A6AE;--txt3:#6E6C75;--acc:#FF5C33;--acc-dim:rgba(255,92,51,.12);
+  --disp:'Inter Tight',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding:60px 24px 100px}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:46px;font-family:var(--disp);font-weight:800;font-size:15px}
+.top i{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(30px,6vw,44px);line-height:1.04;letter-spacing:-.03em;margin-bottom:16px}
+h1 em{font-style:normal;color:var(--acc)}
+.lead{color:var(--txt2);margin-bottom:44px;font-size:16.5px}
+.q{margin-bottom:30px}
+label{display:block;font-weight:600;margin-bottom:6px;font-size:16px}
+label .n{font-family:var(--mono);color:var(--acc);font-size:12px;margin-right:8px}
+.hint{color:var(--txt3);font-size:13.5px;margin-bottom:10px}
+input[type=text],textarea{
+  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  color:var(--txt);font-family:var(--body);font-size:15.5px;padding:14px 16px;outline:none;
+  transition:border-color .2s;
+}
+input[type=text]:focus,textarea:focus{border-color:var(--acc)}
+textarea{min-height:96px;resize:vertical}
+.nps{display:flex;gap:8px;flex-wrap:wrap}
+.nps button{
+  width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);
+  color:var(--txt2);font-family:var(--disp);font-weight:700;font-size:16px;cursor:pointer;transition:.15s;
+}
+.nps button:hover{border-color:var(--acc);color:var(--txt)}
+.nps button.sel{background:var(--acc);border-color:var(--acc);color:#160905}
+.chk{display:flex;gap:12px;align-items:flex-start;cursor:pointer;color:var(--txt2);font-size:14.5px}
+.chk input{width:18px;height:18px;margin-top:3px;accent-color:var(--acc)}
+.send{
+  width:100%;margin-top:14px;padding:18px;border-radius:100px;border:0;cursor:pointer;
+  background:var(--acc);color:#160905;font-family:var(--body);font-weight:600;font-size:17px;transition:.25s;
+}
+.send:hover{background:#FF7A57;box-shadow:0 14px 44px rgba(255,92,51,.3)}
+.send:disabled{opacity:.5;cursor:default}
+.note{margin-top:16px;text-align:center;color:var(--txt3);font-size:13px}
+.done{display:none;text-align:center;padding:80px 0}
+.done .big{font-size:64px;margin-bottom:20px}
+.done h2{font-family:var(--disp);font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:14px}
+.done p{color:var(--txt2);max-width:440px;margin:0 auto}
+.err{display:none;margin-top:14px;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,92,51,.4);background:var(--acc-dim);font-size:14.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><i></i>aipilsen</div>
+
+  <form id="f">
+    <h1>Три минуты — и ваш отзыв <em>поможет другим школам</em> решиться</h1>
+    <p class="lead">Спасибо, что работаете со мной! Ответьте на несколько вопросов — можно коротко и своими словами. Из ответов я соберу отзыв и пришлю вам на согласование перед публикацией.</p>
+
+    <div class="q">
+      <label><span class="n">01</span>Как вас зовут и как называется ваша школа?</label>
+      <input type="text" id="q1" placeholder="Имя, школа, ссылка на сайт или соцсеть">
+    </div>
+    <div class="q">
+      <label><span class="n">02</span>С какой задачей вы пришли?</label>
+      <div class="hint">Что болело до нашей работы: цифры, часы, нервы — чем конкретнее, тем полезнее.</div>
+      <textarea id="q2" placeholder="Например: 3 человека занимались только монтажом, тратили 250 000 ₽ в месяц…"></textarea>
+    </div>
+    <div class="q">
+      <label><span class="n">03</span>Что изменилось после внедрения?</label>
+      <div class="hint">Как это работает теперь и что вы перестали делать руками.</div>
+      <textarea id="q3"></textarea>
+    </div>
+    <div class="q">
+      <label><span class="n">04</span>Есть ли цифры, которыми можно поделиться?</label>
+      <div class="hint">Экономия в месяц, скорость, люди, проценты — по желанию, но это самое убедительное.</div>
+      <input type="text" id="q4" placeholder="Например: экономим 250 000 ₽/мес, система окупилась за месяц">
+    </div>
+    <div class="q">
+      <label><span class="n">05</span>Что понравилось или удивило в работе с Иваном?</label>
+      <textarea id="q5"></textarea>
+    </div>
+    <div class="q">
+      <label><span class="n">06</span>Кому бы вы порекомендовали aipilsen?</label>
+      <textarea id="q6" placeholder="Каким школам или командам это точно нужно?"></textarea>
+    </div>
+    <div class="q">
+      <label><span class="n">07</span>Насколько вероятно, что порекомендуете нас коллегам?</label>
+      <div class="hint">1 — точно нет, 10 — уже рекомендую.</div>
+      <div class="nps" id="nps"></div>
+    </div>
+    <div class="q">
+      <label class="chk"><input type="checkbox" id="ok"> Разрешаю опубликовать отзыв с указанием моего имени и школы на сайте и в материалах aipilsen</label>
+    </div>
+
+    <button type="submit" class="send" id="btn">Отправить отзыв →</button>
+    <div class="err" id="err">Автоматическая отправка сейчас недоступна. Нажмите ещё раз — откроется Telegram с готовым текстом, просто отправьте его в чат @apilsen.</div>
+    <p class="note">Отзыв уходит напрямую Ивану в Telegram · @apilsen</p>
+  </form>
+
+  <div class="done" id="done">
+    <div class="big">🤝</div>
+    <h2>Спасибо!</h2>
+    <p>Отзыв улетел Ивану в Telegram. Я соберу из него аккуратный текст и пришлю вам на согласование перед публикацией.</p>
+  </div>
+</div>
+
+<script>
+// Конфиг доставки: когда появится бот — впишем токен и chat_id, отзывы будут падать в Telegram автоматически.
+const TG = { token: "", chatId: "" };
+
+let nps = null;
+const npsBox = document.getElementById('nps');
+for (let i = 1; i <= 10; i++) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.textContent = i;
+  b.onclick = () => { nps = i; [...npsBox.children].forEach(x => x.classList.remove('sel')); b.classList.add('sel'); };
+  npsBox.appendChild(b);
+}
+
+function buildText() {
+  const v = id => document.getElementById(id).value.trim();
+  return ['📝 НОВЫЙ ОТЗЫВ — aipilsen',
+    '', '👤 Кто: ' + (v('q1') || '—'),
+    '', '📍 Задача (точка А): ' + (v('q2') || '—'),
+    '', '✅ Результат (точка Б): ' + (v('q3') || '—'),
+    '', '📊 Цифры: ' + (v('q4') || '—'),
+    '', '💬 Что понравилось: ' + (v('q5') || '—'),
+    '', '📣 Кому рекомендует: ' + (v('q6') || '—'),
+    '', '⭐ Оценка: ' + (nps ? nps + '/10' : '—'),
+    '🔓 Публикация: ' + (document.getElementById('ok').checked ? 'разрешена' : 'НЕ спрашивали/нет')
+  ].join('\n');
+}
+
+let fallback = false;
+document.getElementById('f').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('btn'), err = document.getElementById('err');
+  const text = buildText();
+  if (TG.token && TG.chatId) {
+    btn.disabled = true; btn.textContent = 'Отправляю…';
+    try {
+      const r = await fetch(`https://api.telegram.org/bot${TG.token}/sendMessage`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ chat_id: TG.chatId, text })
+      });
+      if (!r.ok) throw 0;
+      document.getElementById('f').style.display = 'none';
+      document.getElementById('done').style.display = 'block';
+      scrollTo(0, 0);
+      return;
+    } catch { btn.disabled = false; btn.textContent = 'Отправить отзыв →'; }
+  }
+  if (!fallback) { fallback = true; err.style.display = 'block'; return; }
+  // запасной путь: клиент отправляет готовый текст сам
+  open('https://t.me/share/url?url=' + encodeURIComponent('t.me/apilsen') + '&text=' + encodeURIComponent(text), '_blank');
+  document.getElementById('f').style.display = 'none';
+  document.getElementById('done').style.display = 'block';
+  scrollTo(0, 0);
+});
+</script>
+</body>
+</html>
