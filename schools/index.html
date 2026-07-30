@@ -125,30 +125,47 @@ header{
 .sec-h{font-size:clamp(36px,5vw,72px);max-width:940px;letter-spacing:-.03em}
 .sec-sub{color:var(--txt2);font-size:17.5px;max-width:640px;margin-top:22px}
 
-/* 2. КТО Я */
+/* 2а. КТО Я — история + большие цифры */
 .about{padding:130px 0}
-.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;margin-top:64px;align-items:start}
-.about-text p{color:var(--txt2);margin-bottom:18px;font-size:17px}
-.about-text p b{color:var(--txt);font-weight:600}
-.creds{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:24px}
-.cred{display:flex;flex-direction:column;gap:12px;padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
-.cred .ico{color:var(--acc);font-family:var(--mono);font-size:13px;white-space:nowrap}
-.cred p{color:var(--txt2);font-size:14px}
-.cred p b{color:var(--txt);display:block;margin-bottom:4px}
-.schools{display:grid;grid-template-columns:1fr;gap:16px}
-.school{
-  border:1px solid var(--line);border-radius:20px;padding:28px 30px;background:var(--panel);
-  display:flex;gap:24px;align-items:center;transition:border-color .3s,transform .3s;
+.about-cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:56px}
+.about-cols p{color:var(--txt2);font-size:17px}
+.about-cols p b{color:var(--txt);font-weight:600}
+.stats-band{display:grid;grid-template-columns:repeat(4,1fr);margin-top:80px;border-top:1px solid var(--line2)}
+.bstat{padding:46px 30px 42px;border-bottom:1px solid var(--line2);position:relative;overflow:hidden;transition:background .3s}
+.bstat:hover{background:rgba(255,92,51,.05)}
+.bstat+.bstat{border-left:1px solid var(--line)}
+.bstat .v{
+  font-family:var(--disp);font-weight:800;line-height:.92;letter-spacing:-.04em;color:var(--acc);
+  font-size:clamp(58px,6.8vw,110px);white-space:nowrap;
 }
-.school:hover{border-color:var(--line2);transform:translateY(-3px)}
-.school .lg{flex:none;width:150px;display:flex;align-items:center;justify-content:center}
+.bstat .v small{font-size:.34em;font-weight:700;letter-spacing:-.01em}
+.bstat .l{color:var(--txt2);margin-top:14px;font-size:15px;max-width:230px}
+.traits{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.trait{
+  display:flex;gap:18px;align-items:flex-start;padding:24px 26px;border:1px solid var(--line);
+  border-radius:16px;background:var(--panel);transition:border-color .3s,transform .3s;
+}
+.trait:hover{border-color:rgba(255,92,51,.35);transform:translateY(-3px)}
+.trait .ico{color:var(--acc);font-family:var(--mono);font-size:13px;white-space:nowrap;padding-top:2px}
+.trait p{color:var(--txt2);font-size:14.5px}
+.trait p b{color:var(--txt);display:block;margin-bottom:4px}
+
+/* 2б. ШКОЛЫ И КОМАНДА */
+.trust{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:130px 0}
+.schools{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
+.school{
+  border:1px solid var(--line);border-radius:20px;padding:34px 30px;background:var(--panel);
+  display:flex;flex-direction:column;gap:20px;transition:border-color .3s,transform .3s;
+}
+.school:hover{border-color:rgba(255,92,51,.35);transform:translateY(-5px)}
+.school .lg{height:56px;display:flex;align-items:center}
 .school .lg img{filter:invert(1);opacity:.9;max-height:52px;width:auto}
-.school .lg .word{font-family:var(--disp);font-weight:800;font-size:26px;letter-spacing:.06em}
-.school .in h3{font-size:17px;font-family:var(--body);font-weight:600;margin-bottom:5px}
+.school .lg .word{font-family:var(--disp);font-weight:800;font-size:24px;letter-spacing:.06em}
+.school .in h3{font-size:17px;font-family:var(--body);font-weight:600;margin-bottom:6px}
 .school .in p{color:var(--txt2);font-size:14px}
 .school .in a{color:var(--acc);font-size:13px}
 .team-line{
-  margin-top:26px;padding:26px 30px;border-radius:18px;border:1px solid var(--line);
+  margin-top:16px;padding:28px 32px;border-radius:18px;border:1px solid var(--line);
   background:linear-gradient(140deg,rgba(255,92,51,.06),var(--panel) 60%);
 }
 .team-line p{color:var(--txt2);font-size:15.5px}
@@ -274,8 +291,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
   .hero-stats{grid-template-columns:1fr 1fr}
   .chip.c1{left:-8px}
   .chip.c2{right:-8px}
-  .about-grid{grid-template-columns:1fr}
-  .creds{grid-template-columns:1fr 1fr}
+  .about-cols{grid-template-columns:1fr}
+  .stats-band{grid-template-columns:1fr 1fr}
+  .bstat+.bstat{border-left:0}
+  .bstat:nth-child(even){border-left:1px solid var(--line)}
+  .schools{grid-template-columns:1fr}
   .s-grid{grid-template-columns:1fr}
   .case{grid-template-columns:1fr;gap:30px}
   .knum{text-align:left}
@@ -295,7 +315,8 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
   .nav-links.mob a{padding:14px 0;font-size:17px;border-bottom:1px solid var(--line)}
   .burger{display:block}
   .nav .btn{display:none}
-  .p-grid,.ab-grid,.creds{grid-template-columns:1fr}
+  .p-grid,.ab-grid,.traits,.stats-band{grid-template-columns:1fr}
+  .bstat:nth-child(even){border-left:0}
   .case{position:relative;top:0}
   .school{flex-direction:column;align-items:flex-start}
 }
@@ -361,7 +382,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
   </div>
 </div>
 
-<!-- 2. КТО Я -->
+<!-- 2а. КТО Я: история + большие цифры -->
 <section id="about" class="about">
   <div class="wrap">
     <div class="rv">
@@ -371,50 +392,60 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
         <span class="lr"><span>сам строит свои ИИ-системы</span></span>
       </h2>
     </div>
-    <div class="about-grid">
-      <div class="about-text rv fade">
-        <p><b>Пять лет я строил «Академию Наталии Эдис» изнутри</b> — прошёл путь от курьера до партнёра проекта. Продажи, кураторы, техподдержка, продакшн — я знаю боль каждой роли в онлайн-школе, потому что сам работал в каждой из них.</p>
-        <p>Нейросетями занимаюсь больше двух лет. Начинал с программ аналитики данных и генерации фотосессий для брендов, прошёл несколько международных обучений по ИИ. Первым серьёзным проектом стал личный агент — он читал мою почту, вёл дневник, заказывал еду и бронировал отели. Когда понял, что агент справляется лучше ассистента, перевёл на ИИ собственную школу.</p>
-        <p>Сегодня рутину Академии тянут ИИ-системы моей разработки: кураторы в чатах, Zoom-агент на занятиях, автомонтаж записей, единый личный кабинет. Школа выросла, людей в поддержке стало меньше, ученики получают ответы быстрее.</p>
-        <p>Теперь команда aipilsen строит такие же системы для других школ. <b>Система остаётся у вас</b>, ваша команда умеет ей управлять.</p>
-      </div>
-      <div class="rv">
-        <div class="schools">
-          <div class="school fade">
-            <div class="lg"><img src="assets/edis-logo.png" alt="Академия Наталии Эдис"></div>
-            <div class="in">
-              <h3>Академия Наталии Эдис</h3>
-              <p>Искусство, красота и творчество в любом возрасте. 30 000+ учеников за 6 лет, 7 000 учатся сейчас. Работает в программе «Московское долголетие».</p>
-              <a href="https://edisacademy.ru/" target="_blank" rel="noopener">edisacademy.ru →</a>
-            </div>
-          </div>
-          <div class="school fade d1">
-            <div class="lg"><span class="word">LEEKE</span></div>
-            <div class="in">
-              <h3>Школа греческого языка Leeke</h3>
-              <p>Подготовка к экзаменам A2/B1. Мини-группы, ~1 000 уроков в месяц, 82% учеников сдают экзамен.</p>
-              <a href="https://leekegr.online/" target="_blank" rel="noopener">leekegr.online →</a>
-            </div>
-          </div>
-          <div class="school fade d2">
-            <div class="lg"><span class="word" style="font-size:18px;letter-spacing:.02em">МОСКОВСКОЕ<br>ДОЛГОЛЕТИЕ</span></div>
-            <div class="in">
-              <h3>Программа «Московское долголетие»</h3>
-              <p>ИИ-кураторы сопровождают участников городской образовательной программы — аудиторию, которой нужен самый терпеливый собеседник.</p>
-            </div>
-          </div>
+    <div class="about-cols rv">
+      <p class="fade"><b>Пять лет я строил «Академию Наталии Эдис» изнутри</b> — прошёл путь от курьера до партнёра проекта. Продажи, кураторы, техподдержка, продакшн — я знаю боль каждой роли в онлайн-школе, потому что сам работал в каждой из них. Сегодня рутину Академии тянут ИИ-системы моей разработки: кураторы в чатах, Zoom-агент на занятиях, автомонтаж записей, единый личный кабинет.</p>
+      <p class="fade d1">Нейросетями занимаюсь больше двух лет: международные обучения, путь от аналитики данных до автономных агентов. Первым серьёзным проектом стал личный агент — он читал мою почту, вёл дневник, заказывал еду и бронировал отели. Когда понял, что агент справляется лучше ассистента, перевёл на ИИ собственную школу. Теперь команда aipilsen строит такие же системы для других школ. <b>Система остаётся у вас</b>, ваша команда умеет ей управлять.</p>
+    </div>
+    <div class="stats-band rv">
+      <div class="bstat fade"><div class="v"><span data-count="5" data-pad="2">05</span><small> лет</small></div><div class="l">в онлайн-образовании: от курьера до партнёра школы</div></div>
+      <div class="bstat fade d1"><div class="v"><span data-count="2" data-pad="2">02</span><small>+ года</small></div><div class="l">строю ИИ-системы: агенты, голос, видео, интеграции</div></div>
+      <div class="bstat fade d2"><div class="v"><span data-count="10">10</span><small>+</small></div><div class="l">систем работают каждый день у меня и клиентов</div></div>
+      <div class="bstat fade d3"><div class="v"><span data-count="7000">7 000</span></div><div class="l">учеников каждый день обслуживают мои системы</div></div>
+    </div>
+    <div class="traits rv">
+      <div class="trait fade"><span class="ico">АРТ</span><p><b>Дизайн и арт-дирекшн</b>Мои системы приятно выглядят: от интерфейсов до обложек, которые система делает сама.</p></div>
+      <div class="trait fade d1"><span class="ico">ПРАВО</span><p><b>Юридическое образование</b>Слежу за законами об ИИ и данных. Если новое требование затрагивает вашу систему — сам предупреждаю и вношу правки.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2б. ШКОЛЫ И КОМАНДА -->
+<section id="trust" class="trust">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label mono fade">Где это работает</div>
+      <h2 class="sec-h">
+        <span class="lr"><span>Школы, в которых живут</span></span>
+        <span class="lr"><span>мои системы</span></span>
+      </h2>
+    </div>
+    <div class="schools rv">
+      <div class="school fade">
+        <div class="lg"><img src="assets/edis-logo.png" alt="Академия Наталии Эдис"></div>
+        <div class="in">
+          <h3>Академия Наталии Эдис</h3>
+          <p>Искусство, красота и творчество в любом возрасте. 30 000+ учеников за 6 лет, 7 000 учатся сейчас. Работает в программе «Московское долголетие».</p>
+          <a href="https://edisacademy.ru/" target="_blank" rel="noopener">edisacademy.ru →</a>
         </div>
-        <div class="team-line fade d3">
-          <p><b>Команда aipilsen:</b> я — архитектор систем и инженеры проекта с большим бэкграундом в ИИ. Каждый отвечает за свой участок: от безопасности проектов до разработки программ. Рутину внутри наших проектов тянут те же ИИ-системы, которые мы строим клиентам.</p>
+      </div>
+      <div class="school fade d1">
+        <div class="lg"><span class="word">LEEKE</span></div>
+        <div class="in">
+          <h3>Школа греческого языка Leeke</h3>
+          <p>Подготовка к экзаменам A2/B1. Мини-группы, ~1 000 уроков в месяц, 82% учеников сдают экзамен.</p>
+          <a href="https://leekegr.online/" target="_blank" rel="noopener">leekegr.online →</a>
+        </div>
+      </div>
+      <div class="school fade d2">
+        <div class="lg"><span class="word" style="font-size:18px;letter-spacing:.02em">МОСКОВСКОЕ<br>ДОЛГОЛЕТИЕ</span></div>
+        <div class="in">
+          <h3>Программа «Московское долголетие»</h3>
+          <p>ИИ-кураторы сопровождают участников городской образовательной программы — аудиторию, которой нужен самый терпеливый собеседник.</p>
         </div>
       </div>
     </div>
-    <div class="creds rv">
-      <div class="cred fade"><span class="ico">05 лет</span><p><b>онлайн-образование</b>от курьера до партнёра школы с 7 000 учеников</p></div>
-      <div class="cred fade d1"><span class="ico">02+ года</span><p><b>ИИ-разработка</b>международные обучения, путь от аналитики данных до автономных агентов</p></div>
-      <div class="cred fade d2"><span class="ico">10+</span><p><b>работающих систем</b>кураторы, Zoom-агенты, автомонтаж, обзвон, ассистенты владельцев</p></div>
-      <div class="cred fade d3"><span class="ico">АРТ</span><p><b>дизайн и арт-дирекшн</b>системы приятно выглядят: от интерфейсов до обложек</p></div>
-      <div class="cred fade d3"><span class="ico">ПРАВО</span><p><b>юридическое образование</b>слежу за законами об ИИ; если требование затрагивает вашу систему — предупреждаю и вношу правки</p></div>
+    <div class="team-line rv fade">
+      <p><b>Команда aipilsen:</b> я — архитектор систем и инженеры проекта с большим бэкграундом в ИИ. Каждый отвечает за свой участок: от безопасности проектов до разработки программ. Рутину внутри наших проектов тянут те же ИИ-системы, которые мы строим клиентам.</p>
     </div>
   </div>
 </section>
@@ -670,7 +701,17 @@ addEventListener('scroll',()=>{
 // проявитель без IntersectionObserver/rAF
 const pendRv=[...document.querySelectorAll('.rv')];
 const pendFade=[...document.querySelectorAll('.fade')].filter(el=>!el.closest('.rv'));
+const pendCnt=[...document.querySelectorAll('[data-count]')];
 function inView(el,k){const r=el.getBoundingClientRect();return r.top<innerHeight*(k||.86)&&r.bottom>0}
+function runCount(el){
+  const end=+el.dataset.count,pad=+(el.dataset.pad||0),t0=performance.now();
+  const iv=setInterval(()=>{
+    const k=Math.min(1,(performance.now()-t0)/1400),e=1-Math.pow(1-k,3);
+    const n=Math.round(end*e);
+    el.textContent=pad?String(n).padStart(pad,'0'):(end>=1000?n.toLocaleString('ru-RU'):String(n));
+    if(k>=1)clearInterval(iv);
+  },16);
+}
 let busy=false;
 function sweep(){
   if(busy)return;busy=true;setTimeout(()=>busy=false,70);
@@ -678,6 +719,8 @@ function sweep(){
     if(inView(pendRv[i])){pendRv[i].classList.add('on');pendRv[i].querySelectorAll('.fade').forEach(f=>f.classList.add('on'));pendRv.splice(i,1)}
   for(let i=pendFade.length-1;i>=0;i--)
     if(inView(pendFade[i])){pendFade[i].classList.add('on');pendFade.splice(i,1)}
+  for(let i=pendCnt.length-1;i>=0;i--)
+    if(inView(pendCnt[i],.92)){runCount(pendCnt[i]);pendCnt.splice(i,1)}
   prlx();stack();
 }
 function prlx(){
