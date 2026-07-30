@@ -140,6 +140,7 @@ header{
 .s-card p{color:var(--txt2);font-size:15.5px}
 .s-card .for{margin-top:18px;font-size:13.5px;color:var(--txt3)}
 .s-card .for b{color:var(--txt2);font-weight:500}
+.s-card.wide{grid-column:span 2;background:linear-gradient(130deg,rgba(255,92,51,.08),var(--panel) 55%);border-color:rgba(255,92,51,.3)}
 .s-note{
   margin-top:36px;padding:30px 36px;border-radius:20px;border:1px solid rgba(255,92,51,.3);
   background:var(--acc-dim);display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between;
@@ -226,6 +227,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
   .hero-fan{height:440px;max-width:560px}
   .hero-stats{grid-template-columns:1fr 1fr}
   .s-grid{grid-template-columns:1fr}
+  .s-card.wide{grid-column:span 1}
   .case{grid-template-columns:1fr;gap:30px}
   .knum{text-align:left}
   .leak{grid-template-columns:1fr;gap:10px}
@@ -304,7 +306,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
 
 <div class="marq" aria-hidden="true">
   <div class="marq-track" id="mq">
-    <span>фото карточек без студии</span><span>тексты и SEO</span><span>ответы на отзывы 24/7</span><span>аналитика и юнит-экономика</span><span>Wildberries</span><span>Ozon</span><span>Яндекс Маркет</span>
+    <span>фото карточек без студии</span><span>реальная прибыль по каждому товару</span><span>прогноз закупок и складов</span><span>ответы на отзывы 24/7</span><span>свой канал продаж</span><span>Wildberries</span><span>Ozon</span><span>Яндекс Маркет</span>
   </div>
 </div>
 
@@ -352,11 +354,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
     </div>
     <div class="s-grid rv">
       <div class="s-card fade"><span class="n">01 · флагман</span><h3>Генерация фото продуктов</h3><p>Фотографии для карточек из снимка образца: единый аватар бренда, студийный свет, любые ракурсы и образы. Новая модель появляется в каталоге без новой съёмки.</p><div class="for">Закрывает: <b>дорогие фотосессии, недели ожидания, логистика образцов</b></div></div>
-      <div class="s-card fade d1"><span class="n">02</span><h3>Карточки под ключ</h3><p>Тексты, SEO-описания и инфографика для ваших позиций — быстро и в едином стиле бренда.</p><div class="for">Закрывает: <b>карточки делаются месяцами, тексты пишутся ночами</b></div></div>
-      <div class="s-card fade d2"><span class="n">03</span><h3>ИИ-агент карточек</h3><p>Генерирует карточки потоком: от фото до готового описания. Ассортимент растёт — контент успевает.</p><div class="for">Закрывает: <b>товаров больше, чем рук</b></div></div>
-      <div class="s-card fade d3"><span class="n">04</span><h3>ИИ-менеджер продаж</h3><p>Отвечает на отзывы и вопросы покупателей круглосуточно: вежливо, по вашему регламенту, без выходных.</p><div class="for">Закрывает: <b>отзывы без ответа, падающий рейтинг</b></div></div>
-      <div class="s-card fade d2"><span class="n">05</span><h3>Дашборд аналитики</h3><p>Продажи, остатки и юнит-экономика на одном экране. Решения о закупках — по цифрам, живущим в реальном времени.</p><div class="for">Закрывает: <b>аналитика вручную по выгрузкам</b></div></div>
-      <div class="s-card fade d3"><span class="n">06</span><h3>Сайт бренда</h3><p>Витрина вне маркетплейса: коллекции, отзывы, прямые заказы. Бренд перестаёт зависеть от одной площадки.</p><div class="for">Закрывает: <b>бизнес живёт только внутри чужой витрины</b></div></div>
+      <div class="s-card fade d1"><span class="n">02 · флагман</span><h3>ИИ-финансист</h3><p>Читает отчёты Wildberries и Ozon, сверяет выплаты и считает реальную прибыль по каждому товару — с учётом комиссий, логистики, возвратов и хранения. Показывает позиции, которые вы продаёте в минус.</p><div class="for">Закрывает: <b>отчёты площадок нечитаемы, настоящая прибыль неизвестна</b></div></div>
+      <div class="s-card fade d2"><span class="n">03</span><h3>Прогноз закупок и складов</h3><p>Прогнозирует спрос по регионам и говорит, сколько товара и на какие склады везти: индекс локализации в норме, деньги не заморожены в лишних стоках, товар не заканчивается в разгар сезона.</p><div class="for">Закрывает: <b>штрафы за локализацию, замороженный склад, пустая карточка в сезон</b></div></div>
+      <div class="s-card fade d3"><span class="n">04</span><h3>Карточки под ключ</h3><p>Тексты, SEO-описания и инфографика для ваших позиций — быстро и в едином стиле бренда. Для потока — ИИ-агент, который делает карточки от фото до описания.</p><div class="for">Закрывает: <b>товаров больше, чем рук; тексты пишутся ночами</b></div></div>
+      <div class="s-card fade d2"><span class="n">05</span><h3>ИИ-менеджер продаж</h3><p>Отвечает на отзывы и вопросы покупателей круглосуточно: вежливо, по вашему регламенту, без выходных.</p><div class="for">Закрывает: <b>отзывы без ответа, падающий рейтинг</b></div></div>
+      <div class="s-card fade d3"><span class="n">06</span><h3>Дашборд аналитики</h3><p>Продажи, остатки и юнит-экономика на одном экране. Решения о закупках — по цифрам, живущим в реальном времени.</p><div class="for">Закрывает: <b>аналитика вручную по выгрузкам</b></div></div>
+      <div class="s-card wide fade"><span class="n">07 · тренд года</span><h3>Свой канал продаж — D2C</h3><p>Сайт бренда, магазин в Telegram, ИИ-менеджер и работа с базой покупателей. Комиссии площадок съедают до половины выручки — свой канал возвращает эти деньги и снимает зависимость от чужих правил. Всю связку я уже строю в собственных проектах.</p><div class="for">Закрывает: <b>бизнес живёт только внутри чужой витрины и по чужим правилам</b></div></div>
     </div>
     <div class="s-note rv fade">
       <p><b>Все системы — автономные.</b> После запуска я два месяца обучаю вашу команду управлять системой — и передаю её полностью. Вы не зависите от меня: продукт остаётся вашим.</p>
