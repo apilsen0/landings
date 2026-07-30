@@ -130,11 +130,11 @@ header{
 .about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;margin-top:64px;align-items:start}
 .about-text p{color:var(--txt2);margin-bottom:18px;font-size:17px}
 .about-text p b{color:var(--txt);font-weight:600}
-.creds{display:flex;flex-direction:column;gap:14px;margin-top:30px}
-.cred{display:flex;gap:16px;align-items:flex-start;padding:18px 22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
-.cred .ico{color:var(--acc);font-family:var(--mono);font-size:13px;padding-top:2px;white-space:nowrap}
-.cred p{color:var(--txt2);font-size:15px}
-.cred p b{color:var(--txt)}
+.creds{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:24px}
+.cred{display:flex;flex-direction:column;gap:12px;padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.cred .ico{color:var(--acc);font-family:var(--mono);font-size:13px;white-space:nowrap}
+.cred p{color:var(--txt2);font-size:14px}
+.cred p b{color:var(--txt);display:block;margin-bottom:4px}
 .schools{display:grid;grid-template-columns:1fr;gap:16px}
 .school{
   border:1px solid var(--line);border-radius:20px;padding:28px 30px;background:var(--panel);
@@ -275,6 +275,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
   .chip.c1{left:-8px}
   .chip.c2{right:-8px}
   .about-grid{grid-template-columns:1fr}
+  .creds{grid-template-columns:1fr 1fr}
   .s-grid{grid-template-columns:1fr}
   .case{grid-template-columns:1fr;gap:30px}
   .knum{text-align:left}
@@ -294,7 +295,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
   .nav-links.mob a{padding:14px 0;font-size:17px;border-bottom:1px solid var(--line)}
   .burger{display:block}
   .nav .btn{display:none}
-  .p-grid,.ab-grid{grid-template-columns:1fr}
+  .p-grid,.ab-grid,.creds{grid-template-columns:1fr}
   .case{position:relative;top:0}
   .school{flex-direction:column;align-items:flex-start}
 }
@@ -376,13 +377,6 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
         <p>Нейросетями занимаюсь больше двух лет. Начинал с программ аналитики данных и генерации фотосессий для брендов, прошёл несколько международных обучений по ИИ. Первым серьёзным проектом стал личный агент — он читал мою почту, вёл дневник, заказывал еду и бронировал отели. Когда понял, что агент справляется лучше ассистента, перевёл на ИИ собственную школу.</p>
         <p>Сегодня рутину Академии тянут ИИ-системы моей разработки: кураторы в чатах, Zoom-агент на занятиях, автомонтаж записей, единый личный кабинет. Школа выросла, людей в поддержке стало меньше, ученики получают ответы быстрее.</p>
         <p>Теперь команда aipilsen строит такие же системы для других школ. <b>Система остаётся у вас</b>, ваша команда умеет ей управлять.</p>
-        <div class="creds">
-          <div class="cred"><span class="ico">05 лет</span><p><b>операционного опыта в онлайн-образовании</b> — от курьера до партнёра школы с 7 000 учеников</p></div>
-          <div class="cred"><span class="ico">02+ года</span><p><b>ИИ-разработки</b> — международные обучения по ИИ, путь от аналитики данных до автономных агентов</p></div>
-          <div class="cred"><span class="ico">10+</span><p><b>работающих систем</b> — кураторы, Zoom-агенты, автомонтаж, обзвон, личные ассистенты владельцев</p></div>
-          <div class="cred"><span class="ico">АРТ</span><p><b>дизайн и арт-дирекшн</b> — мои системы приятно выглядят: от интерфейсов до обложек, которые система делает сама</p></div>
-          <div class="cred"><span class="ico">ПРАВО</span><p><b>юридическое образование</b> — слежу за изменениями в законах об ИИ и данных; если новое требование затрагивает вашу систему, сам предупреждаю и вношу правки</p></div>
-        </div>
       </div>
       <div class="rv">
         <div class="schools">
@@ -414,6 +408,13 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
           <p><b>Команда aipilsen:</b> я — архитектор систем и инженеры проекта с большим бэкграундом в ИИ. Каждый отвечает за свой участок: от безопасности проектов до разработки программ. Рутину внутри наших проектов тянут те же ИИ-системы, которые мы строим клиентам.</p>
         </div>
       </div>
+    </div>
+    <div class="creds rv">
+      <div class="cred fade"><span class="ico">05 лет</span><p><b>онлайн-образование</b>от курьера до партнёра школы с 7 000 учеников</p></div>
+      <div class="cred fade d1"><span class="ico">02+ года</span><p><b>ИИ-разработка</b>международные обучения, путь от аналитики данных до автономных агентов</p></div>
+      <div class="cred fade d2"><span class="ico">10+</span><p><b>работающих систем</b>кураторы, Zoom-агенты, автомонтаж, обзвон, ассистенты владельцев</p></div>
+      <div class="cred fade d3"><span class="ico">АРТ</span><p><b>дизайн и арт-дирекшн</b>системы приятно выглядят: от интерфейсов до обложек</p></div>
+      <div class="cred fade d3"><span class="ico">ПРАВО</span><p><b>юридическое образование</b>слежу за законами об ИИ; если требование затрагивает вашу систему — предупреждаю и вношу правки</p></div>
     </div>
   </div>
 </section>
