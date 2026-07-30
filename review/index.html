@@ -15,156 +15,260 @@
   --disp:'Inter Tight',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
-.wrap{max-width:680px;margin:0 auto;padding:60px 24px 100px}
-.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase}
-.top{display:flex;align-items:center;gap:10px;margin-bottom:46px;font-family:var(--disp);font-weight:800;font-size:15px}
-.top i{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
-h1{font-family:var(--disp);font-weight:800;font-size:clamp(30px,6vw,44px);line-height:1.04;letter-spacing:-.03em;margin-bottom:16px}
-h1 em{font-style:normal;color:var(--acc)}
-.lead{color:var(--txt2);margin-bottom:44px;font-size:16.5px}
-.q{margin-bottom:30px}
-label{display:block;font-weight:600;margin-bottom:6px;font-size:16px}
-label .n{font-family:var(--mono);color:var(--acc);font-size:12px;margin-right:8px}
-.hint{color:var(--txt3);font-size:13.5px;margin-bottom:10px}
+html,body{height:100%}
+body{
+  background:var(--bg);color:var(--txt);font-family:var(--body);font-size:16.5px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--acc);color:#160905}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.glow{
+  position:fixed;left:50%;top:-30%;transform:translateX(-50%);width:1100px;height:700px;z-index:0;
+  background:radial-gradient(ellipse,rgba(255,92,51,.10),transparent 65%);filter:blur(60px);pointer-events:none;
+}
+.bar{position:fixed;top:0;left:0;height:3px;background:var(--acc);width:0%;z-index:100;transition:width .5s cubic-bezier(.19,.7,.22,1);box-shadow:0 0 14px rgba(255,92,51,.6)}
+.top{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;justify-content:space-between;align-items:center;padding:20px 28px}
+.logo{font-family:var(--disp);font-weight:800;font-size:15px;display:flex;align-items:center;gap:10px}
+.logo i{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.step-num{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--txt3)}
+
+.stage{position:relative;z-index:1;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:90px 24px 120px}
+.card{width:100%;max-width:640px}
+.scr{display:none}
+.scr.on{display:block;animation:in .55s cubic-bezier(.19,.7,.22,1)}
+@keyframes in{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+
+.mini{width:88px;height:88px;border-radius:50%;overflow:hidden;border:2px solid var(--line2);box-shadow:0 16px 44px rgba(0,0,0,.5);margin-bottom:28px}
+.mini img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(30px,5.6vw,46px);line-height:1.03;letter-spacing:-.03em;margin-bottom:16px}
+h1 em,.q-title em{font-style:normal;color:var(--acc)}
+.lead{color:var(--txt2);margin-bottom:36px;max-width:520px}
+.q-idx{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--acc);margin-bottom:18px;display:block}
+.q-title{font-family:var(--disp);font-weight:700;font-size:clamp(24px,4.4vw,36px);line-height:1.08;letter-spacing:-.02em;margin-bottom:12px}
+.hint{color:var(--txt3);font-size:14.5px;margin-bottom:26px}
 input[type=text],textarea{
-  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:14px;
-  color:var(--txt);font-family:var(--body);font-size:15.5px;padding:14px 16px;outline:none;
-  transition:border-color .2s;
+  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;
+  color:var(--txt);font-family:var(--body);font-size:16.5px;padding:18px 20px;outline:none;
+  transition:border-color .25s,box-shadow .25s;
 }
-input[type=text]:focus,textarea:focus{border-color:var(--acc)}
-textarea{min-height:96px;resize:vertical}
-.nps{display:flex;gap:8px;flex-wrap:wrap}
+input[type=text]:focus,textarea:focus{border-color:var(--acc);box-shadow:0 0 0 4px rgba(255,92,51,.12)}
+textarea{min-height:130px;resize:vertical}
+.nps{display:flex;gap:9px;flex-wrap:wrap}
 .nps button{
-  width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);
-  color:var(--txt2);font-family:var(--disp);font-weight:700;font-size:16px;cursor:pointer;transition:.15s;
+  width:50px;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--panel);
+  color:var(--txt2);font-family:var(--disp);font-weight:700;font-size:17px;cursor:pointer;
+  transition:transform .15s,border-color .15s,background .15s;
 }
-.nps button:hover{border-color:var(--acc);color:var(--txt)}
-.nps button.sel{background:var(--acc);border-color:var(--acc);color:#160905}
-.chk{display:flex;gap:12px;align-items:flex-start;cursor:pointer;color:var(--txt2);font-size:14.5px}
-.chk input{width:18px;height:18px;margin-top:3px;accent-color:var(--acc)}
-.send{
-  width:100%;margin-top:14px;padding:18px;border-radius:100px;border:0;cursor:pointer;
-  background:var(--acc);color:#160905;font-family:var(--body);font-weight:600;font-size:17px;transition:.25s;
+.nps button:hover{border-color:var(--acc);color:var(--txt);transform:translateY(-3px)}
+.nps button.sel{background:var(--acc);border-color:var(--acc);color:#160905;transform:translateY(-3px)}
+.chk{display:flex;gap:14px;align-items:flex-start;cursor:pointer;color:var(--txt2);font-size:15px;padding:20px 22px;border:1px solid var(--line);border-radius:16px;background:var(--panel);transition:border-color .2s}
+.chk:hover{border-color:var(--line2)}
+.chk input{width:19px;height:19px;margin-top:2px;accent-color:var(--acc);flex:none}
+
+.nav{display:flex;gap:14px;align-items:center;margin-top:34px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:16px 34px;border-radius:100px;border:1px solid transparent;
+  font-family:var(--body);font-weight:600;font-size:16px;cursor:pointer;transition:.25s;background:var(--acc);color:#160905;
 }
-.send:hover{background:#FF7A57;box-shadow:0 14px 44px rgba(255,92,51,.3)}
-.send:disabled{opacity:.5;cursor:default}
-.note{margin-top:16px;text-align:center;color:var(--txt3);font-size:13px}
-.done{display:none;text-align:center;padding:80px 0}
-.done .big{font-size:64px;margin-bottom:20px}
-.done h2{font-family:var(--disp);font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:14px}
-.done p{color:var(--txt2);max-width:440px;margin:0 auto}
-.err{display:none;margin-top:14px;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,92,51,.4);background:var(--acc-dim);font-size:14.5px}
+.btn:hover{background:#FF7A57;transform:translateY(-2px);box-shadow:0 14px 44px rgba(255,92,51,.3)}
+.btn.ghost{background:none;border-color:var(--line2);color:var(--txt2)}
+.btn.ghost:hover{border-color:var(--acc);color:var(--acc);box-shadow:none}
+.skip{color:var(--txt3);font-size:14px;cursor:pointer;border:0;background:none;font-family:var(--body);margin-left:auto}
+.skip:hover{color:var(--txt2)}
+.enter-hint{margin-top:18px;color:var(--txt3);font-size:12.5px;font-family:var(--mono);letter-spacing:.08em}
+.err{display:none;margin-top:16px;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,92,51,.4);background:var(--acc-dim);font-size:14.5px}
+
+.done-ico{
+  width:96px;height:96px;border-radius:50%;background:var(--acc-dim);border:1px solid rgba(255,92,51,.4);
+  display:flex;align-items:center;justify-content:center;margin-bottom:30px;
+}
+.done-ico svg{width:44px;height:44px;stroke:var(--acc);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.done-ico svg path{stroke-dasharray:60;stroke-dashoffset:60;animation:draw 1s .3s cubic-bezier(.19,.7,.22,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+footer{position:fixed;bottom:0;left:0;right:0;padding:18px 28px;color:var(--txt3);font-size:12.5px;display:flex;justify-content:space-between;gap:12px;z-index:90}
+@media(max-width:560px){
+  .nps button{width:44px;height:44px}
+  footer{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top"><i></i>aipilsen</div>
-
-  <form id="f">
-    <h1>Три минуты — и ваш отзыв <em>поможет другим школам</em> решиться</h1>
-    <p class="lead">Спасибо, что работаете со мной! Ответьте на несколько вопросов — можно коротко и своими словами. Из ответов я соберу отзыв и пришлю вам на согласование перед публикацией.</p>
-
-    <div class="q">
-      <label><span class="n">01</span>Как вас зовут и как называется ваша школа?</label>
-      <input type="text" id="q1" placeholder="Имя, школа, ссылка на сайт или соцсеть">
-    </div>
-    <div class="q">
-      <label><span class="n">02</span>С какой задачей вы пришли?</label>
-      <div class="hint">Что болело до нашей работы: цифры, часы, нервы — чем конкретнее, тем полезнее.</div>
-      <textarea id="q2" placeholder="Например: 3 человека занимались только монтажом, тратили 250 000 ₽ в месяц…"></textarea>
-    </div>
-    <div class="q">
-      <label><span class="n">03</span>Что изменилось после внедрения?</label>
-      <div class="hint">Как это работает теперь и что вы перестали делать руками.</div>
-      <textarea id="q3"></textarea>
-    </div>
-    <div class="q">
-      <label><span class="n">04</span>Есть ли цифры, которыми можно поделиться?</label>
-      <div class="hint">Экономия в месяц, скорость, люди, проценты — по желанию, но это самое убедительное.</div>
-      <input type="text" id="q4" placeholder="Например: экономим 250 000 ₽/мес, система окупилась за месяц">
-    </div>
-    <div class="q">
-      <label><span class="n">05</span>Что понравилось или удивило в работе с Иваном?</label>
-      <textarea id="q5"></textarea>
-    </div>
-    <div class="q">
-      <label><span class="n">06</span>Кому бы вы порекомендовали aipilsen?</label>
-      <textarea id="q6" placeholder="Каким школам или командам это точно нужно?"></textarea>
-    </div>
-    <div class="q">
-      <label><span class="n">07</span>Насколько вероятно, что порекомендуете нас коллегам?</label>
-      <div class="hint">1 — точно нет, 10 — уже рекомендую.</div>
-      <div class="nps" id="nps"></div>
-    </div>
-    <div class="q">
-      <label class="chk"><input type="checkbox" id="ok"> Разрешаю опубликовать отзыв с указанием моего имени и школы на сайте и в материалах aipilsen</label>
-    </div>
-
-    <button type="submit" class="send" id="btn">Отправить отзыв →</button>
-    <div class="err" id="err">Автоматическая отправка сейчас недоступна. Нажмите ещё раз — откроется Telegram с готовым текстом, просто отправьте его в чат @apilsen.</div>
-    <p class="note">Отзыв уходит напрямую Ивану в Telegram · @apilsen</p>
-  </form>
-
-  <div class="done" id="done">
-    <div class="big">🤝</div>
-    <h2>Спасибо!</h2>
-    <p>Отзыв улетел Ивану в Telegram. Я соберу из него аккуратный текст и пришлю вам на согласование перед публикацией.</p>
-  </div>
+<div class="glow"></div>
+<div class="bar" id="bar"></div>
+<div class="top">
+  <div class="logo"><i></i>aipilsen</div>
+  <div class="step-num" id="stepnum"></div>
 </div>
 
+<div class="stage"><div class="card">
+
+  <!-- интро -->
+  <section class="scr on" data-scr="intro">
+    <div class="mini"><img src="../schools/assets/ivan.jpg" alt="Иван Уманец"></div>
+    <h1>Спасибо, что работаете со мной!</h1>
+    <p class="lead">Ваш отзыв поможет другим школам решиться на автоматизацию. Семь коротких вопросов, отвечать можно своими словами — я соберу из ответов аккуратный текст и пришлю вам на согласование перед публикацией.</p>
+    <div class="nav">
+      <button class="btn" data-next>Начать → </button>
+      <span class="enter-hint">3 минуты · можно с телефона</span>
+    </div>
+  </section>
+
+  <!-- вопросы -->
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Вопрос 1 / 7</span>
+    <div class="q-title">Как вас зовут и как называется <em>ваша школа?</em></div>
+    <p class="hint">Имя, школа и, если хотите, ссылка на сайт или соцсеть.</p>
+    <input type="text" id="q1" placeholder="Например: Мария, школа рисования «Кисть», kist.ru">
+    <div class="nav"><button class="btn" data-next>Дальше →</button></div>
+    <div class="err" id="err1">Подскажите хотя бы имя — иначе я не пойму, от кого отзыв 🙂</div>
+  </section>
+
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Вопрос 2 / 7</span>
+    <div class="q-title">С какой задачей вы пришли? <em>Что болело?</em></div>
+    <p class="hint">Как всё выглядело до нашей работы: цифры, часы, нервы — чем конкретнее, тем полезнее.</p>
+    <textarea id="q2" placeholder="Например: три человека занимались только монтажом, тратили 250 000 ₽ в месяц…"></textarea>
+    <div class="nav"><button class="btn ghost" data-back>← Назад</button><button class="btn" data-next>Дальше →</button><button class="skip" data-skip>пропустить</button></div>
+  </section>
+
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Вопрос 3 / 7</span>
+    <div class="q-title">Что изменилось <em>после внедрения?</em></div>
+    <p class="hint">Как это работает теперь и что вы перестали делать руками.</p>
+    <textarea id="q3"></textarea>
+    <div class="nav"><button class="btn ghost" data-back>← Назад</button><button class="btn" data-next>Дальше →</button><button class="skip" data-skip>пропустить</button></div>
+  </section>
+
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Вопрос 4 / 7</span>
+    <div class="q-title">Есть ли <em>цифры</em>, которыми можно поделиться?</div>
+    <p class="hint">Экономия в месяц, скорость, люди, проценты — это самое убедительное для читателей.</p>
+    <input type="text" id="q4" placeholder="Например: экономим 250 000 ₽/мес, система окупилась за месяц">
+    <div class="nav"><button class="btn ghost" data-back>← Назад</button><button class="btn" data-next>Дальше →</button><button class="skip" data-skip>пропустить</button></div>
+  </section>
+
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Вопрос 5 / 7</span>
+    <div class="q-title">Что понравилось или удивило <em>в работе с Иваном?</em></div>
+    <textarea id="q5"></textarea>
+    <div class="nav"><button class="btn ghost" data-back>← Назад</button><button class="btn" data-next>Дальше →</button><button class="skip" data-skip>пропустить</button></div>
+  </section>
+
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Вопрос 6 / 7</span>
+    <div class="q-title">Кому бы вы <em>порекомендовали</em> aipilsen?</div>
+    <p class="hint">Каким школам или командам это точно нужно?</p>
+    <textarea id="q6"></textarea>
+    <div class="nav"><button class="btn ghost" data-back>← Назад</button><button class="btn" data-next>Дальше →</button><button class="skip" data-skip>пропустить</button></div>
+  </section>
+
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Вопрос 7 / 7</span>
+    <div class="q-title">Насколько вероятно, что порекомендуете <em>коллегам?</em></div>
+    <p class="hint">1 — точно нет · 10 — уже рекомендую</p>
+    <div class="nps" id="nps"></div>
+    <div class="nav"><button class="btn ghost" data-back>← Назад</button><button class="btn" data-next>Дальше →</button></div>
+  </section>
+
+  <!-- согласие и отправка -->
+  <section class="scr" data-scr="q">
+    <span class="q-idx">Последний шаг</span>
+    <div class="q-title">Можно опубликовать <em>ваш отзыв?</em></div>
+    <p class="hint">Перед публикацией я в любом случае пришлю вам согласованный текст.</p>
+    <label class="chk"><input type="checkbox" id="ok"> Разрешаю опубликовать отзыв с указанием моего имени и школы на сайте и в материалах aipilsen</label>
+    <div class="nav"><button class="btn ghost" data-back>← Назад</button><button class="btn" id="send">Отправить отзыв →</button></div>
+    <div class="err" id="errsend">Автоматическая отправка сейчас недоступна. Нажмите «Отправить» ещё раз — откроется Telegram с готовым текстом: просто отправьте его в чат <b>@apilsen</b>.</div>
+  </section>
+
+  <!-- финал -->
+  <section class="scr" data-scr="done">
+    <div class="done-ico"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+    <h1>Спасибо! Отзыв <em>улетел Ивану</em></h1>
+    <p class="lead">Я соберу из ваших ответов аккуратный текст и пришлю на согласование. Если захотите что-то добавить — просто напишите в Telegram: <b style="color:var(--acc)">@apilsen</b></p>
+  </section>
+
+</div></div>
+
+<footer>
+  <span>© 2026 aipilsen · Иван Уманец</span>
+  <span>отзыв уходит напрямую в Telegram · @apilsen</span>
+</footer>
+
 <script>
-// Конфиг доставки: когда появится бот — впишем токен и chat_id, отзывы будут падать в Telegram автоматически.
+// Доставка: как только появится телеграм-бот — впишем token и chatId, отзывы будут падать в Telegram автоматически.
 const TG = { token: "", chatId: "" };
 
-let nps = null;
-const npsBox = document.getElementById('nps');
-for (let i = 1; i <= 10; i++) {
-  const b = document.createElement('button');
-  b.type = 'button'; b.textContent = i;
-  b.onclick = () => { nps = i; [...npsBox.children].forEach(x => x.classList.remove('sel')); b.classList.add('sel'); };
+const scrs=[...document.querySelectorAll('.scr')];
+let cur=0, nps=null, fallback=false;
+const bar=document.getElementById('bar'), stepnum=document.getElementById('stepnum');
+
+function show(i){
+  scrs[cur].classList.remove('on');
+  cur=i;
+  scrs[cur].classList.add('on');
+  const qTotal=scrs.length-2; // без интро и финала
+  bar.style.width=(cur===0?0:Math.min(100,Math.round(cur/(scrs.length-1)*100)))+'%';
+  stepnum.textContent=(cur>0&&cur<scrs.length-1)?'шаг '+String(cur).padStart(2,'0')+' / '+String(qTotal).padStart(2,'0'):'';
+  const inp=scrs[cur].querySelector('input[type=text],textarea');
+  if(inp)setTimeout(()=>inp.focus(),350);
+  scrollTo(0,0);
+}
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{
+  if(cur===1 && !document.getElementById('q1').value.trim()){document.getElementById('err1').style.display='block';return}
+  show(cur+1);
+}));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>show(cur-1)));
+document.querySelectorAll('[data-skip]').forEach(b=>b.addEventListener('click',()=>show(cur+1)));
+addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey&&e.target.tagName!=='TEXTAREA'&&cur>0&&cur<scrs.length-2){
+    e.preventDefault();
+    scrs[cur].querySelector('[data-next]')?.click();
+  }
+});
+
+const npsBox=document.getElementById('nps');
+for(let i=1;i<=10;i++){
+  const b=document.createElement('button');
+  b.type='button';b.textContent=i;
+  b.onclick=()=>{nps=i;[...npsBox.children].forEach(x=>x.classList.remove('sel'));b.classList.add('sel')};
   npsBox.appendChild(b);
 }
 
-function buildText() {
-  const v = id => document.getElementById(id).value.trim();
-  return ['📝 НОВЫЙ ОТЗЫВ — aipilsen',
-    '', '👤 Кто: ' + (v('q1') || '—'),
-    '', '📍 Задача (точка А): ' + (v('q2') || '—'),
-    '', '✅ Результат (точка Б): ' + (v('q3') || '—'),
-    '', '📊 Цифры: ' + (v('q4') || '—'),
-    '', '💬 Что понравилось: ' + (v('q5') || '—'),
-    '', '📣 Кому рекомендует: ' + (v('q6') || '—'),
-    '', '⭐ Оценка: ' + (nps ? nps + '/10' : '—'),
-    '🔓 Публикация: ' + (document.getElementById('ok').checked ? 'разрешена' : 'НЕ спрашивали/нет')
+function buildText(){
+  const v=id=>document.getElementById(id).value.trim();
+  return ['📝 НОВЫЙ ОТЗЫВ — aipilsen','',
+    '👤 Кто: '+(v('q1')||'—'),'',
+    '📍 Задача (точка А): '+(v('q2')||'—'),'',
+    '✅ Результат (точка Б): '+(v('q3')||'—'),'',
+    '📊 Цифры: '+(v('q4')||'—'),'',
+    '💬 Что понравилось: '+(v('q5')||'—'),'',
+    '📣 Кому рекомендует: '+(v('q6')||'—'),'',
+    '⭐ Оценка: '+(nps?nps+'/10':'—'),
+    '🔓 Публикация: '+(document.getElementById('ok').checked?'разрешена':'нет ответа')
   ].join('\n');
 }
 
-let fallback = false;
-document.getElementById('f').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = document.getElementById('btn'), err = document.getElementById('err');
-  const text = buildText();
-  if (TG.token && TG.chatId) {
-    btn.disabled = true; btn.textContent = 'Отправляю…';
-    try {
-      const r = await fetch(`https://api.telegram.org/bot${TG.token}/sendMessage`, {
-        method: 'POST', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ chat_id: TG.chatId, text })
+document.getElementById('send').addEventListener('click',async()=>{
+  const btn=document.getElementById('send'),err=document.getElementById('errsend');
+  const text=buildText();
+  if(TG.token&&TG.chatId){
+    btn.disabled=true;btn.textContent='Отправляю…';
+    try{
+      const r=await fetch(`https://api.telegram.org/bot${TG.token}/sendMessage`,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id:TG.chatId,text})
       });
-      if (!r.ok) throw 0;
-      document.getElementById('f').style.display = 'none';
-      document.getElementById('done').style.display = 'block';
-      scrollTo(0, 0);
-      return;
-    } catch { btn.disabled = false; btn.textContent = 'Отправить отзыв →'; }
+      if(!r.ok)throw 0;
+      show(scrs.length-1);return;
+    }catch{btn.disabled=false;btn.textContent='Отправить отзыв →'}
   }
-  if (!fallback) { fallback = true; err.style.display = 'block'; return; }
-  // запасной путь: клиент отправляет готовый текст сам
-  open('https://t.me/share/url?url=' + encodeURIComponent('t.me/apilsen') + '&text=' + encodeURIComponent(text), '_blank');
-  document.getElementById('f').style.display = 'none';
-  document.getElementById('done').style.display = 'block';
-  scrollTo(0, 0);
+  if(!fallback){fallback=true;err.style.display='block';return}
+  open('https://t.me/share/url?url='+encodeURIComponent('t.me/apilsen')+'&text='+encodeURIComponent(text),'_blank');
+  show(scrs.length-1);
 });
 </script>
 </body>
