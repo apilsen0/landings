@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Иван Уманец — ИИ для поставщиков маркетплейсов | aipilsen</title>
+<meta name="description" content="ИИ-системы для поставщиков Wildberries и Ozon: фото карточек без фотостудии, тексты и SEO, ответы на отзывы, аналитика. Автономные системы с обучением вашей команды.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#131215;--bg2:#18171B;--panel:#1E1D22;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.16);
+  --txt:#F2F1F4;--txt2:#A8A6AE;--txt3:#6E6C75;--acc:#FF5C33;--acc-dim:rgba(255,92,51,.12);
+  --disp:'Inter Tight',-apple-system,sans-serif;--body:'Inter',-apple-system,sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:16.5px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--acc);color:#160905}
+h1,h2,h3{font-family:var(--disp);font-weight:700;line-height:1;letter-spacing:-.03em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase}
+section{position:relative;scroll-margin-top:76px}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.cursor,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%}
+.cursor{width:6px;height:6px;background:var(--acc);transform:translate(-50%,-50%)}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(255,92,51,.4);transform:translate(-50%,-50%);transition:width .25s,height .25s}
+.cursor-ring.hot{width:58px;height:58px;border-color:var(--acc)}
+@media (hover:none),(max-width:900px){.cursor,.cursor-ring{display:none}}
+.lr{display:block;overflow:hidden}
+.lr>span{display:block;transform:translateY(112%);transition:transform 1s cubic-bezier(.19,.7,.22,1)}
+.on .lr>span{transform:none}
+.lr:nth-child(2)>span{transition-delay:.09s}
+.fade{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.19,.7,.22,1),transform .9s cubic-bezier(.19,.7,.22,1)}
+.fade.on{opacity:1;transform:none}
+.fade.d1{transition-delay:.1s}.fade.d2{transition-delay:.2s}.fade.d3{transition-delay:.3s}
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  background:rgba(19,18,21,.6);border-bottom:1px solid var(--line);transition:transform .4s;
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.02em;display:flex;align-items:center;gap:10px}
+.logo i{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.nav-links{display:flex;gap:32px;font-size:14px;color:var(--txt2)}
+.nav-links a:hover{color:var(--txt)}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:100px;font-weight:600;font-size:15px;
+  border:1px solid transparent;cursor:pointer;transition:.25s;font-family:var(--body);white-space:nowrap;
+}
+.btn-acc{background:var(--acc);color:#160905}
+.btn-acc:hover{background:#FF7A57;transform:translateY(-2px);box-shadow:0 14px 44px rgba(255,92,51,.3)}
+.btn-line{border-color:var(--line2);color:var(--txt)}
+.btn-line:hover{border-color:var(--acc);color:var(--acc)}
+.btn-sm{padding:9px 20px;font-size:13.5px}
+.burger{display:none;background:none;border:0;color:var(--txt);font-size:25px;cursor:pointer}
+
+/* ХИРО */
+.hero{min-height:100svh;display:flex;align-items:center;padding:130px 0 60px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;width:100%}
+.hero-label{display:flex;gap:14px;align-items:center;color:var(--txt2);margin-bottom:30px}
+.hero-label::before{content:"";width:40px;height:1px;background:var(--acc)}
+.hero h1{font-size:clamp(52px,8vw,116px);font-weight:800;margin-bottom:26px}
+.hero p.man{font-size:clamp(18px,1.7vw,23px);line-height:1.5;color:var(--txt);max-width:600px;margin-bottom:34px;font-weight:500}
+.hero p.man b{color:var(--acc);font-weight:600}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:40px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,auto);gap:14px 40px;max-width:700px}
+.hstat .v{font-family:var(--disp);font-weight:700;font-size:clamp(20px,2vw,28px);letter-spacing:-.02em;color:var(--acc);white-space:nowrap}
+.hstat .l{font-size:12.5px;color:var(--txt3);margin-top:2px;line-height:1.35}
+.hero-fan{position:relative;height:560px}
+.fan-card{
+  position:absolute;width:62%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;
+  border:1px solid var(--line2);box-shadow:0 40px 100px rgba(0,0,0,.55);
+  background:var(--panel);transition:transform .5s cubic-bezier(.19,.7,.22,1);
+}
+.fan-card img{width:100%;height:100%;object-fit:cover}
+.fan-card .tag{
+  position:absolute;left:14px;bottom:14px;padding:8px 14px;border-radius:100px;
+  background:rgba(19,18,21,.75);backdrop-filter:blur(8px);border:1px solid var(--line2);
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt);
+}
+.fan-card.f1{left:0;top:6%;transform:rotate(-7deg);z-index:1}
+.fan-card.f2{left:22%;top:0;transform:rotate(2deg);z-index:2}
+.fan-card.f3{right:0;top:9%;transform:rotate(8deg);z-index:3}
+.hero-fan:hover .f1{transform:rotate(-9deg) translateY(-8px)}
+.hero-fan:hover .f2{transform:rotate(0) translateY(-14px)}
+.hero-fan:hover .f3{transform:rotate(10deg) translateY(-8px)}
+
+/* лента фото */
+.marq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;overflow:hidden;background:var(--bg2)}
+.marq-track{display:flex;gap:52px;width:max-content;animation:mq 34s linear infinite}
+.marq-track span{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt3);display:flex;align-items:center;gap:14px;white-space:nowrap}
+.marq-track span::after{content:"·";color:var(--acc);font-size:20px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+.sec-label{display:flex;gap:14px;align-items:center;color:var(--acc);margin-bottom:22px}
+.sec-label::before{content:"";width:40px;height:1px;background:var(--acc)}
+.sec-h{font-size:clamp(36px,5vw,72px);max-width:940px;letter-spacing:-.03em}
+.sec-sub{color:var(--txt2);font-size:17.5px;max-width:640px;margin-top:22px}
+
+/* ГАЛЕРЕЯ */
+.gal{padding:130px 0 110px}
+.strip{
+  display:flex;gap:18px;margin-top:60px;overflow-x:auto;padding:10px 4px 26px;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+}
+.strip::-webkit-scrollbar{display:none}
+.shot{
+  flex:0 0 clamp(240px,26vw,340px);aspect-ratio:3/4;border-radius:22px;overflow:hidden;position:relative;
+  border:1px solid var(--line2);background:var(--panel);scroll-snap-align:start;
+  transition:transform .4s cubic-bezier(.19,.7,.22,1);
+}
+.shot:hover{transform:translateY(-8px)}
+.shot img{width:100%;height:100%;object-fit:cover}
+.shot .tag{
+  position:absolute;left:14px;bottom:14px;padding:8px 14px;border-radius:100px;
+  background:rgba(19,18,21,.75);backdrop-filter:blur(8px);border:1px solid var(--line2);
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+}
+.gal-note{margin-top:8px;color:var(--txt3);font-size:13.5px;display:flex;gap:10px;align-items:center}
+.gal-note i{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none}
+
+/* интермедии */
+.inter{min-height:52svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 0}
+.inter h2{font-size:clamp(34px,5.4vw,76px);max-width:1020px;letter-spacing:-.03em}
+.inter em{font-style:normal;color:var(--acc)}
+
+/* ПРОДУКТЫ */
+.serv{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:130px 0}
+.s-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:60px}
+.s-card{border:1px solid var(--line);border-radius:22px;padding:36px 32px;background:var(--panel);transition:transform .3s,border-color .3s}
+.s-card:hover{transform:translateY(-5px);border-color:rgba(255,92,51,.35)}
+.s-card .n{font-family:var(--mono);color:var(--acc);font-size:12px;display:block;margin-bottom:22px}
+.s-card h3{font-size:clamp(22px,2.2vw,30px);margin-bottom:12px;letter-spacing:-.02em}
+.s-card p{color:var(--txt2);font-size:15.5px}
+.s-card .for{margin-top:18px;font-size:13.5px;color:var(--txt3)}
+.s-card .for b{color:var(--txt2);font-weight:500}
+.s-note{
+  margin-top:36px;padding:30px 36px;border-radius:20px;border:1px solid rgba(255,92,51,.3);
+  background:var(--acc-dim);display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between;
+}
+.s-note p{font-size:16.5px;color:var(--txt);max-width:720px}
+.s-note p b{color:var(--acc)}
+
+/* ДОЖИМНОЙ */
+.press{padding:130px 0}
+.leak-rows{margin-top:60px;border-top:1px solid var(--line)}
+.leak{display:grid;grid-template-columns:1fr 1.1fr auto;gap:30px;align-items:center;padding:34px 0;border-bottom:1px solid var(--line)}
+.leak h3{font-size:clamp(20px,2.2vw,30px);letter-spacing:-.02em}
+.leak p{color:var(--txt2);font-size:15px;max-width:520px}
+.leak .money{font-family:var(--disp);font-weight:700;font-size:clamp(20px,2.4vw,34px);color:var(--acc);text-align:right;white-space:nowrap;letter-spacing:-.02em}
+.leak .money small{display:block;font-family:var(--body);font-weight:400;font-size:12.5px;color:var(--txt3);letter-spacing:0;margin-top:4px;white-space:normal;max-width:260px;margin-left:auto}
+.mystory{
+  margin-top:70px;border-radius:28px;border:1px solid var(--line2);overflow:hidden;
+  background:linear-gradient(160deg,var(--panel),var(--bg2));
+  display:grid;grid-template-columns:.8fr 1.2fr;align-items:stretch;
+}
+.mystory .ph{min-height:340px;background:url('../schools/assets/ivan.jpg') center 20%/cover no-repeat}
+.mystory .tx{padding:clamp(30px,4vw,56px)}
+.mystory h3{font-size:clamp(26px,3vw,42px);margin-bottom:20px;letter-spacing:-.02em}
+.mystory p{color:var(--txt2);font-size:16px;margin-bottom:14px}
+.mystory p b{color:var(--txt)}
+
+/* КЕЙС + ДОВЕРИЕ */
+.cases-sec{background:var(--bg2);border-top:1px solid var(--line);padding:130px 0}
+.case{
+  margin-top:60px;border-radius:28px;overflow:hidden;background:linear-gradient(160deg,var(--panel),var(--bg2));
+  border:1px solid var(--line2);padding:clamp(30px,4vw,58px);
+  display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center;
+}
+.case .k-tag{color:var(--txt3);margin-bottom:24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.case .k-tag b{color:var(--acc);font-weight:500}
+.case .hook{border-left:2px solid var(--acc);padding:4px 0 4px 20px;margin-bottom:24px;color:var(--txt);font-size:16.5px;font-weight:500;max-width:560px}
+.case .hook em{font-style:normal;color:var(--acc)}
+.case h3{font-size:clamp(26px,2.9vw,42px);margin-bottom:16px;letter-spacing:-.02em}
+.case p{color:var(--txt2);font-size:15.5px;max-width:560px;margin-bottom:14px}
+.case p b{color:var(--txt)}
+.knum{text-align:right}
+.knum .big{font-family:var(--disp);font-weight:800;font-size:clamp(52px,6.5vw,104px);line-height:.9;letter-spacing:-.04em;color:var(--acc)}
+.knum .big small{font-size:.36em;font-weight:700}
+.knum .cap{color:var(--txt2);font-size:15px;margin-top:14px}
+.knum .sub{margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+.knum .sub .v{font-family:var(--disp);font-weight:700;font-size:clamp(28px,3.2vw,48px);letter-spacing:-.03em}
+.trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
+.tcard{border:1px solid var(--line);border-radius:20px;padding:30px;background:var(--panel);transition:transform .3s,border-color .3s}
+.tcard:hover{transform:translateY(-5px);border-color:rgba(255,92,51,.35)}
+.tcard .word{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:.04em;margin-bottom:12px;display:block}
+.tcard img{filter:invert(1);opacity:.9;max-height:44px;width:auto;margin-bottom:14px}
+.tcard p{color:var(--txt2);font-size:14px}
+.trust-cta{margin-top:26px}
+
+/* ПРОЦЕСС */
+.proc{padding:130px 0}
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:64px}
+.p-card{border:1px solid var(--line);border-radius:20px;padding:32px 26px;background:var(--panel)}
+.p-card .n{font-family:var(--mono);color:var(--acc);font-size:13px;margin-bottom:40px;display:block}
+.p-card h3{font-size:21px;margin-bottom:10px;letter-spacing:-.01em}
+.p-card p{color:var(--txt2);font-size:14.5px}
+.p-card .t{margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3)}
+
+/* ФИНАЛ */
+.final{padding:0}
+.final a.slab{display:block;padding:150px 0 140px;text-align:center;position:relative;overflow:hidden;transition:background .3s}
+.final a.slab:hover{background:rgba(255,92,51,.05)}
+.final a.slab::before{
+  content:"";position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);
+  width:1000px;height:600px;border-radius:50%;filter:blur(80px);pointer-events:none;
+  background:radial-gradient(ellipse,rgba(255,92,51,.14),transparent 65%);
+}
+.final .mini{width:84px;height:84px;border-radius:50%;overflow:hidden;margin:0 auto 30px;border:2px solid var(--line2);box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.final .mini img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.final h2{font-size:clamp(40px,6.4vw,96px);margin-bottom:26px;letter-spacing:-.03em}
+.final p{color:var(--txt2);font-size:18px;max-width:560px;margin:0 auto 42px}
+.final .fakebtn{display:inline-flex;align-items:center;gap:10px;padding:19px 44px;border-radius:100px;font-weight:600;font-size:17px;background:var(--acc);color:#160905}
+.final .sig{margin-top:30px;color:var(--txt3);font-size:13.5px}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:var(--txt3)}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:50px}
+  .hero-fan{height:440px;max-width:560px}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .s-grid{grid-template-columns:1fr}
+  .case{grid-template-columns:1fr;gap:30px}
+  .knum{text-align:left}
+  .leak{grid-template-columns:1fr;gap:10px}
+  .leak .money{text-align:left;white-space:normal}
+  .leak .money small{margin-left:0;max-width:none}
+  .mystory{grid-template-columns:1fr}
+  .mystory .ph{min-height:280px}
+  .p-grid{grid-template-columns:1fr 1fr}
+  .trust-row{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .nav-links{display:none}
+  .nav-links.mob{
+    display:flex;position:fixed;top:64px;left:0;right:0;flex-direction:column;gap:0;
+    background:rgba(19,18,21,.97);border-bottom:1px solid var(--line2);padding:8px 28px 18px;
+  }
+  .nav-links.mob a{padding:14px 0;font-size:17px;border-bottom:1px solid var(--line)}
+  .burger{display:block}
+  .nav .btn{display:none}
+  .p-grid{grid-template-columns:1fr}
+  .inter .frame{min-height:60svh}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .lr>span{transform:none}.fade{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor"></div><div class="cursor-ring"></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#"><i></i>aipilsen</a>
+    <nav class="nav-links">
+      <a href="#gal">Фото</a>
+      <a href="#serv">Продукты</a>
+      <a href="#press">Рутина и деньги</a>
+      <a href="#case">Кейс</a>
+      <a href="#process">Как работаем</a>
+    </nav>
+    <a class="btn btn-acc btn-sm" href="https://t.me/apilsen" target="_blank">Написать в Telegram</a>
+    <button class="burger" aria-label="Меню">☰</button>
+  </div>
+</header>
+
+<!-- ХИРО -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="rv">
+      <div class="hero-label mono fade">aipilsen · ИИ для поставщиков маркетплейсов</div>
+      <h1>
+        <span class="lr"><span>Иван</span></span>
+        <span class="lr"><span>Уманец</span></span>
+      </h1>
+      <p class="man fade d1">ИИ-разработчик. Строю системы для поставщиков маркетплейсов: <b>фото карточек без фотостудии</b>, тексты и SEO, ответы покупателям и живая аналитика. Сначала проверяю всё в собственных проектах — потом отдаю вам.</p>
+      <div class="hero-cta fade d2">
+        <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Обсудить мой магазин</a>
+        <a class="btn btn-line" href="#gal">Смотреть фото ↓</a>
+      </div>
+      <div class="hero-stats fade d3">
+        <div class="hstat"><div class="v">1 аватар</div><div class="l">носит всю коллекцию бренда</div></div>
+        <div class="hstat"><div class="v">0 студий</div><div class="l">без моделей и логистики образцов</div></div>
+        <div class="hstat"><div class="v">10+</div><div class="l">систем работают каждый день</div></div>
+        <div class="hstat"><div class="v">02+ года</div><div class="l">строю ИИ-системы для бизнеса</div></div>
+      </div>
+    </div>
+    <div class="hero-fan rv fade" id="fan">
+      <div class="fan-card f1"><img src="assets/hat-1.svg" alt="ИИ-фотосессия: фетровая шляпа"><span class="tag">сгенерировано ИИ</span></div>
+      <div class="fan-card f2"><img src="assets/hat-2.svg" alt="ИИ-фотосессия: леопардовая шляпа"><span class="tag">сгенерировано ИИ</span></div>
+      <div class="fan-card f3"><img src="assets/hat-3.svg" alt="ИИ-фотосессия: чёрная шляпа"><span class="tag">сгенерировано ИИ</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marq" aria-hidden="true">
+  <div class="marq-track" id="mq">
+    <span>фото карточек без студии</span><span>тексты и SEO</span><span>ответы на отзывы 24/7</span><span>аналитика и юнит-экономика</span><span>Wildberries</span><span>Ozon</span><span>Яндекс Маркет</span>
+  </div>
+</div>
+
+<!-- ГАЛЕРЕЯ -->
+<section id="gal" class="gal">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label mono fade">Шляпный кейс · живые примеры</div>
+      <h2 class="sec-h">
+        <span class="lr"><span>Это сгенерировано.</span></span>
+        <span class="lr"><span>Полностью.</span></span>
+      </h2>
+      <p class="sec-sub fade d1">Один ИИ-аватар носит всю коллекцию бренда. Форма изделия, фактура ткани, студийный свет — всё передаётся точно. Ни одной съёмки, ни одной отправки образцов.</p>
+    </div>
+    <div class="strip rv fade">
+      <div class="shot"><img src="assets/hat-1.svg" alt="Фетровая шляпа с бирюзовой лентой" loading="lazy"><span class="tag">генерация · без студии</span></div>
+      <div class="shot"><img src="assets/hat-2.svg" alt="Леопардовая тюбетейка" loading="lazy"><span class="tag">генерация · без студии</span></div>
+      <div class="shot"><img src="assets/hat-3.svg" alt="Чёрная шляпа с красной лентой" loading="lazy"><span class="tag">генерация · без студии</span></div>
+      <div class="shot"><img src="assets/hat-4.svg" alt="Кремовый свадебный обруч с вуалью" loading="lazy"><span class="tag">генерация · без студии</span></div>
+      <div class="shot"><img src="assets/hat-5.svg" alt="Золотой обруч из синамей" loading="lazy"><span class="tag">генерация · без студии</span></div>
+    </div>
+    <div class="gal-note rv fade"><i></i>листайте — все фотографии из одной серии, модель одна и та же, съёмки не было ни одной</div>
+  </div>
+</section>
+
+<!-- интермедия 1 -->
+<section class="inter">
+  <div class="wrap rv">
+    <h2>
+      <span class="lr"><span>Хорошее фото продаёт раньше,</span></span>
+      <span class="lr"><span><em>чем покупатель прочитает название.</em></span></span>
+    </h2>
+  </div>
+</section>
+
+<!-- ПРОДУКТЫ -->
+<section id="serv" class="serv">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label mono fade">Продукты</div>
+      <h2 class="sec-h">
+        <span class="lr"><span>Что я строю селлерам</span></span>
+      </h2>
+      <p class="sec-sub fade d1">Каждая система проверена в реальных бизнесах. Вы получаете готовый продукт, настроенный под ваш магазин и ассортимент.</p>
+    </div>
+    <div class="s-grid rv">
+      <div class="s-card fade"><span class="n">01 · флагман</span><h3>Генерация фото продуктов</h3><p>Фотографии для карточек из снимка образца: единый аватар бренда, студийный свет, любые ракурсы и образы. Новая модель появляется в каталоге без новой съёмки.</p><div class="for">Закрывает: <b>дорогие фотосессии, недели ожидания, логистика образцов</b></div></div>
+      <div class="s-card fade d1"><span class="n">02</span><h3>Карточки под ключ</h3><p>Тексты, SEO-описания и инфографика для ваших позиций — быстро и в едином стиле бренда.</p><div class="for">Закрывает: <b>карточки делаются месяцами, тексты пишутся ночами</b></div></div>
+      <div class="s-card fade d2"><span class="n">03</span><h3>ИИ-агент карточек</h3><p>Генерирует карточки потоком: от фото до готового описания. Ассортимент растёт — контент успевает.</p><div class="for">Закрывает: <b>товаров больше, чем рук</b></div></div>
+      <div class="s-card fade d3"><span class="n">04</span><h3>ИИ-менеджер продаж</h3><p>Отвечает на отзывы и вопросы покупателей круглосуточно: вежливо, по вашему регламенту, без выходных.</p><div class="for">Закрывает: <b>отзывы без ответа, падающий рейтинг</b></div></div>
+      <div class="s-card fade d2"><span class="n">05</span><h3>Дашборд аналитики</h3><p>Продажи, остатки и юнит-экономика на одном экране. Решения о закупках — по цифрам, живущим в реальном времени.</p><div class="for">Закрывает: <b>аналитика вручную по выгрузкам</b></div></div>
+      <div class="s-card fade d3"><span class="n">06</span><h3>Сайт бренда</h3><p>Витрина вне маркетплейса: коллекции, отзывы, прямые заказы. Бренд перестаёт зависеть от одной площадки.</p><div class="for">Закрывает: <b>бизнес живёт только внутри чужой витрины</b></div></div>
+    </div>
+    <div class="s-note rv fade">
+      <p><b>Все системы — автономные.</b> После запуска я два месяца обучаю вашу команду управлять системой — и передаю её полностью. Вы не зависите от меня: продукт остаётся вашим.</p>
+      <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Обсудить проект</a>
+    </div>
+  </div>
+</section>
+
+<!-- ДОЖИМНОЙ -->
+<section id="press" class="press">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label mono fade">Посчитаем честно</div>
+      <h2 class="sec-h">
+        <span class="lr"><span>Сколько денег ваш магазин</span></span>
+        <span class="lr"><span>каждый месяц отдаёт рутине?</span></span>
+      </h2>
+      <p class="sec-sub fade d1">Это задачи, за которые селлеры платят студиям, подрядчикам и собственными вечерами. Каждую можно делегировать системе — и высвободить эти деньги для закупок и рекламы.</p>
+    </div>
+    <div class="leak-rows rv">
+      <div class="leak fade"><h3>Фотосессии</h3><p>Студия, модель, свет, логистика образцов туда и обратно. И так с каждой новой коллекцией.</p><div class="money">десятки тысяч ₽<small>за каждую съёмку коллекции</small></div></div>
+      <div class="leak fade"><h3>Карточки и тексты</h3><p>SEO-описания, инфографика, обновления. Либо часы вашей работы, либо подрядчик за каждую позицию.</p><div class="money">часы × позиции<small>или бюджет на копирайтеров и дизайнеров</small></div></div>
+      <div class="leak fade"><h3>Отзывы без ответа</h3><p>Покупатель, которому не ответили, уходит к соседу по выдаче. Рейтинг тянет карточку вниз.</p><div class="money">− рейтинг<small>и место в выдаче, которое стоит продаж</small></div></div>
+      <div class="leak fade"><h3>Аналитика вручную</h3><p>Выгрузки, таблицы, «потом посчитаю». Решения о закупках принимаются по ощущениям.</p><div class="money">склад стоит денег<small>каждая ошибка закупки заморожена в товаре</small></div></div>
+    </div>
+    <div class="mystory rv fade">
+      <div class="ph" role="img" aria-label="Иван Уманец"></div>
+      <div class="tx">
+        <h3>Сначала я строю для себя. Потом — для вас.</h3>
+        <p>Каждая система aipilsen сначала работает в моих собственных проектах: генерация фото родилась в работе с брендом головных уборов, менеджеры продаж и аналитика каждый день обслуживают тысячи клиентов в моих бизнесах.</p>
+        <p><b>Вы получаете инструменты, которые уже пережили реальную нагрузку</b> — настроенные под ваш магазин и переданные вашей команде.</p>
+        <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Посчитать мой магазин</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- интермедия 2 -->
+<section class="inter">
+  <div class="wrap rv">
+    <h2>
+      <span class="lr"><span>Вы платите за систему один раз</span></span>
+      <span class="lr"><span><em>работает она каждый день.</em></span></span>
+    </h2>
+  </div>
+</section>
+
+<!-- КЕЙС -->
+<section id="case" class="cases-sec">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label mono fade">Кейс</div>
+      <h2 class="sec-h">
+        <span class="lr"><span>Как бренд шляп перестал</span></span>
+        <span class="lr"><span>платить за съёмки</span></span>
+      </h2>
+    </div>
+    <div class="case rv fade">
+      <div>
+        <div class="k-tag mono">Кейс · <b>бренд головных уборов</b></div>
+        <div class="hook">Каждая новая модель в каталоге — это новая съёмка: студия, модель, свет, логистика образцов. Поэтому карточки выходят позже товара, и <em>продажи ждут фотографа</em>.</div>
+        <h3>Единый ИИ-аватар вместо фотостудии</h3>
+        <p><b>Было:</b> каждая коллекция требовала полноценной фотосессии — десятки тысяч рублей и дни ожидания, образцы ездили между складом и студией.</p>
+        <p><b>Стало:</b> я построил бренду генерацию фото: единый аватар «носит» всю коллекцию, форма и фактура каждого изделия передаются точно, свет студийный. Примеры выше на этой странице — все из этой системы.</p>
+        <p>Новая модель попадает в каталог в день появления, в едином стиле бренда.</p>
+      </div>
+      <div class="knum">
+        <div class="big">0<small> съёмок</small></div>
+        <div class="cap">для новых коллекций — совсем</div>
+        <div class="sub"><div class="v">1 день</div><div class="cap">от образца до готовой карточки</div></div>
+      </div>
+    </div>
+    <div class="rv" style="margin-top:90px">
+      <div class="sec-label mono fade">Где ещё работают мои системы</div>
+      <div class="trust-row">
+        <div class="tcard fade"><img src="../schools/assets/edis-logo.png" alt="Академия Наталии Эдис"><p>Онлайн-школа, 30 000+ учеников: ИИ-кураторы, автомонтаж, личный кабинет. Расходы на поддержку — минус 500 000 ₽ в месяц.</p></div>
+        <div class="tcard fade d1"><span class="word">LEEKE</span><p>Школа греческого языка: система монтирует ~1 000 уроков в месяц и контролирует качество каждого занятия.</p></div>
+        <div class="tcard fade d2"><span class="word">МОСКОВСКОЕ ДОЛГОЛЕТИЕ</span><p>ИИ-кураторы сопровождают участников городской программы — круглосуточно и терпеливо.</p></div>
+      </div>
+      <div class="trust-cta fade d3"><a class="btn btn-line" href="../schools/#cases">Смотреть кейсы подробно →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОЦЕСС -->
+<section id="process" class="proc">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label mono fade">Как работаем</div>
+      <h2 class="sec-h">
+        <span class="lr"><span>Четыре шага — и система</span></span>
+        <span class="lr"><span>полностью ваша</span></span>
+      </h2>
+    </div>
+    <div class="p-grid rv">
+      <div class="p-card fade"><span class="n">01</span><h3>Разбор</h3><p>Смотрим ваш магазин и считаем, где вы теряете деньги на рутине. План действий получаете в любом случае.</p><span class="t">30 минут · бесплатно</span></div>
+      <div class="p-card fade d1"><span class="n">02</span><h3>Разработка системы</h3><p>Проектирую решение под ваш ассортимент и процессы, собираю на ваших материалах.</p><span class="t">2–4 недели</span></div>
+      <div class="p-card fade d2"><span class="n">03</span><h3>Запуск</h3><p>Пилот на части ассортимента, затем разворачиваем на весь магазин.</p><span class="t">1–2 недели</span></div>
+      <div class="p-card fade d3"><span class="n">04</span><h3>Обучение и передача</h3><p>Два месяца учу вашу команду управлять системой. Затем передаю её полностью — она ваша.</p><span class="t">2 месяца</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ФИНАЛ -->
+<section class="final" id="contact">
+  <a class="slab" href="https://t.me/apilsen" target="_blank">
+    <div class="wrap rv">
+      <div class="mini fade"><img src="../schools/assets/ivan.jpg" alt="Иван Уманец"></div>
+      <h2>
+        <span class="lr"><span>Посчитаем, сколько рутина</span></span>
+        <span class="lr"><span>стоит вашему магазину?</span></span>
+      </h2>
+      <p class="fade d1">30 минут в Zoom. Разберём ваш магазин, посчитаю цифры и скажу честно, что стоит автоматизировать в первую очередь.</p>
+      <div class="fade d2"><span class="fakebtn">Написать мне в Telegram →</span></div>
+      <div class="sig fade d3 mono">@apilsen · отвечаю лично, обычно в течение часа</div>
+    </div>
+  </a>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 aipilsen · Иван Уманец — ИИ-системы для бизнеса</div>
+    <div>Telegram: <a href="https://t.me/apilsen" style="color:var(--acc)">@apilsen</a></div>
+  </div>
+</footer>
+
+<script>
+const cur=document.querySelector('.cursor'),ring=document.querySelector('.cursor-ring');
+if(matchMedia('(hover:hover)').matches){
+  let rx=0,ry=0,tx=0,ty=0;
+  addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;cur.style.left=tx+'px';cur.style.top=ty+'px'});
+  (function lerp(){rx+=(tx-rx)*.15;ry+=(ty-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(lerp)})();
+  document.querySelectorAll('a,button,.s-card,.shot,.tcard').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hot'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hot'));
+  });
+}
+const burger=document.querySelector('.burger'),navLinks=document.querySelector('.nav-links');
+burger.addEventListener('click',()=>navLinks.classList.toggle('mob'));
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('mob')));
+const mq=document.getElementById('mq');mq.innerHTML+=mq.innerHTML;
+let lastY=0;
+addEventListener('scroll',()=>{
+  const y=scrollY;
+  document.getElementById('hdr').style.transform=(y>400&&y>lastY)?'translateY(-100%)':'';
+  lastY=y;
+},{passive:true});
+
+const pendRv=[...document.querySelectorAll('.rv')];
+const pendFade=[...document.querySelectorAll('.fade')].filter(el=>!el.closest('.rv'));
+function inView(el,k){const r=el.getBoundingClientRect();return r.top<innerHeight*(k||.86)&&r.bottom>0}
+let busy=false;
+function sweep(){
+  if(busy)return;busy=true;setTimeout(()=>busy=false,70);
+  for(let i=pendRv.length-1;i>=0;i--)
+    if(inView(pendRv[i])){pendRv[i].classList.add('on');pendRv[i].querySelectorAll('.fade').forEach(f=>f.classList.add('on'));pendRv.splice(i,1)}
+  for(let i=pendFade.length-1;i>=0;i--)
+    if(inView(pendFade[i])){pendFade[i].classList.add('on');pendFade.splice(i,1)}
+}
+addEventListener('scroll',sweep,{passive:true});
+addEventListener('resize',sweep);
+setInterval(sweep,600);
+sweep();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#232228"/>
+      <stop offset="1" stop-color="#18171B"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#g)"/>
+  <circle cx="300" cy="360" r="120" fill="none" stroke="#FF5C33" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M220 380 q80 -110 160 0 q-30 14 -80 14 q-50 0 -80 -14z" fill="#FF5C33" fill-opacity=".5"/>
+  <text x="300" y="560" text-anchor="middle" font-family="monospace" font-size="22" letter-spacing="4" fill="#6E6C75">ФОТО КЕЙСА 04</text>
+  <text x="300" y="596" text-anchor="middle" font-family="monospace" font-size="16" letter-spacing="3" fill="#4A484F">ДОБАВЛЯЕТСЯ</text>
+</svg>
