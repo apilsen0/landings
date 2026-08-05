@@ -9,7 +9,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='56' r='40' fill='%23FF5A00'/%3E%3Cpath d='M14 44 C16 32 24 20 36 15 C34 20 36 24 40 25 C38 18 44 10 52 8 C50 13 52 18 57 19 C57 12 64 7 72 8 C69 12 70 17 74 19 C77 14 84 13 89 17 C84 19 83 24 85 28 C77 24 72 27 70 32 C66 27 58 26 54 31 C51 25 42 24 38 29 C36 24 28 24 24 29 C22 34 16 38 14 44 Z' fill='%231E7A34'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Иван Уманец — ИИ-разработка для онлайн-школ">
-<meta property="og:description" content="Автономные ИИ-системы, которые увеличивают доход владельца школы на сотни тысяч рублей в месяц. Кураторы, автомонтаж, контроль качества, сайты.">
+<meta property="og:description" content="Автономные ИИ-системы, которые увеличивают доход владельца школы на сотни тысяч рублей в месяц.">
 <meta property="og:image" content="https://apilsen0.github.io/landings/schools/assets/ivan.jpg">
 <meta property="og:url" content="https://apilsen0.github.io/landings/schools/">
 <script type="application/ld+json">
@@ -21,11 +21,12 @@
 <style>
 :root{
   --bg:#FFFFFF;
-  --ink:#111111;
-  --sub:#71716E;
+  --ink:#101010;
+  --sub:#6E6E6B;
   --orange:#FF5A00;
   --tint:#FFF3EC;
-  --line:#EDEDEA;
+  --panel:#FAFAF8;
+  --line:#ECECEA;
   --body:'Golos Text',-apple-system,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -35,24 +36,39 @@ body{
   font-size:17px;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;
 }
 ::selection{background:var(--orange);color:#fff}
-h1,h2{font-weight:900;line-height:1.08;letter-spacing:0}
-h3{font-weight:900;line-height:1.25;letter-spacing:0}
+h1,h2{font-weight:900;line-height:1.06;letter-spacing:0}
+h3{font-weight:900;line-height:1.25}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
 .label{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
 section{position:relative;scroll-margin-top:90px}
+:where(a,button,summary):focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:8px}
+
+/* прогресс чтения */
+#pbar{position:fixed;top:0;left:0;height:3px;background:var(--orange);width:0;z-index:200}
+
+/* курсор */
+#cur{
+  position:fixed;top:0;left:0;width:12px;height:12px;border-radius:50%;background:#fff;
+  mix-blend-mode:difference;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+  transition:width .25s,height .25s;
+}
+#cur.big{width:56px;height:56px}
+@media (hover:none){#cur{display:none}}
 
 /* реавилы */
-.fade{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.19,.7,.22,1),transform .9s cubic-bezier(.19,.7,.22,1)}
+.fade{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.19,.7,.22,1),transform .9s cubic-bezier(.19,.7,.22,1)}
 .fade.on{opacity:1;transform:none}
 .fade.d1{transition-delay:.12s}.fade.d2{transition-delay:.24s}.fade.d3{transition-delay:.36s}
+/* посимвольный/пословный реавил */
+.lw{display:inline-block;overflow:hidden;vertical-align:bottom}
+.ch{display:inline-block;transform:translateY(112%);transition:transform .8s cubic-bezier(.19,.7,.22,1);transition-delay:calc(var(--i)*.035s)}
+.wd{display:inline-block;transform:translateY(112%);transition:transform .85s cubic-bezier(.19,.7,.22,1);transition-delay:calc(var(--i)*.07s)}
+.on .ch,.on .wd{transform:none}
 
-/* волна-акцент: появляется только в нужных местах */
-.wave path{
-  fill:none;stroke:var(--orange);stroke-linecap:round;
-  stroke-dasharray:1;stroke-dashoffset:1;
-}
+/* волны */
+.wave path{fill:none;stroke:var(--orange);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
 .on .wave path{animation:draw 1.6s cubic-bezier(.5,0,.2,1) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
 
@@ -65,49 +81,72 @@ header{
 }
 .nav{display:flex;align-items:center;justify-content:space-between;gap:32px;height:76px}
 .logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:18px;margin-right:8px}
-.logo svg{width:34px;height:34px}
-.nav-links{display:flex;gap:36px;font-size:15px;font-weight:400;color:var(--sub)}
+.logo svg{width:34px;height:34px;transition:transform .5s cubic-bezier(.19,.7,.22,1)}
+.logo:hover svg{transform:rotate(18deg)}
+.nav-links{display:flex;gap:36px;font-size:15px;color:var(--sub)}
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:2px;background:var(--orange);transform:scaleX(0);transform-origin:right;transition:transform .3s}
 .nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
 .btn{
   display:inline-flex;align-items:center;gap:10px;padding:16px 32px;border-radius:100px;
   font-weight:600;font-size:15.5px;border:1px solid transparent;cursor:pointer;
-  transition:transform .2s,box-shadow .25s;white-space:nowrap;font-family:var(--body);
+  transition:transform .2s,box-shadow .25s;white-space:nowrap;font-family:var(--body);will-change:transform;
 }
 .btn-acc{background:var(--orange);color:#fff}
-.btn-acc:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(255,90,0,.3)}
+.btn-acc:hover{box-shadow:0 16px 40px rgba(255,90,0,.32)}
 .btn-line{border-color:#DBDBD8;color:var(--ink)}
-.btn-line:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-line:hover{border-color:var(--ink)}
 .btn-sm{padding:11px 24px;font-size:14px}
 .burger{display:none;background:none;border:0;color:var(--ink);font-size:26px;cursor:pointer}
 
 /* ХИРО */
-.hero{padding:210px 0 120px}
+.hero{padding:200px 0 110px}
 .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:80px;align-items:center}
 .hero .label{display:block;margin-bottom:34px}
-.hero h1{font-size:clamp(46px,6.6vw,96px);text-transform:uppercase;margin-bottom:34px}
+.hero h1{font-size:clamp(48px,7vw,104px);text-transform:uppercase;margin-bottom:34px}
+.hero h1 .dot{color:var(--orange)}
 .hero p.man{font-size:clamp(18px,1.6vw,21px);line-height:1.65;max-width:560px;margin-bottom:44px;color:var(--sub)}
-.hero p.man b{color:var(--ink);font-weight:600}
 .hero p.man .o{color:var(--orange);font-weight:600}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .hero-photo{position:relative;display:flex;justify-content:center}
 .photo-ring{
-  width:min(100%,400px);aspect-ratio:3/3.7;border-radius:220px 220px 26px 26px;
+  position:relative;width:min(100%,400px);aspect-ratio:3/3.7;border-radius:220px 220px 26px 26px;
   overflow:hidden;background:var(--tint);
+  clip-path:inset(0 0 100% 0 round 220px 220px 26px 26px);
+  transition:clip-path 1.2s cubic-bezier(.6,0,.2,1) .2s;
 }
-.photo-ring img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.on .photo-ring{clip-path:inset(0 0 0 0 round 220px 220px 26px 26px)}
+.photo-ring img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;transition:transform .6s}
+.photo-ring::after{
+  content:"";position:absolute;inset:0;background:var(--orange);mix-blend-mode:color;
+  opacity:0;transition:opacity .5s;
+}
+.photo-ring:hover::after{opacity:1}
+.photo-ring:hover img{transform:scale(1.04)}
 
-/* строка цифр под хиро */
+/* цифры */
 .hstats{padding:0 0 110px}
 .hstats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px;border-top:1px solid var(--line);padding-top:56px}
 .hstat .v{font-weight:900;font-size:clamp(26px,2.6vw,40px);color:var(--orange);white-space:nowrap;font-variant-numeric:tabular-nums}
 .hstat .l{font-size:14px;color:var(--sub);margin-top:8px;line-height:1.5;max-width:200px}
 .proof{display:flex;gap:14px 36px;flex-wrap:wrap;align-items:center;margin-top:56px;color:var(--sub);font-size:14px}
 .proof b{font-weight:600;color:var(--ink)}
-:where(a,button):focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:8px}
 
-/* секции — много воздуха */
-.sec{padding:150px 0}
-.sec-head{max-width:760px;margin-bottom:90px}
+/* кинетическая лента */
+.kmarq{overflow:hidden;padding:34px 0;transform:rotate(-2deg) scale(1.06)}
+.kmarq .track{display:flex;gap:64px;width:max-content;animation:mq 26s linear infinite}
+.kmarq span{
+  font-weight:900;font-size:clamp(44px,6.4vw,92px);text-transform:uppercase;white-space:nowrap;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px var(--ink);
+}
+.kmarq span.f{color:var(--orange);-webkit-text-stroke:0}
+@keyframes mq{to{transform:translateX(-50%)}}
+.kmarq.rev .track{animation-direction:reverse}
+
+/* секции */
+.sec{padding:160px 0}
+.sec-head{max-width:820px;margin-bottom:90px}
 .sec-head .label{display:block;margin-bottom:26px}
 .sec-h{font-size:clamp(30px,3.8vw,54px)}
 .sec-sub{color:var(--sub);font-size:18px;max-width:620px;margin-top:26px}
@@ -117,21 +156,22 @@ header{
 .about-cols p{color:var(--sub);font-size:17px}
 .about-cols p b{color:var(--ink);font-weight:600}
 .stats-band{display:grid;grid-template-columns:repeat(4,1fr);gap:48px;margin-top:110px}
-.bstat .v{font-weight:900;line-height:1;color:var(--ink);font-size:clamp(44px,4.6vw,76px);white-space:nowrap}
+.bstat .v{font-weight:900;line-height:1;color:var(--ink);font-size:clamp(44px,4.6vw,76px);white-space:nowrap;font-variant-numeric:tabular-nums}
 .bstat .v small{font-size:.36em;font-weight:900;color:var(--orange);vertical-align:top;margin-left:3px;line-height:1.6}
 .bstat .l{color:var(--sub);margin-top:14px;font-size:15px;max-width:220px;line-height:1.55}
 .traits{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:90px}
-.trait{padding:36px 38px;border-radius:22px;background:#FAFAF8}
+.trait{padding:36px 38px;border-radius:22px;background:var(--panel);transition:transform .25s,box-shadow .25s}
+.trait:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(16,16,16,.08)}
 .trait b{display:block;margin-bottom:8px;font-weight:900;font-size:17px}
 .trait p{color:var(--sub);font-size:15.5px}
 
 /* ШКОЛЫ */
 .schools{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .school{
-  border-radius:24px;padding:44px 44px 40px;background:#FAFAF8;
+  border-radius:24px;padding:44px 44px 40px;background:var(--panel);
   display:flex;flex-direction:column;gap:20px;transition:transform .25s,box-shadow .25s;
 }
-.school:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(17,17,17,.08)}
+.school:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(16,16,16,.08)}
 .school .lg{height:50px;display:flex;align-items:center}
 .school .lg img{max-height:46px;width:auto}
 .school .lg .word{font-weight:900;font-size:19px;line-height:1.15}
@@ -142,34 +182,50 @@ header{
 .team-line p{font-size:16px;max-width:900px}
 .team-line b{font-weight:900}
 
-/* интермедия с волной */
-.inter{padding:190px 0;text-align:center;overflow:hidden}
+/* интермедия */
+.inter{padding:180px 0;text-align:center;overflow:hidden}
 .inter h2{font-size:clamp(30px,4.6vw,64px);max-width:900px;margin:0 auto;line-height:1.18}
 .inter em{font-style:normal;color:var(--orange)}
 .inter .wave{display:block;width:min(420px,70%);margin:44px auto 0}
 
 /* ПРОДУКТЫ */
 .s-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.s-card{border-radius:24px;padding:46px 44px;background:#FAFAF8;transition:transform .25s,box-shadow .25s}
-.s-card:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(17,17,17,.08)}
-.s-card.hot{background:var(--orange);color:#fff}
-.s-card.hot .n{color:#fff;opacity:.85}
-.s-card.hot p{color:rgba(255,255,255,.85)}
-.s-card.hot .for{color:#fff}
-.s-card.hot .for::before{color:#fff}
+.s-card{
+  position:relative;border-radius:24px;padding:46px 44px;background:var(--panel);
+  overflow:hidden;transition:transform .25s;
+}
+.s-card::before{
+  content:"";position:absolute;inset:0;background:var(--orange);
+  transform:scaleY(0);transform-origin:bottom;transition:transform .38s cubic-bezier(.6,0,.2,1);
+}
+.s-card>*{position:relative;z-index:1;transition:color .3s}
+.s-card:hover{transform:translateY(-4px)}
+.s-card:hover::before{transform:scaleY(1)}
+.s-card:hover h3,.s-card:hover .for{color:#fff}
+.s-card:hover p{color:rgba(255,255,255,.85)}
+.s-card:hover .n{color:#fff;opacity:.85}
 .s-card .n{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:24px}
 .s-card h3{font-size:clamp(20px,1.9vw,25px);margin-bottom:14px}
 .s-card p{color:var(--sub);font-size:15.5px;max-width:480px}
 .s-card .for{margin-top:26px;font-size:15px;color:var(--ink);font-weight:600}
-.s-card .for::before{content:"→ ";color:var(--orange)}
+.s-card .for::before{content:"→ ";color:inherit}
 .s-card.wide{grid-column:span 2}
+/* флагман с живым чатом */
+.s-card.hot{background:var(--orange);display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.s-card.hot::before{display:none}
+.s-card.hot .n,.s-card.hot h3,.s-card.hot .for{color:#fff}
+.s-card.hot p{color:rgba(255,255,255,.88)}
+.chat{background:rgba(255,255,255,.14);border-radius:18px;padding:20px;min-height:190px;display:flex;flex-direction:column;gap:10px;justify-content:flex-end}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.45;color:var(--ink)}
+.msg.stu{align-self:flex-end;background:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:var(--tint);border-bottom-left-radius:4px}
+.msg .who{display:block;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--orange);margin-bottom:3px}
 .s-note{
-  margin-top:56px;padding:48px 52px;border-radius:26px;background:var(--orange);color:#fff;
+  margin-top:56px;padding:48px 52px;border-radius:26px;background:var(--panel);
   display:flex;gap:28px;align-items:center;flex-wrap:wrap;justify-content:space-between;
 }
 .s-note p{font-size:17px;max-width:680px}
 .s-note b{font-weight:900}
-.s-note .btn{background:#fff;color:var(--orange)}
 
 /* ДЕНЬГИ */
 .leak{display:grid;grid-template-columns:1fr 1fr auto;gap:40px;align-items:center;padding:44px 0;border-top:1px solid var(--line)}
@@ -178,7 +234,7 @@ header{
 .leak p{color:var(--sub);font-size:15px;max-width:460px}
 .leak .money{font-weight:900;font-size:clamp(20px,2vw,30px);color:var(--orange);text-align:right;white-space:nowrap}
 .leak .money small{display:block;font-weight:400;font-size:13px;color:var(--sub);margin-top:8px;white-space:normal;max-width:230px;margin-left:auto;line-height:1.5}
-.mystory{margin-top:110px;display:grid;grid-template-columns:.85fr 1.15fr;gap:0;border-radius:28px;overflow:hidden;background:#FAFAF8}
+.mystory{margin-top:110px;display:grid;grid-template-columns:.85fr 1.15fr;border-radius:28px;overflow:hidden;background:var(--panel)}
 .mystory .ph{min-height:420px;background:url('assets/ivan.jpg') center 20%/cover no-repeat}
 .mystory .tx{padding:clamp(40px,4.5vw,72px)}
 .mystory h3{font-size:clamp(24px,2.6vw,36px);margin-bottom:24px}
@@ -192,11 +248,13 @@ header{
 .ab.b .t{color:var(--orange)}
 .ab.b p{color:var(--ink)}
 
-/* КЕЙСЫ */
+/* КЕЙСЫ — липкий стек */
 .case{
-  margin-bottom:32px;border-radius:28px;background:#FAFAF8;
-  padding:clamp(40px,4.5vw,68px);
+  position:sticky;top:100px;margin-bottom:28px;border-radius:28px;background:#fff;
+  border:1px solid var(--line);padding:clamp(40px,4.5vw,68px);
   display:grid;grid-template-columns:1.2fr .8fr;gap:64px;align-items:center;
+  box-shadow:0 28px 70px rgba(16,16,16,.07);
+  transition:transform .25s linear,filter .25s linear;
 }
 .case .k-tag{color:var(--sub);margin-bottom:28px;font-size:14px}
 .case .k-tag b{color:var(--orange);font-weight:600}
@@ -207,14 +265,12 @@ header{
 .case p{color:var(--sub);font-size:15.5px;max-width:560px;margin-bottom:14px}
 .case p b{color:var(--ink)}
 .knum{text-align:right}
-.knum .big{font-weight:900;font-size:clamp(44px,5vw,84px);line-height:1;color:var(--orange)}
+.knum .big{font-weight:900;font-size:clamp(44px,5vw,84px);line-height:1;color:var(--orange);font-variant-numeric:tabular-nums}
 .knum .big small{font-size:.36em;font-weight:900}
 .knum .cap{color:var(--sub);font-size:15px;margin-top:16px}
 .knum .sub{margin-top:44px}
 .knum .sub .v{font-weight:900;font-size:clamp(26px,2.8vw,42px);color:var(--ink)}
-
-/* CTA после кейсов */
-.midcta{text-align:center;padding:20px 0 0}
+.midcta{text-align:center;padding:40px 0 0}
 .midcta p{color:var(--sub);font-size:16px;margin-bottom:26px}
 
 /* FAQ */
@@ -228,7 +284,8 @@ header{
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";color:var(--orange);font-size:26px;font-weight:400;transition:transform .25s;flex:none}
 .faq details[open] summary::after{transform:rotate(45deg)}
-.faq .a{color:var(--sub);font-size:16px;padding:0 40px 26px 0;max-width:640px}
+.faq .a{color:var(--sub);font-size:16px;padding:0 40px 26px 0;max-width:640px;animation:faqin .35s cubic-bezier(.19,.7,.22,1)}
+@keyframes faqin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
 /* ПРОЦЕСС */
 .p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:56px}
@@ -237,21 +294,20 @@ header{
 .p-col p{color:var(--sub);font-size:14.5px}
 .p-col .t{margin-top:16px;font-size:13px;font-weight:600;color:var(--ink)}
 
-/* ФИНАЛ */
-.final{padding:0}
-.final a.slab{display:block;padding:190px 0;text-align:center;transition:background .3s}
-.final a.slab:hover{background:#FFFBF8}
-.final h2{font-size:clamp(34px,5vw,76px);margin-bottom:30px;line-height:1.1}
-.final h2 em{font-style:normal;color:var(--orange)}
-.final p{color:var(--sub);font-size:18px;max-width:560px;margin:0 auto 52px}
+/* ФИНАЛ — оранжевый захват */
+.final{background:var(--orange);color:#fff}
+.final a.slab{display:block;padding:190px 0;text-align:center}
+.final .wave{display:block;width:min(360px,60%);margin:0 auto 54px}
+.final .wave path{stroke:#fff}
+.final h2{font-size:clamp(36px,5.4vw,84px);margin-bottom:30px;line-height:1.08;text-transform:uppercase}
+.final p{color:rgba(255,255,255,.85);font-size:18px;max-width:560px;margin:0 auto 52px}
 .final .fakebtn{
   display:inline-flex;align-items:center;gap:10px;padding:21px 48px;border-radius:100px;
-  font-weight:600;font-size:17px;background:var(--orange);color:#fff;
-  box-shadow:0 20px 50px rgba(255,90,0,.28);transition:transform .2s;
+  font-weight:600;font-size:17px;background:#fff;color:var(--orange);
+  box-shadow:0 24px 60px rgba(0,0,0,.18);transition:transform .2s;will-change:transform;
 }
-.final a.slab:hover .fakebtn{transform:translateY(-3px)}
-.final .sig{margin-top:34px;color:var(--sub);font-size:14px}
-.final .wave{display:block;width:min(360px,60%);margin:0 auto 54px}
+.final a.slab:hover .fakebtn{transform:translateY(-3px) scale(1.03)}
+.final .sig{margin-top:34px;color:rgba(255,255,255,.75);font-size:14px}
 footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(--sub)}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .foot a{color:var(--orange);font-weight:600}
@@ -267,9 +323,9 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   .schools{grid-template-columns:1fr}
   .s-grid{grid-template-columns:1fr}
   .s-card.wide{grid-column:span 1}
-  .case{grid-template-columns:1fr;gap:40px}
+  .s-card.hot{grid-template-columns:1fr}
+  .case{grid-template-columns:1fr;gap:40px;position:relative;top:0}
   .knum{text-align:left}
-  .knum .money{text-align:left}
   .leak{grid-template-columns:1fr;gap:14px}
   .leak .money{text-align:left}
   .leak .money small{margin-left:0;max-width:none}
@@ -293,11 +349,16 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
   .fade{opacity:1;transform:none}
-  .wave path{stroke-dashoffset:0}
+  .ch,.wd{transform:none}
+  .photo-ring{clip-path:none}
+  .kmarq .track{animation:none}
 }
 </style>
 </head>
 <body>
+
+<div id="pbar"></div>
+<div id="cur" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -305,7 +366,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
       <circle cx="50" cy="56" r="40" fill="#FF5A00"/>
       <path d="M14 44 C16 32 24 20 36 15 C34 20 36 24 40 25 C38 18 44 10 52 8 C50 13 52 18 57 19 C57 12 64 7 72 8 C69 12 70 17 74 19 C77 14 84 13 89 17 C84 19 83 24 85 28 C77 24 72 27 70 32 C66 27 58 26 54 31 C51 25 42 24 38 29 C36 24 28 24 24 29 C22 34 16 38 14 44 Z" fill="#1E7A34"/>
     </g>
-    <path id="wave-line" d="M4 22 C40 4 76 40 112 22 C148 4 184 40 220 22 C256 4 292 40 328 22 C364 4 396 34 416 24" />
+    <path id="wave-line" d="M4 22 C40 4 76 40 112 22 C148 4 184 40 220 22 C256 4 292 40 328 22 C364 4 396 34 416 24"/>
   </defs>
 </svg>
 
@@ -319,7 +380,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
       <a href="#press">Деньги</a>
       <a href="#cases">Кейсы</a>
     </nav>
-    <a class="btn btn-acc btn-sm" href="https://t.me/apilsen" target="_blank">Написать в Telegram</a>
+    <a class="btn btn-acc btn-sm mag" href="https://t.me/apilsen" target="_blank">Написать в Telegram</a>
     <button class="burger" aria-label="Меню">☰</button>
   </div>
 </header>
@@ -329,14 +390,14 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   <div class="wrap hero-grid">
     <div class="rv">
       <span class="label fade">aipilsen · ИИ-разработка для онлайн-школ</span>
-      <h1 class="fade d1">Иван<br>Уманец<span style="color:var(--orange)">.</span></h1>
+      <h1 data-split="chars">Иван<br>Уманец<span class="dot">.</span></h1>
       <p class="man fade d2">Совладелец онлайн-школы «Академия Наталии Эдис» и ИИ-разработчик. Строю автономные системы, которые <span class="o">увеличивают доход владельца школы</span> на сотни тысяч рублей в месяц.</p>
       <div class="hero-cta fade d3">
-        <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Обсудить вашу школу</a>
-        <a class="btn btn-line" href="#serv">Что я строю ↓</a>
+        <a class="btn btn-acc mag" href="https://t.me/apilsen" target="_blank">Обсудить вашу школу</a>
+        <a class="btn btn-line mag" href="#serv">Что я строю ↓</a>
       </div>
     </div>
-    <div class="hero-photo rv fade d1">
+    <div class="hero-photo rv">
       <div class="photo-ring">
         <img src="assets/ivan.jpg" alt="Иван Уманец" width="700" height="933" fetchpriority="high">
       </div>
@@ -354,19 +415,23 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   </div>
   <div class="wrap proof rv fade">
     <span>Мои системы работают в:</span>
-    <b>Академия Наталии Эдис</b>
-    <b>LEEKE</b>
-    <b>Московское долголетие</b>
-    <b>Ассоциация актёров-пенсионеров</b>
+    <b>Академия Наталии Эдис</b><b>LEEKE</b><b>Московское долголетие</b><b>Ассоциация актёров-пенсионеров</b>
   </div>
 </section>
+
+<!-- кинетическая лента -->
+<div class="kmarq" aria-hidden="true">
+  <div class="track" id="mq1">
+    <span>ИИ-кураторы</span><span class="f">автомонтаж</span><span>контроль педагогов</span><span class="f">сайты</span><span>Zoom-агент</span><span class="f">обзвон</span>
+  </div>
+</div>
 
 <!-- КТО Я -->
 <section id="about" class="sec">
   <div class="wrap">
     <div class="sec-head rv">
       <span class="label fade">Кто я</span>
-      <h2 class="sec-h fade d1">Владелец школы, который сам строит свои ИИ-системы</h2>
+      <h2 class="sec-h" data-split="words">Владелец школы, который сам строит свои ИИ-системы</h2>
     </div>
     <div class="about-cols rv">
       <p class="fade"><b>Пять лет я строю «Академию Наталии Эдис» как партнёр проекта.</b> Продажи, кураторы, техподдержка, продакшн — я знаю каждую роль в онлайн-школе, потому что сам выстраивал каждый из этих процессов. Сегодня рутину Академии легко тянут ИИ-системы моей разработки, а доход владельца вырос на сотни тысяч рублей в месяц.</p>
@@ -390,11 +455,11 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   <div class="wrap">
     <div class="sec-head rv">
       <span class="label fade">Где это работает</span>
-      <h2 class="sec-h fade d1">Школы, в которых живут мои системы</h2>
+      <h2 class="sec-h" data-split="words">Школы, в которых живут мои системы</h2>
     </div>
     <div class="schools rv">
       <div class="school fade">
-        <div class="lg"><img src="assets/edis-logo.png" alt="Академия Наталии Эдис"></div>
+        <div class="lg"><img src="assets/edis-logo.png" alt="Академия Наталии Эдис" loading="lazy"></div>
         <div>
           <h3>Академия Наталии Эдис</h3>
           <p>Искусство, красота и творчество в любом возрасте. 30 000+ учеников за 6 лет, 7 000 учатся сейчас.</p>
@@ -433,8 +498,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
 <!-- интермедия -->
 <section class="inter">
   <div class="wrap rv">
-    <h2 class="fade">Рутина — самый дорогой сотрудник.<br><em>Отдайте её системам.</em></h2>
-    <svg class="wave" viewBox="0 0 420 44" aria-hidden="true"><path pathLength="1" stroke-width="7"/></svg>
+    <h2 data-split="words">Рутина — самый дорогой сотрудник. <em>Отдайте её системам.</em></h2>
+    <svg class="wave" viewBox="0 0 420 44" aria-hidden="true"><path stroke-width="7"/></svg>
   </div>
 </section>
 
@@ -443,31 +508,46 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   <div class="wrap">
     <div class="sec-head rv">
       <span class="label fade">Продукты</span>
-      <h2 class="sec-h fade d1">Что я строю школам</h2>
+      <h2 class="sec-h" data-split="words">Что я строю школам</h2>
       <p class="sec-sub fade d2">Каждая система прошла длительную апробацию в реальных школах и зарекомендовала себя у команд и учеников.</p>
     </div>
     <div class="s-grid rv">
-      <div class="s-card hot fade"><span class="n">01 · Флагман</span><h3>ИИ-куратор</h3><p>Сопровождает учеников в чатах круглосуточно: расписание, записи, домашние задания, оплаты. Сложные случаи передаёт живой команде.</p><div class="for">Экономия на поддержке до 500 000 ₽ в месяц</div></div>
-      <div class="s-card fade d1"><span class="n">02</span><h3>Автомонтаж занятий</h3><p>Система сама забирает записи из Zoom, монтирует, оформляет и выкладывает на платформу. До 100 видео в день.</p><div class="for">Оптимизация бюджета техотдела до 250 000 ₽ в месяц</div></div>
-      <div class="s-card fade d2"><span class="n">03</span><h3>ИИ-методист</h3><p>Проверяет запись каждого занятия по чек-листу качества и складывает результаты в таблицу. Вы видите работу каждого педагога.</p><div class="for">Растёт вовлечённость и процент доучивания</div></div>
-      <div class="s-card fade d3"><span class="n">04</span><h3>Zoom-агент</h3><p>Работает прямо на занятиях: отмечает посещаемость и активность, передаёт данные в личный кабинет ученика.</p><div class="for">Администраторы занимаются продажами вместо таблиц</div></div>
-      <div class="s-card fade d2"><span class="n">05</span><h3>ИИ-обзвон</h3><p>Голосовой агент прозванивает базу: приглашает на новые потоки, возвращает «спящих» учеников. Результат сверяется с отчётностью школы.</p><div class="for">Увеличение продаж на существующей базе</div></div>
-      <div class="s-card fade d3"><span class="n">06</span><h3>Создание сайтов</h3><p>Сайт школы с ИИ-подбором: агент определяет психотип и свободное время человека и предлагает подходящее занятие.</p><div class="for">Рост оборота школы за счёт сайта</div></div>
-      <div class="s-card wide fade"><span class="n">07 · Всё вместе</span><h3>Экосистема школы</h3><p>Чаты, сайт, личный кабинет и Zoom связаны в одну систему: агент знает, где находится ученик, показывает ему статистику посещаемости и ближайшие занятия. Команда постоянно на связи с учениками.</p><div class="for">Школа работает как единый организм — и приносит больше</div></div>
+      <div class="s-card hot wide fade">
+        <div>
+          <span class="n">01 · Флагман</span>
+          <h3>ИИ-куратор</h3>
+          <p>Сопровождает учеников в чатах круглосуточно: расписание, записи, домашние задания, оплаты. Сложные случаи передаёт живой команде.</p>
+          <div class="for">Экономия на поддержке до 500 000 ₽ в месяц</div>
+        </div>
+        <div class="chat" id="chat" aria-hidden="true"></div>
+      </div>
+      <div class="s-card fade"><span class="n">02</span><h3>Автомонтаж занятий</h3><p>Система сама забирает записи из Zoom, монтирует, оформляет и выкладывает на платформу. До 100 видео в день.</p><div class="for">Оптимизация бюджета техотдела до 250 000 ₽ в месяц</div></div>
+      <div class="s-card fade d1"><span class="n">03</span><h3>ИИ-методист</h3><p>Проверяет запись каждого занятия по чек-листу качества. Вы видите работу каждого педагога.</p><div class="for">Растёт вовлечённость и процент доучивания</div></div>
+      <div class="s-card fade"><span class="n">04</span><h3>Zoom-агент</h3><p>Работает прямо на занятиях: отмечает посещаемость и активность, передаёт данные в личный кабинет ученика.</p><div class="for">Администраторы занимаются продажами вместо таблиц</div></div>
+      <div class="s-card fade d1"><span class="n">05</span><h3>ИИ-обзвон</h3><p>Голосовой агент прозванивает базу: приглашает на новые потоки, возвращает «спящих» учеников.</p><div class="for">Увеличение продаж на существующей базе</div></div>
+      <div class="s-card fade"><span class="n">06</span><h3>Создание сайтов</h3><p>Сайт школы с ИИ-подбором: агент определяет психотип и свободное время человека и предлагает занятие.</p><div class="for">Рост оборота школы за счёт сайта</div></div>
+      <div class="s-card fade d1"><span class="n">07 · Всё вместе</span><h3>Экосистема школы</h3><p>Чаты, сайт, личный кабинет и Zoom связаны в одну систему. Команда постоянно на связи с учениками.</p><div class="for">Школа работает как единый организм — и приносит больше</div></div>
     </div>
     <div class="s-note rv fade">
       <p><b>Все системы — автономные.</b> После запуска я два месяца обучаю вашу команду, затем передаю систему полностью. Вы платите один раз — работает она годами.</p>
-      <a class="btn" href="https://t.me/apilsen" target="_blank">Обсудить проект</a>
+      <a class="btn btn-acc mag" href="https://t.me/apilsen" target="_blank">Обсудить проект</a>
     </div>
   </div>
 </section>
 
+<!-- лента 2 -->
+<div class="kmarq rev" aria-hidden="true">
+  <div class="track" id="mq2">
+    <span class="f">+500 000 ₽</span><span>к доходу владельца</span><span class="f">×2</span><span>скорость команды</span><span class="f">1 000</span><span>уроков в месяц</span>
+  </div>
+</div>
+
 <!-- ДЕНЬГИ -->
-<section id="press" class="sec" style="padding-top:0">
+<section id="press" class="sec">
   <div class="wrap">
     <div class="sec-head rv">
       <span class="label fade">Посчитаем честно</span>
-      <h2 class="sec-h fade d1">Сколько денег можно вернуть вашей школе?</h2>
+      <h2 class="sec-h" data-split="words">Сколько денег можно вернуть вашей школе?</h2>
       <p class="sec-sub fade d2">Эти задачи в большинстве школ делают люди на зарплате. Каждую можно делегировать системе — и высвободить деньги для себя.</p>
     </div>
     <div class="rv">
@@ -485,7 +565,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
           <div class="ab"><div class="t">Академия до</div><p>15 кураторов в штате · около 700 000 ₽ в месяц на поддержку · посещаемость в ручных таблицах</p></div>
           <div class="ab b"><div class="t">Академия сейчас</div><p>Доход владельца вырос на 500 000 ₽ в месяц · 4 человека легко управляют системами · ответы ученикам за секунды</p></div>
         </div>
-        <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Посчитать мою школу</a>
+        <a class="btn btn-acc mag" href="https://t.me/apilsen" target="_blank">Посчитать мою школу</a>
       </div>
     </div>
   </div>
@@ -496,15 +576,15 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   <div class="wrap">
     <div class="sec-head rv">
       <span class="label fade">Кейсы</span>
-      <h2 class="sec-h fade d1">Истории школ, где это уже работает</h2>
+      <h2 class="sec-h" data-split="words">Истории школ, где это уже работает</h2>
     </div>
-    <div class="case rv fade">
+    <div class="case">
       <div>
         <div class="k-tag">Кейс 01 · <b>Академия Наталии Эдис</b> · <a href="https://edisacademy.ru/" target="_blank" rel="noopener">edisacademy.ru</a></div>
         <div class="hook">Поддержка растёт вместе с каждым потоком — и её рост кажется нормой. <em>А это резерв дохода владельца.</em></div>
         <h3>ИИ-куратор и Zoom-агент: рост дохода собственника</h3>
         <p><b>Было:</b> 7 000 учеников сопровождали 15 кураторов — около 700 000 ₽ в месяц фонда оплаты труда.</p>
-        <p><b>Стало:</b> в чатах работает ИИ-куратор, на занятиях — Zoom-агент. Команда из 4 человек легко управляет системой, ученики получают ответы за секунды. Оптимизация — 500 000 ₽ каждый месяц.</p>
+        <p><b>Стало:</b> в чатах работает ИИ-куратор, на занятиях — Zoom-агент. Команда из 4 человек легко управляет системой. Оптимизация — 500 000 ₽ каждый месяц.</p>
       </div>
       <div class="knum">
         <div class="big">+500<small> тыс ₽/мес</small></div>
@@ -512,13 +592,13 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
         <div class="sub"><div class="v">за секунды</div><div class="cap">ученики получают ответы, круглосуточно</div></div>
       </div>
     </div>
-    <div class="case rv fade">
+    <div class="case">
       <div>
         <div class="k-tag">Кейс 02 · <b>школа Leeke</b> · <a href="https://leekegr.online/" target="_blank" rel="noopener">leekegr.online</a></div>
         <div class="hook">Записи занятий — это деньги школы: ученик, который может пересмотреть урок, <em>доходит до конца курса и покупает следующий</em>.</div>
         <h3>Автомонтаж: оптимизация целого техотдела</h3>
         <p><b>Контекст:</b> Leeke готовит к экзаменам по греческому в мини-группах — это около 1 000 занятий в месяц.</p>
-        <p><b>Стало:</b> весь конвейер делает ИИ-система: забирает из Zoom, монтирует, оформляет, публикует. Ученики получают уроки в день занятия, проект окупился быстрее чем за месяц.</p>
+        <p><b>Стало:</b> весь конвейер делает ИИ-система. Ученики получают уроки в день занятия, проект окупился быстрее чем за месяц.</p>
       </div>
       <div class="knum">
         <div class="big">250<small> тыс ₽/мес</small></div>
@@ -526,13 +606,13 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
         <div class="sub"><div class="v">1 000</div><div class="cap">уроков в месяц публикуются в день занятия</div></div>
       </div>
     </div>
-    <div class="case rv fade">
+    <div class="case">
       <div>
         <div class="k-tag">Кейс 03 · <b>школа Leeke</b> · <a href="https://leekegr.online/" target="_blank" rel="noopener">leekegr.online</a></div>
         <div class="hook">Когда вы видите каждый свой урок, качество перестаёт держаться на честном слове — <em>и ученики доучиваются до результата</em>.</div>
         <h3>ИИ-методист: контроль педагога на каждом занятии</h3>
-        <p><b>Контекст:</b> в Leeke 82% учеников сдают экзамен — результат держится на том, что каждый урок идёт по методике.</p>
-        <p><b>Стало:</b> программа сама проверяет запись каждого занятия по чек-листу и вносит результаты в таблицу. Команда работает вдвое быстрее, растёт вовлечённость и процент доучивания.</p>
+        <p><b>Контекст:</b> в Leeke 82% учеников сдают экзамен — каждый урок должен идти по методике.</p>
+        <p><b>Стало:</b> программа сама проверяет запись каждого занятия по чек-листу. Команда работает вдвое быстрее, растёт вовлечённость и процент доучивания.</p>
       </div>
       <div class="knum">
         <div class="big">×2</div>
@@ -540,7 +620,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
         <div class="sub"><div class="v">100%</div><div class="cap">занятий проходят проверку качества</div></div>
       </div>
     </div>
-    <div class="case rv fade">
+    <div class="case">
       <div>
         <div class="k-tag">Кейс 04 · <b>Академия Наталии Эдис</b> · <a href="https://edisacademy.ru/" target="_blank" rel="noopener">edisacademy.ru</a></div>
         <div class="hook">Сайт школы может продавать сам: <em>ИИ подбирает человеку занятие</em> — по психотипу и свободному времени.</div>
@@ -554,12 +634,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
         <div class="sub"><div class="v">7 000</div><div class="cap">учеников видят свою статистику в кабинете</div></div>
       </div>
     </div>
-    <div class="case rv fade">
+    <div class="case">
       <div>
         <div class="k-tag">Кейс 05 · <b>продукт aipilsen</b> · работает в Академии и Ассоциации</div>
         <div class="hook">Самые лёгкие продажи — людям, которые уже вас знают. <em>Ваша база — это готовые деньги.</em></div>
         <h3>Автообзвон: продажи с существующей базы</h3>
-        <p><b>Как работает:</b> вы пишете текст и загружаете список номеров. Программа звонит, проговаривает текст голосом и собирает результаты в отчёт.</p>
+        <p><b>Как работает:</b> вы пишете текст и загружаете список номеров. Программа звонит и собирает результаты в отчёт.</p>
         <p><b>Главное:</b> результат сверяется с отчётностью школы — вы видите, сколько людей реально пришло после звонков.</p>
       </div>
       <div class="knum">
@@ -570,7 +650,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
     </div>
     <div class="midcta rv fade">
       <p>Хотите такую же историю для своей школы?</p>
-      <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Обсудить мою школу</a>
+      <a class="btn btn-acc mag" href="https://t.me/apilsen" target="_blank">Обсудить мою школу</a>
     </div>
   </div>
 </section>
@@ -580,16 +660,16 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   <div class="wrap">
     <div class="sec-head rv">
       <span class="label fade">Вопросы</span>
-      <h2 class="sec-h fade d1">То, что спрашивают до покупки</h2>
+      <h2 class="sec-h" data-split="words">То, что спрашивают до покупки</h2>
     </div>
     <div class="faq rv fade">
       <details>
         <summary>ИИ заменит моих кураторов?</summary>
-        <div class="a">Он заберёт у них рутину: 80% вопросов учеников повторяются — расписание, записи, «где ссылка». Их закрывает система за секунды, а живая команда занимается тем, что действительно требует человека. Школы растят потоки, не расширяя штат.</div>
+        <div class="a">Он заберёт у них рутину: 80% вопросов учеников повторяются — расписание, записи, «где ссылка». Их закрывает система за секунды, а живая команда занимается тем, что действительно требует человека.</div>
       </details>
       <details>
         <summary>Сколько времени займёт внедрение?</summary>
-        <div class="a">Работающий пилот на одном потоке — за 2–4 недели. Система обучается на материалах вашей школы, и первые две недели мы вместе доводим ответы до вашего тона.</div>
+        <div class="a">Работающий пилот на одном потоке — за 2–4 недели. Система обучается на материалах вашей школы, первые две недели мы вместе доводим ответы до вашего тона.</div>
       </details>
       <details>
         <summary>Что нужно от моей команды?</summary>
@@ -597,11 +677,11 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
       </details>
       <details>
         <summary>Система останется у нас?</summary>
-        <div class="a">Да, полностью. Два месяца я обучаю вашу команду, затем передаю систему целиком. Вы платите один раз — работает она годами, независимо от меня.</div>
+        <div class="a">Да, полностью. Два месяца я обучаю вашу команду, затем передаю систему целиком. Вы платите один раз — работает она годами.</div>
       </details>
       <details>
         <summary>С какими платформами это работает?</summary>
-        <div class="a">Telegram, VK, сайт, GetCourse и большинство платформ для онлайн-школ. Zoom-агент работает прямо на занятиях. Если платформа самописная — посмотрю на разборе, обычно интеграция возможна.</div>
+        <div class="a">Telegram, VK, сайт, GetCourse и большинство платформ для онлайн-школ. Zoom-агент работает прямо на занятиях.</div>
       </details>
     </div>
   </div>
@@ -612,7 +692,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   <div class="wrap">
     <div class="sec-head rv">
       <span class="label fade">Как работаем</span>
-      <h2 class="sec-h fade d1">Четыре шага — и система полностью ваша</h2>
+      <h2 class="sec-h" data-split="words">Четыре шага — и система полностью ваша</h2>
     </div>
     <div class="p-grid rv">
       <div class="p-col fade"><span class="n">01</span><h3>Разбор</h3><p>Рассматриваем ваши процессы и считаем, сколько денег вернут вам ИИ-инструменты.</p><div class="t">30 минут · бесплатно</div></div>
@@ -627,8 +707,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
 <section class="final" id="contact">
   <a class="slab" href="https://t.me/apilsen" target="_blank">
     <div class="wrap rv">
-      <svg class="wave" viewBox="0 0 420 44" aria-hidden="true"><path pathLength="1" stroke-width="7"/></svg>
-      <h2 class="fade">Посчитаем, как вырастет<br><em>ваш личный доход?</em></h2>
+      <svg class="wave" viewBox="0 0 420 44" aria-hidden="true"><path stroke-width="7"/></svg>
+      <h2 data-split="words">Посчитаем, как вырастет ваш личный доход?</h2>
       <p class="fade d1">30 минут в Zoom. Разберём процессы вашей школы, и я посчитаю, сколько денег вернут вам ИИ-инструменты.</p>
       <div class="fade d2"><span class="fakebtn">Написать мне в Telegram →</span></div>
       <div class="sig fade d3">@apilsen · отвечаю лично, обычно в течение часа</div>
@@ -644,12 +724,98 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
 </footer>
 
 <script>
-// мобильное меню
+// ── разбиение заголовков на буквы/слова
+document.querySelectorAll('[data-split]').forEach(el=>{
+  const mode=el.dataset.split;
+  const parts=[];
+  el.childNodes.forEach(node=>{
+    if(node.nodeType===3){
+      const words=node.textContent.split(/(\s+)/);
+      words.forEach(w=>{
+        if(/^\s+$/.test(w)){parts.push(document.createTextNode(' '));return}
+        if(!w)return;
+        if(mode==='chars'){
+          const lw=document.createElement('span');lw.className='lw';
+          [...w].forEach(c=>{const s=document.createElement('span');s.className='ch';s.textContent=c;lw.appendChild(s)});
+          parts.push(lw);
+        }else{
+          const lw=document.createElement('span');lw.className='lw';
+          const s=document.createElement('span');s.className='wd';s.textContent=w;lw.appendChild(s);
+          parts.push(lw);
+        }
+      });
+    }else if(node.nodeName==='BR'){parts.push(document.createElement('br'))}
+    else{
+      const lw=document.createElement('span');lw.className='lw';
+      const s=document.createElement('span');s.className=mode==='chars'?'ch':'wd';
+      s.appendChild(node.cloneNode(true));lw.appendChild(s);parts.push(lw);
+    }
+  });
+  el.innerHTML='';parts.forEach(p=>el.appendChild(p));
+  let i=0;el.querySelectorAll('.ch,.wd').forEach(s=>s.style.setProperty('--i',i++));
+});
+
+// ── курсор
+const cur=document.getElementById('cur');
+if(matchMedia('(hover:hover)').matches){
+  addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+  document.querySelectorAll('a,button,summary').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+    el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+  });
+}
+
+// ── магнитные кнопки
+if(matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.mag').forEach(b=>{
+    b.addEventListener('mousemove',e=>{
+      const r=b.getBoundingClientRect();
+      const x=(e.clientX-r.left-r.width/2)*.22,y=(e.clientY-r.top-r.height/2)*.32;
+      b.style.transform=`translate(${x}px,${y}px)`;
+    });
+    b.addEventListener('mouseleave',()=>b.style.transform='');
+  });
+}
+
+// ── мобильное меню
 const burger=document.querySelector('.burger'),navLinks=document.querySelector('.nav-links');
 burger.addEventListener('click',()=>navLinks.classList.toggle('mob'));
 navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('mob')));
 
-// шапка
+// ── ленты
+['mq1','mq2'].forEach(id=>{const t=document.getElementById(id);t.innerHTML+=t.innerHTML});
+
+// ── волны
+document.querySelectorAll('.wave path').forEach(p=>{
+  p.setAttribute('d',document.getElementById('wave-line').getAttribute('d'));
+  p.setAttribute('pathLength','1');
+});
+
+// ── живой чат во флагмане
+const chatBox=document.getElementById('chat');
+const dialog=[
+  ['stu','Ученица · 22:47','Не могу найти запись урока по акварели 😔'],
+  ['bot','ИИ-куратор · 22:47','Нашла! Запись уже в вашем кабинете, модуль 4. Отправила ссылку 🎨'],
+  ['stu','Ученица · 22:48','Спасибо! А когда следующий эфир?'],
+  ['bot','ИИ-куратор · 22:48','В четверг в 19:00. Поставила вам напоминание ⏰']
+];
+let ci=0;
+function chatStep(){
+  if(!chatBox)return;
+  if(ci>=dialog.length){setTimeout(()=>{chatBox.innerHTML='';ci=0;chatStep()},5000);return}
+  const [cls,who,text]=dialog[ci];
+  const m=document.createElement('div');m.className='msg '+cls;
+  m.innerHTML='<span class="who">'+who+'</span><span class="txt"></span>';
+  chatBox.appendChild(m);
+  const txt=m.querySelector('.txt');let p=0;
+  const tv=setInterval(()=>{
+    txt.textContent=text.slice(0,++p);
+    if(p>=text.length){clearInterval(tv);ci++;setTimeout(chatStep,900)}
+  },28);
+}
+let chatStarted=false;
+
+// ── шапка + прогресс
 let lastY=0;
 addEventListener('scroll',()=>{
   const y=scrollY;
@@ -657,13 +823,7 @@ addEventListener('scroll',()=>{
   lastY=y;
 },{passive:true});
 
-// волны: используем общий контур
-document.querySelectorAll('.wave path').forEach(p=>{
-  p.setAttribute('d',document.getElementById('wave-line').getAttribute('d'));
-  p.setAttribute('pathLength','1');
-});
-
-// счётчики
+// ── счётчики
 function runCount(el){
   const end=+el.dataset.count,pad=+(el.dataset.pad||0),t0=performance.now();
   const iv=setInterval(()=>{
@@ -674,10 +834,11 @@ function runCount(el){
   },16);
 }
 
-// проявитель
+// ── проявитель + стек кейсов + прогресс-бар
 const pendRv=[...document.querySelectorAll('.rv')];
 const pendFade=[...document.querySelectorAll('.fade')].filter(el=>!el.closest('.rv'));
 const pendCnt=[...document.querySelectorAll('[data-count]')];
+const caseEls=[...document.querySelectorAll('.case')];
 function inView(el,k){const r=el.getBoundingClientRect();return r.top<innerHeight*(k||.86)&&r.bottom>0}
 let busy=false;
 function sweep(){
@@ -688,6 +849,18 @@ function sweep(){
     if(inView(pendFade[i])){pendFade[i].classList.add('on');pendFade.splice(i,1)}
   for(let i=pendCnt.length-1;i>=0;i--)
     if(inView(pendCnt[i],.92)){runCount(pendCnt[i]);pendCnt.splice(i,1)}
+  if(!chatStarted&&chatBox&&inView(chatBox,.9)){chatStarted=true;chatStep()}
+  // липкий стек
+  caseEls.forEach((c,i)=>{
+    if(i===caseEls.length-1)return;
+    const next=caseEls[i+1].getBoundingClientRect().top;
+    const k=Math.min(1,Math.max(0,(innerHeight-next)/innerHeight));
+    c.style.transform=`scale(${1-k*.045}) translateY(${-k*14}px)`;
+    c.style.filter=`brightness(${1-k*.07})`;
+  });
+  // прогресс
+  const H=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('pbar').style.width=(H>0?Math.min(100,scrollY/H*100):0)+'%';
 }
 addEventListener('scroll',sweep,{passive:true});
 addEventListener('resize',sweep);
