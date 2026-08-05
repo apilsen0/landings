@@ -7,39 +7,38 @@
 <meta name="description" content="Иван Уманец, совладелец онлайн-школы «Академия Наталии Эдис» и ИИ-разработчик. Автономные ИИ-системы, которые увеличивают доход владельца школы: кураторы, автомонтаж, контроль качества, сайты.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Golos+Text:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#FAF6F0;
-  --card:#FFFFFF;
-  --ink:#161410;
-  --sub:#6E675E;
-  --orange:#FF6612;
-  --orange2:#F04E00;
-  --yellow:#FFC42E;
-  --green:#1E7A34;
-  --peel:#FFE9D4;
-  --line:rgba(22,20,16,.10);
-  --line2:rgba(22,20,16,.18);
-  --disp:'Unbounded',sans-serif;
+  --bg:#FFFFFF;
+  --ink:#101010;
+  --sub:#6A6A6A;
+  --orange:#FF5A00;
+  --tint:#FFF1E9;
+  --line:#EFEFEF;
   --body:'Golos Text',-apple-system,sans-serif;
   --mono:'JetBrains Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  background:var(--paper);color:var(--ink);font-family:var(--body);
+  background:var(--bg);color:var(--ink);font-family:var(--body);
   font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
 }
-::selection{background:var(--yellow);color:var(--ink)}
-h1,h2{font-family:var(--disp);font-weight:700;line-height:1.06;letter-spacing:-.01em}
-h3{font-family:var(--body);font-weight:800;line-height:1.15}
+::selection{background:var(--orange);color:#fff}
+h1,h2{font-weight:900;line-height:1.02;letter-spacing:-.025em}
+h3{font-weight:800;line-height:1.2}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{max-width:1280px;margin:0 auto;padding:0 28px}
 .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase}
-.acc{color:var(--orange)}
-section{position:relative;scroll-margin-top:80px}
+section{position:relative;scroll-margin-top:84px}
+main{position:relative;z-index:1}
+
+/* ═══ РЕКА ═══ */
+#riverBox{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#riverBox svg{display:block;width:100%;height:100%}
+#riverPath{fill:none;stroke-linecap:round}
 
 /* реавилы */
 .lr{display:block;overflow:hidden}
@@ -54,252 +53,233 @@ section{position:relative;scroll-margin-top:80px}
 header{
   position:fixed;top:0;left:0;right:0;z-index:100;
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  background:rgba(250,246,240,.75);border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.82);border-bottom:1px solid var(--line);
   transition:transform .4s;
 }
-.nav{display:flex;align-items:center;justify-content:space-between;height:70px}
-.logo{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:800;font-size:17px;letter-spacing:-.01em}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:11px;font-weight:900;font-size:17.5px;letter-spacing:-.02em}
 .logo svg{width:34px;height:34px}
 .nav-links{display:flex;gap:30px;font-size:14.5px;font-weight:500;color:var(--sub)}
 .nav-links a:hover{color:var(--orange)}
 .btn{
   display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:100px;
-  font-weight:600;font-size:15.5px;border:2px solid transparent;cursor:pointer;
-  transition:transform .2s,box-shadow .25s,background .2s;white-space:nowrap;font-family:var(--body);
+  font-weight:600;font-size:15.5px;border:1px solid transparent;cursor:pointer;
+  transition:transform .2s,box-shadow .25s,background .2s,color .2s;white-space:nowrap;font-family:var(--body);
 }
 .btn-acc{background:var(--orange);color:#fff}
-.btn-acc:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 40px rgba(255,102,18,.35);background:var(--orange2)}
-.btn-line{border-color:var(--ink);color:var(--ink)}
-.btn-line:hover{background:var(--ink);color:var(--paper);transform:translateY(-3px)}
+.btn-acc:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(255,90,0,.35)}
+.btn-line{border-color:#DDD;color:var(--ink)}
+.btn-line:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-3px)}
 .btn-sm{padding:10px 22px;font-size:14px}
 .burger{display:none;background:none;border:0;color:var(--ink);font-size:26px;cursor:pointer}
 
-/* змейки */
-.squig{position:absolute;pointer-events:none;z-index:0}
-.squig path{
-  fill:none;stroke:var(--orange);stroke-linecap:round;
-  stroke-dasharray:1;stroke-dashoffset:1;
-}
-.on .squig path,.squig.auto path{animation:draw 2.4s cubic-bezier(.5,0,.2,1) forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.squig.sway{animation:sway 7s ease-in-out infinite alternate}
-@keyframes sway{from{transform:translateY(-10px) rotate(-1deg)}to{transform:translateY(12px) rotate(1.4deg)}}
-.squig .dots{
-  stroke:var(--yellow);stroke-dasharray:.001 .06;stroke-dashoffset:0;
-  animation:flow 6s linear infinite!important;
-}
-@keyframes flow{to{stroke-dashoffset:-1}}
-
-/* долька апельсина */
+/* долька */
 .slice{animation:spin 26s linear infinite;transform-origin:center}
-.slice.rev{animation-duration:34s;animation-direction:reverse}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.slice,.squig.sway{animation:none!important}}
 
 /* ХИРО */
-.hero{min-height:100svh;display:flex;align-items:center;padding:150px 0 70px;overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;width:100%;position:relative;z-index:1}
-.hero-label{display:flex;gap:14px;align-items:center;color:var(--sub);margin-bottom:28px}
-.hero-label::before{content:"";width:40px;height:2px;background:var(--orange);border-radius:2px}
-.hero h1{font-size:clamp(44px,6.4vw,92px);font-weight:800;margin-bottom:28px}
+.hero{min-height:100svh;display:flex;align-items:center;padding:150px 0 80px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;width:100%}
+.hero-label{display:flex;gap:14px;align-items:center;color:var(--sub);margin-bottom:28px;font-weight:500}
+.hero-label::before{content:"";width:40px;height:2px;background:var(--orange)}
+.hero h1{font-size:clamp(46px,7vw,104px);text-transform:uppercase;margin-bottom:28px}
 .hero p.man{font-size:clamp(18px,1.6vw,22px);line-height:1.55;max-width:600px;margin-bottom:36px;font-weight:500}
 .hero p.man b{color:var(--orange);font-weight:800}
 .hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:44px}
 .hero-stats{display:grid;grid-template-columns:repeat(4,auto);gap:16px 38px;max-width:720px}
-.hstat .v{font-family:var(--disp);font-weight:700;font-size:clamp(19px,1.9vw,26px);color:var(--orange);white-space:nowrap}
+.hstat .v{font-weight:900;font-size:clamp(19px,1.9vw,26px);color:var(--orange);white-space:nowrap;letter-spacing:-.02em}
 .hstat .l{font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.35}
 .hero-photo{position:relative;display:flex;justify-content:center}
 .photo-ring{
-  position:relative;width:min(92%,430px);aspect-ratio:3/3.6;border-radius:230px 230px 36px 36px;
-  overflow:hidden;border:6px solid var(--ink);background:var(--peel);
-  box-shadow:14px 14px 0 var(--yellow);
+  position:relative;width:min(92%,430px);aspect-ratio:3/3.6;border-radius:230px 230px 28px 28px;
+  overflow:hidden;background:#F6F6F6;box-shadow:0 40px 90px rgba(16,16,16,.14);
 }
 .photo-ring img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
-.hero-slice{position:absolute;right:-40px;top:-44px;width:150px;height:150px;z-index:2;filter:drop-shadow(0 14px 26px rgba(240,78,0,.3))}
+.hero-slice{position:absolute;right:-34px;top:-40px;width:140px;height:140px;z-index:2;filter:drop-shadow(0 16px 30px rgba(255,90,0,.35))}
 .chip{
-  position:absolute;padding:12px 20px;border-radius:100px;background:var(--card);
-  border:2px solid var(--ink);font-size:14px;font-weight:600;white-space:nowrap;
-  box-shadow:6px 6px 0 rgba(255,102,18,.9);
+  position:absolute;padding:12px 20px;border-radius:100px;background:#fff;
+  font-size:14px;font-weight:600;white-space:nowrap;box-shadow:0 12px 34px rgba(16,16,16,.14);
 }
 .chip.c1{left:-14px;bottom:22%}
 .chip.c2{right:-8px;bottom:6%}
 
 /* маркиза */
-.marq{
-  background:var(--yellow);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);
-  padding:16px 0;overflow:hidden;transform:rotate(-1.2deg) scale(1.02);margin:8px 0;position:relative;z-index:2;
-}
+.marq{background:var(--orange);padding:16px 0;overflow:hidden;position:relative;z-index:2}
 .marq-track{display:flex;gap:48px;width:max-content;animation:mq 30s linear infinite}
-.marq-track span{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);font-weight:500;display:flex;align-items:center;gap:14px;white-space:nowrap}
-.marq-track span::after{content:"●";color:var(--orange);font-size:9px}
+.marq-track span{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#fff;font-weight:500;display:flex;align-items:center;gap:14px;white-space:nowrap}
+.marq-track span::after{content:"●";color:#fff;opacity:.6;font-size:8px}
 @keyframes mq{to{transform:translateX(-50%)}}
 
-.sec-label{display:flex;gap:14px;align-items:center;color:var(--orange);margin-bottom:22px;font-weight:500}
-.sec-label::before{content:"";width:40px;height:2px;background:var(--orange);border-radius:2px}
-.sec-h{font-size:clamp(30px,4.2vw,58px);max-width:980px;letter-spacing:-.01em}
+.sec-label{display:flex;gap:14px;align-items:center;color:var(--orange);margin-bottom:22px;font-weight:600}
+.sec-label::before{content:"";width:40px;height:2px;background:var(--orange)}
+.sec-h{font-size:clamp(30px,4.4vw,62px);max-width:1000px}
 .sec-sub{color:var(--sub);font-size:18px;max-width:660px;margin-top:22px}
 
 /* КТО Я */
-.about{padding:140px 0 120px}
+.about{padding:150px 0 120px}
 .about-cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:54px}
 .about-cols p{color:var(--sub);font-size:17px}
 .about-cols p b{color:var(--ink);font-weight:600}
-.stats-band{display:grid;grid-template-columns:repeat(4,1fr);margin-top:76px;border-top:2px solid var(--ink)}
-.bstat{padding:44px 28px 40px;border-bottom:2px solid var(--ink);position:relative;transition:background .3s}
-.bstat:hover{background:var(--peel)}
-.bstat+.bstat{border-left:2px solid var(--ink)}
-.bstat .v{font-family:var(--disp);font-weight:800;line-height:.95;color:var(--orange);font-size:clamp(48px,5.6vw,92px);white-space:nowrap}
-.bstat .v small{font-size:.34em;font-weight:700}
+.stats-band{display:grid;grid-template-columns:repeat(4,1fr);margin-top:76px;border-top:1px solid var(--line)}
+.bstat{padding:46px 28px 42px;border-bottom:1px solid var(--line);transition:background .3s}
+.bstat:hover{background:var(--tint)}
+.bstat+.bstat{border-left:1px solid var(--line)}
+.bstat .v{font-weight:900;line-height:.95;color:var(--orange);font-size:clamp(48px,5.6vw,94px);white-space:nowrap;letter-spacing:-.03em}
+.bstat .v small{font-size:.34em;font-weight:800}
 .bstat .l{color:var(--sub);margin-top:14px;font-size:15px;max-width:240px}
 .traits{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
 .trait{
-  display:flex;gap:18px;align-items:flex-start;padding:26px 28px;border:2px solid var(--ink);
-  border-radius:20px;background:var(--card);transition:transform .25s,box-shadow .25s;
+  display:flex;gap:18px;align-items:flex-start;padding:26px 28px;border-radius:20px;
+  background:#fff;border:1px solid var(--line);box-shadow:0 10px 40px rgba(16,16,16,.05);
+  transition:transform .25s,box-shadow .25s;
 }
-.trait:hover{transform:translateY(-4px);box-shadow:8px 8px 0 var(--yellow)}
+.trait:hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(16,16,16,.1)}
 .trait .ico{color:var(--orange);font-family:var(--mono);font-size:13px;white-space:nowrap;padding-top:3px;font-weight:500}
 .trait p{color:var(--sub);font-size:15px}
 .trait p b{color:var(--ink);display:block;margin-bottom:4px;font-weight:800}
 
 /* ШКОЛЫ */
-.trust{background:var(--card);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:130px 0}
-.schools{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
+.trust{padding:130px 0}
+.schools{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px}
 .school{
-  border:2px solid var(--ink);border-radius:22px;padding:30px 26px;background:var(--paper);
-  display:flex;flex-direction:column;gap:16px;transition:transform .25s,box-shadow .25s;
+  border-radius:22px;padding:30px 26px;background:#fff;border:1px solid var(--line);
+  display:flex;flex-direction:column;gap:16px;box-shadow:0 10px 40px rgba(16,16,16,.05);
+  transition:transform .25s,box-shadow .25s;
 }
-.school:hover{transform:translateY(-6px);box-shadow:10px 10px 0 var(--peel)}
+.school:hover{transform:translateY(-6px);box-shadow:0 22px 60px rgba(16,16,16,.1)}
 .school .lg{height:52px;display:flex;align-items:center}
 .school .lg img{max-height:48px;width:auto}
-.school .lg .word{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:.02em}
+.school .lg .word{font-weight:900;font-size:18px;letter-spacing:-.01em;line-height:1.1}
 .school .in h3{font-size:16px;margin-bottom:6px}
 .school .in p{color:var(--sub);font-size:13.5px}
 .school .in a{color:var(--orange);font-size:13px;font-weight:600}
-.team-line{
-  margin-top:18px;padding:28px 32px;border-radius:20px;border:2px solid var(--ink);
-  background:var(--peel);
-}
-.team-line p{color:var(--ink);font-size:15.5px}
+.team-line{margin-top:18px;padding:28px 32px;border-radius:20px;background:var(--tint)}
+.team-line p{font-size:15.5px}
 .team-line p b{font-weight:800}
 
 /* интермедии */
-.inter{min-height:48svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:110px 0;overflow:hidden}
-.inter h2{font-size:clamp(30px,5vw,70px);max-width:1040px;position:relative;z-index:1;line-height:1.16}
-.inter .out{
-  color:transparent;-webkit-text-stroke:2px var(--ink);
+.inter{min-height:46svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:110px 0;overflow:hidden}
+.inter h2{
+  font-size:clamp(30px,5vw,72px);max-width:1060px;line-height:1.12;text-transform:uppercase;
+  text-shadow:0 2px 0 #fff,0 -2px 0 #fff,2px 0 0 #fff,-2px 0 0 #fff,2px 2px 0 #fff,-2px -2px 0 #fff,0 0 26px #fff;
 }
+.inter .out{color:#fff;-webkit-text-stroke:2px var(--orange);text-shadow:none}
 .inter em{font-style:normal;color:var(--orange)}
 
 /* ПРОДУКТЫ */
-.serv{padding:130px 0;position:relative;overflow:hidden}
-.s-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:56px;position:relative;z-index:1}
+.serv{padding:130px 0}
+.s-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:56px}
 .s-card{
-  border:2px solid var(--ink);border-radius:24px;padding:34px 32px;background:var(--card);
-  transition:transform .25s,box-shadow .25s;
+  border-radius:24px;padding:36px 34px;background:#fff;border:1px solid var(--line);
+  box-shadow:0 10px 40px rgba(16,16,16,.05);transition:transform .25s,box-shadow .25s;
 }
-.s-card:hover{transform:translateY(-6px);box-shadow:10px 10px 0 var(--yellow)}
+.s-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(16,16,16,.1)}
 .s-card .n{font-family:var(--mono);color:var(--orange);font-size:12px;display:block;margin-bottom:20px;font-weight:500}
 .s-card h3{font-size:clamp(20px,2vw,27px);margin-bottom:10px}
 .s-card p{color:var(--sub);font-size:15.5px}
 .s-card .for{
-  margin-top:18px;font-size:14px;color:var(--ink);background:var(--peel);
+  margin-top:18px;font-size:14px;color:var(--ink);background:var(--tint);
   border-radius:12px;padding:10px 16px;font-weight:600;display:inline-block;
 }
-.s-card.wide{grid-column:span 2;background:linear-gradient(120deg,var(--peel),var(--card) 60%)}
+.s-card.wide{grid-column:span 2}
 .s-note{
-  margin-top:36px;padding:32px 38px;border-radius:22px;border:2px solid var(--ink);
-  background:var(--yellow);display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between;
-  box-shadow:10px 10px 0 rgba(22,20,16,.9);
+  margin-top:36px;padding:34px 40px;border-radius:24px;background:var(--orange);color:#fff;
+  display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between;
+  box-shadow:0 24px 60px rgba(255,90,0,.3);
 }
 .s-note p{font-size:17px;max-width:700px;font-weight:600}
-.s-note .btn-acc{border-color:var(--ink)}
+.s-note .btn{background:#fff;color:var(--orange)}
+.s-note .btn:hover{transform:translateY(-3px)}
 
 /* ДОЖИМНОЙ */
-.press{padding:130px 0;background:var(--card);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);position:relative;overflow:hidden}
-.leak-rows{margin-top:56px;border-top:2px solid var(--ink);position:relative;z-index:1}
-.leak{display:grid;grid-template-columns:1fr 1.05fr auto;gap:30px;align-items:center;padding:34px 0;border-bottom:2px solid var(--line2)}
+.press{padding:130px 0}
+.leak-rows{margin-top:56px;border-top:1px solid var(--line)}
+.leak{display:grid;grid-template-columns:1fr 1.05fr auto;gap:30px;align-items:center;padding:34px 0;border-bottom:1px solid var(--line)}
 .leak h3{font-size:clamp(19px,2vw,27px)}
 .leak p{color:var(--sub);font-size:15px;max-width:520px}
-.leak .money{font-family:var(--disp);font-weight:700;font-size:clamp(18px,2vw,28px);color:var(--green);text-align:right;white-space:nowrap}
-.leak .money small{display:block;font-family:var(--body);font-weight:500;font-size:12.5px;color:var(--sub);margin-top:6px;white-space:normal;max-width:250px;margin-left:auto}
+.leak .money{font-weight:900;font-size:clamp(18px,2vw,28px);color:var(--orange);text-align:right;white-space:nowrap;letter-spacing:-.02em}
+.leak .money small{display:block;font-weight:500;font-size:12.5px;color:var(--sub);margin-top:6px;white-space:normal;max-width:250px;margin-left:auto;letter-spacing:0}
 .mystory{
-  margin-top:70px;border-radius:26px;border:3px solid var(--ink);overflow:hidden;
-  background:var(--paper);display:grid;grid-template-columns:.8fr 1.2fr;align-items:stretch;
-  box-shadow:14px 14px 0 var(--peel);position:relative;z-index:1;
+  margin-top:70px;border-radius:28px;overflow:hidden;background:#fff;border:1px solid var(--line);
+  display:grid;grid-template-columns:.8fr 1.2fr;align-items:stretch;
+  box-shadow:0 30px 80px rgba(16,16,16,.09);
 }
-.mystory .ph{min-height:340px;background:url('assets/ivan.jpg') center 20%/cover no-repeat;border-right:3px solid var(--ink)}
+.mystory .ph{min-height:340px;background:url('assets/ivan.jpg') center 20%/cover no-repeat}
 .mystory .tx{padding:clamp(30px,4vw,54px)}
-.mystory h3{font-family:var(--disp);font-weight:700;font-size:clamp(22px,2.6vw,34px);margin-bottom:18px}
+.mystory h3{font-weight:900;font-size:clamp(22px,2.6vw,36px);margin-bottom:18px;letter-spacing:-.02em}
 .mystory p{color:var(--sub);font-size:16px;margin-bottom:14px}
 .mystory p b{color:var(--ink)}
 .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
-.ab{border:2px solid var(--line2);border-radius:16px;padding:20px 22px;background:var(--card)}
+.ab{border-radius:16px;padding:20px 22px;background:#FAFAFA}
 .ab .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub);margin-bottom:10px}
 .ab p{font-size:14.5px;margin:0;color:var(--sub)}
-.ab.b{border-color:var(--green);background:#F0F8F1}
-.ab.b .t{color:var(--green)}
+.ab.b{background:var(--tint)}
+.ab.b .t{color:var(--orange)}
 .ab.b p{color:var(--ink)}
 
 /* КЕЙСЫ */
-.cases-sec{padding:130px 0 60px;position:relative;overflow:hidden}
+.cases-sec{padding:130px 0 60px}
 .case{
-  position:sticky;top:90px;margin-bottom:26px;border-radius:26px;overflow:hidden;
-  background:var(--card);border:3px solid var(--ink);
+  position:sticky;top:92px;margin-bottom:26px;border-radius:28px;overflow:hidden;
+  background:#fff;border:1px solid var(--line);
   padding:clamp(28px,3.8vw,54px);
   display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;
   transition:transform .25s linear,filter .25s linear;
-  box-shadow:0 24px 60px rgba(22,20,16,.08);
+  box-shadow:0 24px 70px rgba(16,16,16,.1);
 }
 .case .k-tag{color:var(--sub);margin-bottom:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-weight:500}
 .case .k-tag b{color:var(--orange);font-weight:600}
-.case .k-tag a{border-bottom:2px solid var(--yellow);font-weight:600}
+.case .k-tag a{border-bottom:2px solid var(--orange);font-weight:600}
 .case .hook{
   border-left:4px solid var(--orange);padding:6px 0 6px 20px;margin-bottom:22px;
-  font-size:16.5px;font-weight:600;max-width:560px;border-radius:2px;
+  font-size:16.5px;font-weight:600;max-width:560px;
 }
 .case .hook em{font-style:normal;color:var(--orange)}
-.case h3{font-family:var(--disp);font-weight:700;font-size:clamp(21px,2.4vw,32px);margin-bottom:16px}
+.case h3{font-weight:900;font-size:clamp(21px,2.4vw,34px);margin-bottom:16px;letter-spacing:-.02em}
 .case p{color:var(--sub);font-size:15.5px;max-width:560px;margin-bottom:13px}
 .case p b{color:var(--ink)}
 .knum{text-align:right}
-.knum .big{font-family:var(--disp);font-weight:800;font-size:clamp(44px,5.6vw,88px);line-height:.95;color:var(--orange)}
-.knum .big small{font-size:.36em;font-weight:700}
+.knum .big{font-weight:900;font-size:clamp(44px,5.6vw,92px);line-height:.95;color:var(--orange);letter-spacing:-.03em}
+.knum .big small{font-size:.36em;font-weight:800}
 .knum .cap{color:var(--sub);font-size:15px;margin-top:14px;font-weight:500}
-.knum .sub{margin-top:30px;padding-top:24px;border-top:2px solid var(--line2)}
-.knum .sub .v{font-family:var(--disp);font-weight:700;font-size:clamp(26px,3vw,44px);color:var(--green)}
+.knum .sub{margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+.knum .sub .v{font-weight:900;font-size:clamp(26px,3vw,46px);color:var(--ink);letter-spacing:-.02em}
 
 /* ПРОЦЕСС */
-.proc{padding:130px 0;background:var(--card);border-top:2px solid var(--ink)}
+.proc{padding:130px 0}
 .p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:60px}
-.p-card{border:2px solid var(--ink);border-radius:22px;padding:32px 26px;background:var(--paper);transition:transform .25s,box-shadow .25s}
-.p-card:hover{transform:translateY(-5px);box-shadow:8px 8px 0 var(--peel)}
+.p-card{
+  border-radius:22px;padding:32px 28px;background:#fff;border:1px solid var(--line);
+  box-shadow:0 10px 40px rgba(16,16,16,.05);transition:transform .25s,box-shadow .25s;
+}
+.p-card:hover{transform:translateY(-5px);box-shadow:0 20px 55px rgba(16,16,16,.1)}
 .p-card .n{
   width:52px;height:52px;border-radius:50%;background:var(--orange);color:#fff;
-  font-family:var(--disp);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;margin-bottom:26px;
+  font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;margin-bottom:26px;
 }
 .p-card h3{font-size:19px;margin-bottom:10px}
 .p-card p{color:var(--sub);font-size:14.5px}
 .p-card .t{margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);font-weight:500}
 
 /* ФИНАЛ */
-.final{padding:0;position:relative;overflow:hidden}
-.final a.slab{display:block;padding:150px 0 140px;text-align:center;transition:background .3s;position:relative}
-.final a.slab:hover{background:var(--peel)}
+.final{padding:0}
+.final a.slab{display:block;padding:150px 0 140px;text-align:center;transition:background .3s}
+.final a.slab:hover{background:var(--tint)}
 .final .mini{
   width:92px;height:92px;border-radius:50%;overflow:hidden;margin:0 auto 30px;
-  border:4px solid var(--ink);box-shadow:8px 8px 0 var(--yellow);position:relative;z-index:1;
+  box-shadow:0 18px 44px rgba(16,16,16,.18);
 }
 .final .mini img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
-.final h2{font-size:clamp(32px,5.2vw,78px);margin-bottom:26px;position:relative;z-index:1}
-.final p{color:var(--sub);font-size:18.5px;max-width:600px;margin:0 auto 42px;position:relative;z-index:1}
+.final h2{font-size:clamp(32px,5.4vw,82px);margin-bottom:26px;text-transform:uppercase}
+.final p{color:var(--sub);font-size:18.5px;max-width:600px;margin:0 auto 42px}
 .final .fakebtn{
   display:inline-flex;align-items:center;gap:10px;padding:20px 46px;border-radius:100px;
-  font-weight:700;font-size:17.5px;background:var(--orange);color:#fff;box-shadow:8px 8px 0 var(--ink);
-  transition:transform .2s;position:relative;z-index:1;
+  font-weight:700;font-size:17.5px;background:var(--orange);color:#fff;
+  box-shadow:0 20px 50px rgba(255,90,0,.35);transition:transform .2s;
 }
 .final a.slab:hover .fakebtn{transform:translateY(-4px) scale(1.03)}
-.final .sig{margin-top:30px;color:var(--sub);font-size:13.5px;position:relative;z-index:1}
-footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(--sub);background:var(--card)}
+.final .sig{margin-top:30px;color:var(--sub);font-size:13.5px}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:14px;color:var(--sub);position:relative;z-index:1;background:#fff}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .foot a{color:var(--orange);font-weight:600}
 
@@ -311,25 +291,24 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
   .about-cols{grid-template-columns:1fr}
   .stats-band{grid-template-columns:1fr 1fr}
   .bstat+.bstat{border-left:0}
-  .bstat:nth-child(even){border-left:2px solid var(--ink)}
+  .bstat:nth-child(even){border-left:1px solid var(--line)}
   .schools{grid-template-columns:1fr 1fr}
   .s-grid{grid-template-columns:1fr}
   .s-card.wide{grid-column:span 1}
   .case{grid-template-columns:1fr;gap:28px}
   .knum{text-align:left}
-  .knum .sub .v{text-align:left}
   .leak{grid-template-columns:1fr;gap:10px}
   .leak .money{text-align:left}
   .leak .money small{margin-left:0;max-width:none}
   .mystory{grid-template-columns:1fr}
-  .mystory .ph{min-height:300px;border-right:0;border-bottom:3px solid var(--ink)}
+  .mystory .ph{min-height:300px}
   .p-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:680px){
   .nav-links{display:none}
   .nav-links.mob{
-    display:flex;position:fixed;top:70px;left:0;right:0;flex-direction:column;gap:0;
-    background:var(--paper);border-bottom:2px solid var(--ink);padding:8px 28px 18px;
+    display:flex;position:fixed;top:72px;left:0;right:0;flex-direction:column;gap:0;
+    background:#fff;border-bottom:1px solid var(--line);padding:8px 28px 18px;
   }
   .nav-links.mob a{padding:14px 0;font-size:17px;border-bottom:1px solid var(--line)}
   .burger{display:block}
@@ -337,7 +316,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
   .p-grid,.traits,.ab-grid,.schools,.stats-band{grid-template-columns:1fr}
   .bstat:nth-child(even){border-left:0}
   .case{position:relative;top:0}
-  .hero-slice{width:110px;height:110px;right:-14px;top:-30px}
+  .hero-slice{width:106px;height:106px;right:-12px;top:-28px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -347,17 +326,16 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
 </head>
 <body>
 
-<!-- SVG-библиотека: лого и долька -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <g id="logo-orange">
-      <circle cx="50" cy="56" r="40" fill="#FF6612"/>
+      <circle cx="50" cy="56" r="40" fill="#FF5A00"/>
       <path d="M14 44 C16 32 24 20 36 15 C34 20 36 24 40 25 C38 18 44 10 52 8 C50 13 52 18 57 19 C57 12 64 7 72 8 C69 12 70 17 74 19 C77 14 84 13 89 17 C84 19 83 24 85 28 C77 24 72 27 70 32 C66 27 58 26 54 31 C51 25 42 24 38 29 C36 24 28 24 24 29 C22 34 16 38 14 44 Z" fill="#1E7A34"/>
     </g>
     <g id="slice">
-      <circle cx="60" cy="60" r="58" fill="#F04E00"/>
-      <circle cx="60" cy="60" r="50" fill="#FFF3E4"/>
-      <g fill="#FF8A3D">
+      <circle cx="60" cy="60" r="58" fill="#FF5A00"/>
+      <circle cx="60" cy="60" r="50" fill="#FFFFFF"/>
+      <g fill="#FF7A33">
         <path d="M60 60 L60 14 A46 46 0 0 1 92 27 Z"/>
         <path d="M60 60 L96 32 A46 46 0 0 1 106 60 Z"/>
         <path d="M60 60 L106 64 A46 46 0 0 1 92 93 Z"/>
@@ -367,7 +345,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
         <path d="M60 60 L14 56 A46 46 0 0 1 28 27 Z"/>
         <path d="M60 60 L32 24 A46 46 0 0 1 60 14 Z"/>
       </g>
-      <circle cx="60" cy="60" r="7" fill="#FFF3E4"/>
+      <circle cx="60" cy="60" r="7" fill="#FFFFFF"/>
     </g>
   </defs>
 </svg>
@@ -387,12 +365,17 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
   </div>
 </header>
 
+<main id="pageRoot">
+<div id="riverBox" aria-hidden="true">
+  <svg preserveAspectRatio="none">
+    <defs><linearGradient id="riverGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="100"></linearGradient></defs>
+    <path id="riverPath" stroke="url(#riverGrad)" stroke-width="64"/>
+  </svg>
+</div>
+
 <!-- ХИРО -->
 <section class="hero">
-  <svg class="squig sway auto" style="right:-6%;top:2%;width:56%;height:auto;opacity:.95" viewBox="0 0 700 560" fill="none">
-    <path pathLength="1" stroke-width="54" d="M690 30 C560 30 590 170 470 170 C350 170 380 60 280 80 C180 100 230 240 130 260 C40 278 60 400 160 420 C280 444 260 540 140 540"/>
-  </svg>
-  <div class="wrap hero-grid">
+  <div class="wrap hero-grid" style="position:relative;z-index:1">
     <div class="rv">
       <div class="hero-label mono fade">aipilsen · ИИ-разработка для онлайн-школ</div>
       <h1>
@@ -417,7 +400,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
       </div>
       <svg class="hero-slice slice" viewBox="0 0 120 120"><use href="#slice"/></svg>
       <div class="chip c1">совладелец «Академии Наталии Эдис»</div>
-      <div class="chip c2">🍊 отвечаю в течение часа</div>
+      <div class="chip c2">отвечаю в течение часа</div>
     </div>
   </div>
 </section>
@@ -484,14 +467,14 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
         </div>
       </div>
       <div class="school fade d2">
-        <div class="lg"><span class="word" style="font-size:15px">МОСКОВСКОЕ ДОЛГОЛЕТИЕ</span></div>
+        <div class="lg"><span class="word" style="font-size:15px">МОСКОВСКОЕ<br>ДОЛГОЛЕТИЕ</span></div>
         <div class="in">
           <h3>Программа «Московское долголетие»</h3>
           <p>ИИ-кураторы сопровождают участников городской образовательной программы — терпеливо и круглосуточно.</p>
         </div>
       </div>
       <div class="school fade d3">
-        <div class="lg"><span class="word" style="font-size:15px">АССОЦИАЦИЯ АКТЁРОВ-ПЕНСИОНЕРОВ</span></div>
+        <div class="lg"><span class="word" style="font-size:15px">АССОЦИАЦИЯ<br>АКТЁРОВ-ПЕНСИОНЕРОВ</span></div>
         <div class="in">
           <h3>Партнёр «Московского долголетия»</h3>
           <p>Система обзвона aipilsen приглашает участников на занятия и растит набор программ ассоциации.</p>
@@ -506,9 +489,6 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
 
 <!-- интермедия 1 -->
 <section class="inter">
-  <svg class="squig sway" style="left:-8%;bottom:-10%;width:44%;height:auto;opacity:.35" viewBox="0 0 700 560" fill="none">
-    <path pathLength="1" stroke-width="46" d="M10 60 C140 60 110 200 230 200 C350 200 320 90 420 110 C520 130 470 270 570 290 C660 308 640 430 540 450"/>
-  </svg>
   <div class="wrap rv">
     <h2>
       <span class="lr"><span>Рутина — самый дорогой сотрудник.</span></span>
@@ -528,17 +508,17 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
       <p class="sec-sub fade d1">Каждая система прошла длительную апробацию в реальных школах и зарекомендовала себя у команд и учеников. Вы получаете готовый продукт, настроенный под ваши процессы.</p>
     </div>
     <div class="s-grid rv">
-      <div class="s-card fade"><span class="n">01 · флагман</span><h3>ИИ-куратор</h3><p>Сопровождает учеников в чатах круглосуточно: расписание, записи, домашние задания, оплаты. Обучен на материалах вашей школы, сложные случаи передаёт живой команде.</p><div class="for">💰 Экономия на поддержке до 500 000 ₽ в месяц</div></div>
-      <div class="s-card fade d1"><span class="n">02</span><h3>Автомонтаж занятий</h3><p>Система сама забирает записи из Zoom, монтирует, оформляет и выкладывает на платформу. До 100 видео в день — ученики получают уроки в день занятия.</p><div class="for">💰 Оптимизация бюджета техотдела до 250 000 ₽ в месяц</div></div>
-      <div class="s-card fade d2"><span class="n">03</span><h3>ИИ-методист: контроль педагога</h3><p>Смотрит запись каждого занятия, сверяет с вашим чек-листом качества и складывает результаты в таблицу. Вы видите, как преподаёт каждый педагог, не пересматривая уроки.</p><div class="for">📈 Растёт вовлечённость и процент доучивания</div></div>
-      <div class="s-card fade d3"><span class="n">04</span><h3>Zoom-агент</h3><p>Работает прямо на занятиях: отмечает посещаемость и активность, передаёт данные в личный кабинет ученика и в отчёты.</p><div class="for">📈 Администраторы занимаются продажами вместо таблиц</div></div>
-      <div class="s-card fade d2"><span class="n">05</span><h3>ИИ-обзвон</h3><p>Голосовой агент прозванивает базу: приглашает на новые потоки, возвращает «спящих» учеников, передаёт тёплых менеджеру. Результат сверяется с отчётностью школы.</p><div class="for">📈 Увеличение продаж на существующей базе</div></div>
-      <div class="s-card fade d3"><span class="n">06</span><h3>Создание сайтов</h3><p>Сайт школы с ИИ-подбором: агент задаёт вопросы, определяет психотип и свободное время человека и предлагает подходящее занятие. Заявки уходят сразу в Telegram.</p><div class="for">💰 Рост оборота школы за счёт сайта</div></div>
-      <div class="s-card wide fade"><span class="n">07 · всё вместе</span><h3>Экосистема школы</h3><p>Чаты, сайт, личный кабинет и Zoom связаны в одну систему: агент знает, где находится ученик, показывает ученику его статистику посещаемости и ближайшие занятия. Данные текут сами, команда постоянно на связи с учениками.</p><div class="for">💰 Школа работает как единый организм — и приносит больше</div></div>
+      <div class="s-card fade"><span class="n">01 · флагман</span><h3>ИИ-куратор</h3><p>Сопровождает учеников в чатах круглосуточно: расписание, записи, домашние задания, оплаты. Обучен на материалах вашей школы, сложные случаи передаёт живой команде.</p><div class="for">Экономия на поддержке до 500 000 ₽ в месяц</div></div>
+      <div class="s-card fade d1"><span class="n">02</span><h3>Автомонтаж занятий</h3><p>Система сама забирает записи из Zoom, монтирует, оформляет и выкладывает на платформу. До 100 видео в день — ученики получают уроки в день занятия.</p><div class="for">Оптимизация бюджета техотдела до 250 000 ₽ в месяц</div></div>
+      <div class="s-card fade d2"><span class="n">03</span><h3>ИИ-методист: контроль педагога</h3><p>Смотрит запись каждого занятия, сверяет с вашим чек-листом качества и складывает результаты в таблицу. Вы видите, как преподаёт каждый педагог, не пересматривая уроки.</p><div class="for">Растёт вовлечённость и процент доучивания</div></div>
+      <div class="s-card fade d3"><span class="n">04</span><h3>Zoom-агент</h3><p>Работает прямо на занятиях: отмечает посещаемость и активность, передаёт данные в личный кабинет ученика и в отчёты.</p><div class="for">Администраторы занимаются продажами вместо таблиц</div></div>
+      <div class="s-card fade d2"><span class="n">05</span><h3>ИИ-обзвон</h3><p>Голосовой агент прозванивает базу: приглашает на новые потоки, возвращает «спящих» учеников, передаёт тёплых менеджеру. Результат сверяется с отчётностью школы.</p><div class="for">Увеличение продаж на существующей базе</div></div>
+      <div class="s-card fade d3"><span class="n">06</span><h3>Создание сайтов</h3><p>Сайт школы с ИИ-подбором: агент задаёт вопросы, определяет психотип и свободное время человека и предлагает подходящее занятие. Заявки уходят сразу в Telegram.</p><div class="for">Рост оборота школы за счёт сайта</div></div>
+      <div class="s-card wide fade"><span class="n">07 · всё вместе</span><h3>Экосистема школы</h3><p>Чаты, сайт, личный кабинет и Zoom связаны в одну систему: агент знает, где находится ученик, показывает ученику его статистику посещаемости и ближайшие занятия. Данные текут сами, команда постоянно на связи с учениками.</p><div class="for">Школа работает как единый организм — и приносит больше</div></div>
     </div>
     <div class="s-note rv fade">
       <p><b>Все системы — автономные.</b> После запуска я два месяца обучаю вашу команду, затем передаю систему полностью. Вы платите один раз — работает она годами.</p>
-      <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Обсудить проект</a>
+      <a class="btn" href="https://t.me/apilsen" target="_blank">Обсудить проект</a>
     </div>
   </div>
 </section>
@@ -578,9 +558,6 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
 
 <!-- интермедия 2 -->
 <section class="inter">
-  <svg class="squig sway" style="right:-6%;top:-6%;width:40%;height:auto;opacity:.3" viewBox="0 0 700 560" fill="none">
-    <path pathLength="1" stroke-width="46" d="M690 60 C560 60 590 200 470 200 C350 200 380 90 280 110 C180 130 230 270 130 290"/>
-  </svg>
   <div class="wrap rv">
     <h2>
       <span class="lr"><span>Вы платите за систему один раз</span></span>
@@ -707,9 +684,6 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
 
 <!-- ФИНАЛ -->
 <section class="final" id="contact">
-  <svg class="squig sway auto" style="left:-8%;bottom:-16%;width:50%;height:auto;opacity:.55" viewBox="0 0 700 560" fill="none">
-    <path pathLength="1" stroke-width="50" d="M10 500 C140 500 110 360 230 360 C350 360 320 470 420 450 C520 430 470 290 570 270 C660 252 640 130 540 110"/>
-  </svg>
   <a class="slab" href="https://t.me/apilsen" target="_blank">
     <div class="wrap rv">
       <div class="mini fade"><img src="assets/ivan.jpg" alt="Иван Уманец"></div>
@@ -723,10 +697,11 @@ footer{border-top:2px solid var(--ink);padding:30px 0;font-size:14px;color:var(-
     </div>
   </a>
 </section>
+</main>
 
 <footer>
   <div class="wrap foot">
-    <div>© 2026 aipilsen 🍊 Иван Уманец — ИИ-системы для онлайн-школ</div>
+    <div>© 2026 aipilsen · Иван Уманец — ИИ-системы для онлайн-школ</div>
     <div>Telegram: <a href="https://t.me/apilsen">@apilsen</a></div>
   </div>
 </footer>
@@ -748,6 +723,55 @@ addEventListener('scroll',()=>{
   lastY=y;
 },{passive:true});
 
+// ═══ РЕКА: одна лента через весь сайт, рисуется по мере скролла ═══
+const riverBox=document.getElementById('riverBox'),riverPath=document.getElementById('riverPath');
+let riverLen=0;
+function buildRiver(){
+  const root=document.getElementById('pageRoot');
+  const H=root.scrollHeight,W=innerWidth;
+  riverBox.querySelector('svg').setAttribute('viewBox',`0 0 ${W} ${H}`);
+  // синусоида сверху вниз: контрольные точки слева-справа
+  const amp=W*.42,cx=W*.5,step=Math.max(560,H/14);
+  let d=`M ${cx+amp*.9} ${-80}`,side=-1,y=step*.6;
+  while(y<H+160){
+    const x=cx+side*amp*(0.72+0.28*Math.sin(y*.0007));
+    const ymid=y-step/2;
+    d+=` C ${cx+side*-1*amp*.95} ${ymid}, ${x} ${ymid}, ${x} ${y}`;
+    side*=-1;y+=step;
+  }
+  riverPath.setAttribute('d',d);
+  riverPath.setAttribute('stroke-width',Math.max(44,Math.min(72,W*.05)));
+  // градиент прозрачности: полный цвет в свободных зонах, лёгкий след под контентом
+  const grad=document.getElementById('riverGrad');
+  grad.setAttribute('y2',H);
+  const zones=[...document.querySelectorAll('.hero,.inter,.final')].map(el=>{
+    const r=el.getBoundingClientRect(),top=r.top+scrollY;
+    return [Math.max(0,top-120),top+r.height+120];
+  }).sort((a,b)=>a[0]-b[0]);
+  let stops='',cur=0;
+  const S=(y,o)=>{stops+=`<stop offset="${Math.min(1,Math.max(0,y/H))}" stop-color="#FF5A00" stop-opacity="${o}"/>`};
+  zones.forEach(([a,b])=>{
+    if(a>cur){S(cur,cur===0?1:.15);S(a-1,.15)}
+    S(a,1);S(b,1);
+    cur=b;
+  });
+  if(cur<H){S(cur+1,.15);S(H,.15)}
+  grad.innerHTML=stops;
+  riverLen=riverPath.getTotalLength();
+  riverPath.style.strokeDasharray=riverLen;
+  riverFlow();
+}
+function riverFlow(){
+  if(!riverLen)return;
+  const root=document.getElementById('pageRoot');
+  const H=root.scrollHeight-innerHeight;
+  const p=Math.min(1,(scrollY+innerHeight*1.15)/(root.scrollHeight));
+  riverPath.style.strokeDashoffset=riverLen*(1-p);
+}
+addEventListener('load',buildRiver);
+let rT;addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(buildRiver,200)});
+setTimeout(buildRiver,300);
+
 // счётчики
 function runCount(el){
   const end=+el.dataset.count,pad=+(el.dataset.pad||0),t0=performance.now();
@@ -759,7 +783,7 @@ function runCount(el){
   },16);
 }
 
-// проявитель — не зависит от IntersectionObserver/rAF
+// проявитель
 const pendRv=[...document.querySelectorAll('.rv')];
 const pendFade=[...document.querySelectorAll('.fade')].filter(el=>!el.closest('.rv'));
 const pendCnt=[...document.querySelectorAll('[data-count]')];
@@ -773,9 +797,8 @@ function sweep(){
     if(inView(pendFade[i])){pendFade[i].classList.add('on');pendFade.splice(i,1)}
   for(let i=pendCnt.length-1;i>=0;i--)
     if(inView(pendCnt[i],.92)){runCount(pendCnt[i]);pendCnt.splice(i,1)}
-  stack();
+  stack();riverFlow();
 }
-// липкий стек кейсов
 const caseEls=[...document.querySelectorAll('.case')];
 function stack(){
   caseEls.forEach((c,i)=>{
@@ -783,7 +806,7 @@ function stack(){
     const next=caseEls[i+1].getBoundingClientRect().top;
     const k=Math.min(1,Math.max(0,(innerHeight-next)/innerHeight));
     c.style.transform=`scale(${1-k*.05}) translateY(${-k*16}px)`;
-    c.style.filter=`brightness(${1-k*.12})`;
+    c.style.filter=`brightness(${1-k*.08})`;
   });
 }
 addEventListener('scroll',sweep,{passive:true});
