@@ -53,8 +53,8 @@ header{
   background:rgba(255,255,255,.85);border-bottom:1px solid var(--line);
   transition:transform .4s;
 }
-.nav{display:flex;align-items:center;justify-content:space-between;height:76px}
-.logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:18px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:32px;height:76px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:18px;margin-right:8px}
 .logo svg{width:34px;height:34px}
 .nav-links{display:flex;gap:36px;font-size:15px;font-weight:400;color:var(--sub)}
 .nav-links a:hover{color:var(--ink)}
@@ -82,7 +82,7 @@ header{
 .hero-photo{position:relative;display:flex;justify-content:center}
 .photo-ring{
   width:min(100%,400px);aspect-ratio:3/3.7;border-radius:220px 220px 26px 26px;
-  overflow:hidden;background:#F5F5F3;
+  overflow:hidden;background:var(--tint);
 }
 .photo-ring img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
 
@@ -105,7 +105,7 @@ header{
 .about-cols p b{color:var(--ink);font-weight:600}
 .stats-band{display:grid;grid-template-columns:repeat(4,1fr);gap:48px;margin-top:110px}
 .bstat .v{font-weight:900;line-height:1;color:var(--ink);font-size:clamp(44px,4.6vw,76px);white-space:nowrap}
-.bstat .v small{font-size:.36em;font-weight:900;color:var(--orange)}
+.bstat .v small{font-size:.36em;font-weight:900;color:var(--orange);vertical-align:top;margin-left:3px;line-height:1.6}
 .bstat .l{color:var(--sub);margin-top:14px;font-size:15px;max-width:220px;line-height:1.55}
 .traits{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:90px}
 .trait{padding:36px 38px;border-radius:22px;background:#FAFAF8}
@@ -116,8 +116,9 @@ header{
 .schools{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .school{
   border-radius:24px;padding:44px 44px 40px;background:#FAFAF8;
-  display:flex;flex-direction:column;gap:20px;
+  display:flex;flex-direction:column;gap:20px;transition:transform .25s,box-shadow .25s;
 }
+.school:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(17,17,17,.08)}
 .school .lg{height:50px;display:flex;align-items:center}
 .school .lg img{max-height:46px;width:auto}
 .school .lg .word{font-weight:900;font-size:19px;line-height:1.15}
@@ -136,7 +137,13 @@ header{
 
 /* ПРОДУКТЫ */
 .s-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.s-card{border-radius:24px;padding:46px 44px;background:#FAFAF8}
+.s-card{border-radius:24px;padding:46px 44px;background:#FAFAF8;transition:transform .25s,box-shadow .25s}
+.s-card:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(17,17,17,.08)}
+.s-card.hot{background:var(--orange);color:#fff}
+.s-card.hot .n{color:#fff;opacity:.85}
+.s-card.hot p{color:rgba(255,255,255,.85)}
+.s-card.hot .for{color:#fff}
+.s-card.hot .for::before{color:#fff}
 .s-card .n{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:24px}
 .s-card h3{font-size:clamp(20px,1.9vw,25px);margin-bottom:14px}
 .s-card p{color:var(--sub);font-size:15.5px;max-width:480px}
@@ -292,7 +299,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   <div class="wrap hero-grid">
     <div class="rv">
       <span class="label fade">aipilsen · ИИ-разработка для онлайн-школ</span>
-      <h1 class="fade d1">Иван<br>Уманец</h1>
+      <h1 class="fade d1">Иван<br>Уманец<span style="color:var(--orange)">.</span></h1>
       <p class="man fade d2">Совладелец онлайн-школы «Академия Наталии Эдис» и ИИ-разработчик. Строю автономные системы, которые <span class="o">увеличивают доход владельца школы</span> на сотни тысяч рублей в месяц.</p>
       <div class="hero-cta fade d3">
         <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Обсудить вашу школу</a>
@@ -403,7 +410,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
       <p class="sec-sub fade d2">Каждая система прошла длительную апробацию в реальных школах и зарекомендовала себя у команд и учеников.</p>
     </div>
     <div class="s-grid rv">
-      <div class="s-card fade"><span class="n">01 · Флагман</span><h3>ИИ-куратор</h3><p>Сопровождает учеников в чатах круглосуточно: расписание, записи, домашние задания, оплаты. Сложные случаи передаёт живой команде.</p><div class="for">Экономия на поддержке до 500 000 ₽ в месяц</div></div>
+      <div class="s-card hot fade"><span class="n">01 · Флагман</span><h3>ИИ-куратор</h3><p>Сопровождает учеников в чатах круглосуточно: расписание, записи, домашние задания, оплаты. Сложные случаи передаёт живой команде.</p><div class="for">Экономия на поддержке до 500 000 ₽ в месяц</div></div>
       <div class="s-card fade d1"><span class="n">02</span><h3>Автомонтаж занятий</h3><p>Система сама забирает записи из Zoom, монтирует, оформляет и выкладывает на платформу. До 100 видео в день.</p><div class="for">Оптимизация бюджета техотдела до 250 000 ₽ в месяц</div></div>
       <div class="s-card fade d2"><span class="n">03</span><h3>ИИ-методист</h3><p>Проверяет запись каждого занятия по чек-листу качества и складывает результаты в таблицу. Вы видите работу каждого педагога.</p><div class="for">Растёт вовлечённость и процент доучивания</div></div>
       <div class="s-card fade d3"><span class="n">04</span><h3>Zoom-агент</h3><p>Работает прямо на занятиях: отмечает посещаемость и активность, передаёт данные в личный кабинет ученика.</p><div class="for">Администраторы занимаются продажами вместо таблиц</div></div>
