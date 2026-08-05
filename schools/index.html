@@ -731,10 +731,14 @@ function buildRiver(){
   const H=root.scrollHeight,W=innerWidth;
   riverBox.querySelector('svg').setAttribute('viewBox',`0 0 ${W} ${H}`);
   // синусоида сверху вниз: контрольные точки слева-справа
-  const amp=W*.42,cx=W*.5,step=Math.max(560,H/14);
-  let d=`M ${cx+amp*.9} ${-80}`,side=-1,y=step*.6;
+  const narrow=W<760;
+  const amp=W*(narrow?.55:.42),cx=W*.5,step=Math.max(narrow?980:620,H/14);
+  const heroH=document.querySelector('.hero').offsetHeight;
+  // старт: держимся правого края всю высоту хиро, чтобы не перекрывать текст
+  let d=`M ${cx+amp*.92} ${-80} C ${cx+amp*1.05} ${heroH*.35}, ${cx+amp*.7} ${heroH*.7}, ${cx+amp*.8} ${heroH*.95}`;
+  let side=-1,y=heroH+step*.7;
   while(y<H+160){
-    const x=cx+side*amp*(0.72+0.28*Math.sin(y*.0007));
+    const x=cx+side*amp*(0.74+0.26*Math.sin(y*.0007));
     const ymid=y-step/2;
     d+=` C ${cx+side*-1*amp*.95} ${ymid}, ${x} ${ymid}, ${x} ${y}`;
     side*=-1;y+=step;
