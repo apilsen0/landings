@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Иван Уманец — ИИ-разработка для онлайн-школ | aipilsen</title>
 <meta name="description" content="Иван Уманец, совладелец онлайн-школы «Академия Наталии Эдис» и ИИ-разработчик. Автономные ИИ-системы, которые увеличивают доход владельца школы: кураторы, автомонтаж, контроль качества, сайты.">
+<link rel="canonical" href="https://apilsen0.github.io/landings/schools/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='56' r='40' fill='%23FF5A00'/%3E%3Cpath d='M14 44 C16 32 24 20 36 15 C34 20 36 24 40 25 C38 18 44 10 52 8 C50 13 52 18 57 19 C57 12 64 7 72 8 C69 12 70 17 74 19 C77 14 84 13 89 17 C84 19 83 24 85 28 C77 24 72 27 70 32 C66 27 58 26 54 31 C51 25 42 24 38 29 C36 24 28 24 24 29 C22 34 16 38 14 44 Z' fill='%231E7A34'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Иван Уманец — ИИ-разработка для онлайн-школ">
+<meta property="og:description" content="Автономные ИИ-системы, которые увеличивают доход владельца школы на сотни тысяч рублей в месяц. Кураторы, автомонтаж, контроль качества, сайты.">
+<meta property="og:image" content="https://apilsen0.github.io/landings/schools/assets/ivan.jpg">
+<meta property="og:url" content="https://apilsen0.github.io/landings/schools/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Иван Уманец","jobTitle":"ИИ-разработчик, совладелец онлайн-школы","url":"https://apilsen0.github.io/landings/schools/","sameAs":["https://t.me/apilsen"],"worksFor":{"@type":"Organization","name":"aipilsen"}}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;900&display=swap" rel="stylesheet">
@@ -87,10 +97,13 @@ header{
 .photo-ring img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
 
 /* строка цифр под хиро */
-.hstats{padding:0 0 130px}
+.hstats{padding:0 0 110px}
 .hstats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px;border-top:1px solid var(--line);padding-top:56px}
-.hstat .v{font-weight:900;font-size:clamp(26px,2.6vw,40px);color:var(--orange);white-space:nowrap}
+.hstat .v{font-weight:900;font-size:clamp(26px,2.6vw,40px);color:var(--orange);white-space:nowrap;font-variant-numeric:tabular-nums}
 .hstat .l{font-size:14px;color:var(--sub);margin-top:8px;line-height:1.5;max-width:200px}
+.proof{display:flex;gap:14px 36px;flex-wrap:wrap;align-items:center;margin-top:56px;color:var(--sub);font-size:14px}
+.proof b{font-weight:600;color:var(--ink)}
+:where(a,button):focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:8px}
 
 /* секции — много воздуха */
 .sec{padding:150px 0}
@@ -200,6 +213,23 @@ header{
 .knum .sub{margin-top:44px}
 .knum .sub .v{font-weight:900;font-size:clamp(26px,2.8vw,42px);color:var(--ink)}
 
+/* CTA после кейсов */
+.midcta{text-align:center;padding:20px 0 0}
+.midcta p{color:var(--sub);font-size:16px;margin-bottom:26px}
+
+/* FAQ */
+.faq{max-width:780px}
+.faq details{border-top:1px solid var(--line);padding:6px 0}
+.faq details:last-of-type{border-bottom:1px solid var(--line)}
+.faq summary{
+  cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;
+  gap:20px;padding:24px 0;font-weight:600;font-size:18px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--orange);font-size:26px;font-weight:400;transition:transform .25s;flex:none}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{color:var(--sub);font-size:16px;padding:0 40px 26px 0;max-width:640px}
+
 /* ПРОЦЕСС */
 .p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:56px}
 .p-col .n{font-weight:900;font-size:15px;color:var(--orange);display:block;margin-bottom:20px}
@@ -308,7 +338,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
     </div>
     <div class="hero-photo rv fade d1">
       <div class="photo-ring">
-        <img src="assets/ivan.jpg" alt="Иван Уманец" width="700" height="933">
+        <img src="assets/ivan.jpg" alt="Иван Уманец" width="700" height="933" fetchpriority="high">
       </div>
     </div>
   </div>
@@ -321,6 +351,13 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
     <div class="hstat fade d1"><div class="v">30 000+</div><div class="l">учеников прошло через Академию</div></div>
     <div class="hstat fade d2"><div class="v">1 000</div><div class="l">уроков в месяц монтирует система</div></div>
     <div class="hstat fade d3"><div class="v">10+</div><div class="l">систем работают годами</div></div>
+  </div>
+  <div class="wrap proof rv fade">
+    <span>Мои системы работают в:</span>
+    <b>Академия Наталии Эдис</b>
+    <b>LEEKE</b>
+    <b>Московское долголетие</b>
+    <b>Ассоциация актёров-пенсионеров</b>
   </div>
 </section>
 
@@ -530,6 +567,42 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
         <div class="cap">базы прозванивается без менеджеров</div>
         <div class="sub"><div class="v">рост набора</div><div class="cap">виден в отчётности школы</div></div>
       </div>
+    </div>
+    <div class="midcta rv fade">
+      <p>Хотите такую же историю для своей школы?</p>
+      <a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Обсудить мою школу</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="label fade">Вопросы</span>
+      <h2 class="sec-h fade d1">То, что спрашивают до покупки</h2>
+    </div>
+    <div class="faq rv fade">
+      <details>
+        <summary>ИИ заменит моих кураторов?</summary>
+        <div class="a">Он заберёт у них рутину: 80% вопросов учеников повторяются — расписание, записи, «где ссылка». Их закрывает система за секунды, а живая команда занимается тем, что действительно требует человека. Школы растят потоки, не расширяя штат.</div>
+      </details>
+      <details>
+        <summary>Сколько времени займёт внедрение?</summary>
+        <div class="a">Работающий пилот на одном потоке — за 2–4 недели. Система обучается на материалах вашей школы, и первые две недели мы вместе доводим ответы до вашего тона.</div>
+      </details>
+      <details>
+        <summary>Что нужно от моей команды?</summary>
+        <div class="a">Материалы курсов и пара созвонов. Всю техническую работу делаю я, а по ходу проекта обучаю вашу команду управлять системой.</div>
+      </details>
+      <details>
+        <summary>Система останется у нас?</summary>
+        <div class="a">Да, полностью. Два месяца я обучаю вашу команду, затем передаю систему целиком. Вы платите один раз — работает она годами, независимо от меня.</div>
+      </details>
+      <details>
+        <summary>С какими платформами это работает?</summary>
+        <div class="a">Telegram, VK, сайт, GetCourse и большинство платформ для онлайн-школ. Zoom-агент работает прямо на занятиях. Если платформа самописная — посмотрю на разборе, обычно интеграция возможна.</div>
+      </details>
     </div>
   </div>
 </section>
