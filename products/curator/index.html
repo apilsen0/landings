@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-куратор в чатах — анонсы, ответы ученикам 24/7, пульт руководителя | aipilsen</title>
+<meta name="description" content="Команда ИИ-кураторов ведёт чаты школы в Telegram и MAX: анонсы к каждому занятию, ответы за секунды, домашние задания, пульт. 176 групп уже работают так.">
+<link rel="canonical" href="https://apilsen0.github.io/landings/products/curator/">
+<link rel="icon" type="image/png" href="../../schools/assets/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ИИ-куратор в чатах — aipilsen">
+<meta property="og:description" content="Команда ИИ-кураторов ведёт чаты школы в Telegram и MAX: анонсы к каждому занятию, ответы за секунды, домашние задания, пульт. 176 групп уже работают так.">
+<meta property="og:image" content="https://apilsen0.github.io/landings/schools/assets/ivan.jpg">
+<meta property="og:url" content="https://apilsen0.github.io/landings/products/curator/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--ink:#101010;--sub:#6E6E6B;--orange:#FF5A00;--tint:#FFF3EC;--panel:#FAFAF8;--line:#ECECEA;--body:'Golos Text',-apple-system,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:19px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+header{position:sticky;top:0;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:20}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:32px;height:76px}
+.logo img{height:44px;display:block}
+.nav-links{display:flex;gap:32px;font-size:15px;color:var(--sub)}
+.nav-links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 32px;border-radius:100px;font-weight:600;font-size:15.5px;border:1px solid transparent;white-space:nowrap;transition:transform .2s,box-shadow .25s}
+.btn-acc{background:var(--orange);color:#fff}
+.btn-acc:hover{box-shadow:0 16px 40px rgba(255,90,0,.32);transform:translateY(-2px)}
+.btn-line{border-color:#DBDBD8;color:var(--ink)}
+.btn-line:hover{border-color:var(--ink)}
+.btn-sm{padding:11px 24px;font-size:14px}
+.label{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:22px}
+.crumbs{font-size:14px;color:var(--sub);padding-top:28px}
+.crumbs a:hover{color:var(--ink)}
+h1{font-weight:900;font-size:clamp(34px,4.8vw,64px);line-height:1.05;letter-spacing:0}
+h2{font-weight:900;font-size:clamp(28px,3.4vw,46px);line-height:1.1;letter-spacing:0;margin-bottom:14px}
+h3{font-weight:900;line-height:1.2;letter-spacing:0}
+.hero{padding:40px 0 70px}
+.hero .lead{font-size:21px;color:var(--sub);max-width:800px;margin-top:26px}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.stat{background:var(--panel);border-radius:20px;padding:24px 26px}
+.stat b{display:block;font-weight:900;font-size:clamp(26px,2.6vw,36px);color:var(--orange);line-height:1;margin-bottom:8px}
+.stat span{font-size:15.5px;color:#333;line-height:1.35;display:block}
+.sec{padding:90px 0}
+.sec.alt{background:var(--panel)}
+.sec-sub{color:var(--sub);font-size:19px;max-width:720px;margin-bottom:44px}
+.pains{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pain{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px 30px}
+.pain .q{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:10px}
+.pain b{display:block;font-size:20px;font-weight:900;line-height:1.25;margin-bottom:12px}
+.pain p{font-size:17px;color:#333}
+.pain p::before{content:"На самом деле: ";font-weight:700;color:var(--orange)}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chips span{background:#fff;border:1px solid var(--line);border-radius:100px;padding:12px 20px;font-size:16px;font-weight:600}
+.money{background:var(--tint);border-radius:26px;padding:44px 48px;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;margin-bottom:22px}
+.money .big{font-weight:900;font-size:clamp(30px,3.6vw,52px);color:var(--orange);line-height:1.05}
+.money .t{font-size:19px;color:#333;margin-top:8px}
+.money p{font-size:17px;color:#333}
+.vals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.val{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 26px}
+.val b{display:block;font-size:18px;font-weight:900;margin-bottom:8px}
+.val p{font-size:16px;color:#333}
+.feat{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px 28px}
+.feat li{padding-left:26px;position:relative;font-size:17px;line-height:1.5;color:#222}
+.feat li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:10px;border-radius:50%;background:var(--orange)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.step{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px 22px}
+.step .k{font-weight:900;color:var(--orange);font-size:24px;line-height:1;margin-bottom:12px}
+.step b{display:block;font-size:17px;font-weight:900;margin-bottom:6px}
+.step p{font-size:15px;color:#333}
+.story{background:#fff;border:1px solid var(--line);border-radius:26px;padding:40px 44px}
+.story h3{font-size:clamp(22px,2.4vw,30px);margin-bottom:10px}
+.story .ctx{color:var(--sub);font-size:17.5px;margin-bottom:26px}
+.story .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.story .col b{display:block;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:10px}
+.story .col p{font-size:16.5px;color:#222}
+.story .col.now{background:var(--tint);border-radius:18px;padding:20px 22px}
+.story .col.now b{color:var(--orange)}
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.qa .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 28px}
+.qa .card b{display:block;font-size:18px;font-weight:900;margin-bottom:8px;line-height:1.25}
+.qa .card p{font-size:16.5px;color:#333}
+.limits{list-style:none;display:grid;gap:10px;max-width:860px}
+.limits li{padding-left:26px;position:relative;font-size:17px;color:#333}
+.limits li::before{content:"—";position:absolute;left:0;color:var(--orange);font-weight:900}
+.proc{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.proc .p{background:#fff;border-radius:20px;padding:26px 24px;border:1px solid var(--line)}
+.proc .p .k{font-weight:900;color:var(--orange);font-size:24px;line-height:1;margin-bottom:12px}
+.proc .p b{display:block;font-size:18px;font-weight:900;margin-bottom:6px}
+.proc .p p{font-size:15.5px;color:#333}
+.note{margin-top:28px;padding:30px 36px;border-radius:22px;background:var(--tint);font-size:18px;max-width:980px}
+.note b{font-weight:900}
+.rel{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rel a{display:block;background:var(--panel);border-radius:20px;padding:26px 26px;transition:transform .2s}
+.rel a:hover{transform:translateY(-3px)}
+.rel a .n{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:10px}
+.rel a b{display:block;font-size:19px;font-weight:900;margin-bottom:8px;line-height:1.2}
+.rel a p{font-size:15.5px;color:#333}
+.rel a .go{display:inline-block;margin-top:14px;color:var(--orange);font-weight:600;font-size:15px;border-bottom:2px solid var(--orange)}
+.plink{display:inline-block;color:var(--orange);font-weight:600;font-size:16px;border-bottom:2px solid var(--orange);line-height:1.3}
+.final{background:var(--orange);color:#fff;text-align:center}
+.final a.slab{display:block;padding:140px 0}
+.final h2{font-size:clamp(32px,4.8vw,72px);text-transform:uppercase;margin-bottom:24px;line-height:1.08}
+.final p{color:rgba(255,255,255,.85);font-size:18px;max-width:560px;margin:0 auto 40px}
+.final .fakebtn{display:inline-flex;align-items:center;gap:10px;padding:21px 48px;border-radius:100px;font-weight:600;font-size:17px;background:#fff;color:var(--orange);box-shadow:0 24px 60px rgba(0,0,0,.18);transition:transform .2s}
+.final a.slab:hover .fakebtn{transform:translateY(-3px) scale(1.03)}
+.final .sig{margin-top:30px;color:rgba(255,255,255,.75);font-size:14px}
+footer{padding:40px 0;font-size:14px;color:var(--sub)}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot a{color:var(--orange);font-weight:600}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.19,.7,.22,1),transform .8s cubic-bezier(.19,.7,.22,1)}
+.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+@media(max-width:1024px){.steps{grid-template-columns:1fr 1fr}.vals{grid-template-columns:1fr 1fr}.proc{grid-template-columns:1fr 1fr}.story .cols{grid-template-columns:1fr}.feat{grid-template-columns:1fr}.rel{grid-template-columns:1fr}}
+@media(max-width:680px){
+  .wrap{padding:0 20px}.nav-links{display:none}.hero{padding:24px 0 48px}.hero .lead{font-size:18.5px}
+  .stats{grid-template-columns:1fr;margin-top:32px}.sec{padding:56px 0}.pains{grid-template-columns:1fr}
+  .money{grid-template-columns:1fr;padding:30px 26px}.vals{grid-template-columns:1fr}.steps{grid-template-columns:1fr}
+  .qa{grid-template-columns:1fr}.proc{grid-template-columns:1fr}.story{padding:26px 22px}.final a.slab{padding:90px 0}
+  .hero .cta .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="../../schools/" aria-label="aipilsen"><img src="../../schools/assets/logo.png" alt="aipilsen"></a>
+    <nav class="nav-links">
+      <a href="../../schools/">Главная</a>
+      <a href="../">Все продукты</a>
+      <a href="../../md-curator/">Для поставщиков</a>
+      <a href="../../marketplace/">Для брендов</a>
+    </nav>
+    <a class="btn btn-acc btn-sm" href="https://t.me/apilsen" target="_blank">Написать в Telegram</a>
+  </div>
+</header>
+
+<section class="hero"><div class="wrap">
+  <div class="crumbs"><a href="../">Продукты</a> · Для школ и образовательных проектов</div>
+  <span class="label" style="margin-top:34px">01 · Флагман</span>
+  <h1>ИИ-куратор в чатах</h1>
+  <p class="lead">Команда ИИ-кураторов ведёт чаты ваших групп в Telegram и MAX: анонсы к каждому занятию, ответы ученикам за секунды, домашние задания и порядок в чатах. Руководитель управляет всем с телефона через пульт.</p>
+  <div class="cta"><a class="btn btn-acc" href="https://t.me/apilsen" target="_blank">Показать на вашем проекте</a><a class="btn btn-line" href="#value">Что получает собственник</a></div>
+  <div class="stats"><div class="stat"><b>176</b><span>групп ведёт система прямо сейчас</span></div><div class="stat"><b>19 000+</b><span>сообщений учеников обработано за четыре месяца</span></div><div class="stat"><b>секунды</b><span>ответ ученику, круглосуточно</span></div></div>
+</div></section>
+
+<section class="sec alt" id="why"><div class="wrap rv">
+  <span class="label">Зачем это вам</span>
+  <h2>Что обычно думают — и что происходит на самом деле</h2>
+  <p class="sec-sub">Скрытая рутина выглядит нормой, пока её не посчитать. Четыре мысли, с которых начинается разговор почти с каждым руководителем.</p>
+  <div class="pains"><div class="pain"><div class="q">Вы думаете</div><b>Поддержка растёт вместе со школой — это нормально.</b><p>Каждый новый поток добавляет кураторов, зарплаты и 43 % взносов сверху, а большинство вопросов повторяются: «где ссылка», «когда запись», «что подготовить». Это резерв дохода владельца — в Академии он составил 500 000 ₽ в месяц.</p></div><div class="pain"><div class="q">Вы думаете</div><b>Ученик подождёт до утра.</b><p>Ученик, который вечером не получил ответ, остывает: пропускает занятие, бросает курс, не покупает следующий. Повторные продажи — больше половины выручки школ, и начинаются они с ответа за секунды.</p></div><div class="pain"><div class="q">Вы думаете</div><b>Анонсы — мелочь, кураторы справляются.</b><p>Три анонса к каждому занятию на сорок групп — это сотни сообщений в неделю руками, с ошибками в датах и дублями в MAX. Когда анонсы выходят к каждому занятию без исключений, группы наполняются сами.</p></div><div class="pain"><div class="q">Вы думаете</div><b>Мы и так всё контролируем.</b><p>Руководитель заглядывает в чаты, когда что-то случилось. С пультом видно каждую группу, каждый анонс и каждый вопрос — до того, как он стал жалобой.</p></div></div>
+</div></section>
+
+<section class="sec" id="when"><div class="wrap rv">
+  <span class="label">Когда это нужно</span>
+  <h2>Ситуации, в которых за этим приходят</h2>
+  <p class="sec-sub">Если узнали хотя бы одну — самое время посмотреть систему вживую.</p>
+  <div class="chips"><span>Стартует новый поток, а кураторов уже не хватает</span><span>Куратор ушёл — чаты остались без ответов на выходные</span><span>Ученики пишут про долгие ответы, падает доходимость</span><span>Город переводит чаты в MAX — появилась вторая смена работы</span><span>Планируете бюджет на год и хотите вернуть себе фонд оплаты труда</span><span>Открываете новое направление и не хотите нанимать ещё троих</span></div>
+</div></section>
+
+<section class="sec alt" id="value"><div class="wrap rv">
+  <span class="label">Что получает собственник</span>
+  <h2>Ценность в деньгах, времени и контроле</h2>
+  <div class="money"><div><div class="big">от 500 000 ₽ в месяц</div><div class="t">остаётся в школе</div></div><p>В Академии поддержку 7 000 учеников вели 15 кураторов — теперь спокойно справляются четверо. Фонд оплаты труда возвращается владельцу.</p></div>
+  <div class="vals"><div class="val"><b>Деньги</b><p>В Академии поддержку 7 000 учеников вели 15 кураторов — теперь спокойно справляются четверо. Фонд оплаты труда возвращается владельцу.</p></div><div class="val"><b>Доходимость и повторные покупки</b><p>Ответ за секунды в любое время суток — ученик доходит до конца курса и покупает следующий.</p></div><div class="val"><b>Наполняемость</b><p>Анонсы к каждому занятию без исключений: участники приходят вовремя, группы живут.</p></div><div class="val"><b>Контроль</b><p>Пульт показывает каждую группу, анонс и вопрос. Каждый шаг записан, любой можно отменить.</p></div><div class="val"><b>Спокойная команда</b><p>Старшие кураторы занимаются людьми и сложными случаями, рутина уходит системе.</p></div></div>
+</div></section>
+
+<section class="sec" id="what"><div class="wrap rv">
+  <span class="label">Что делает система</span>
+  <h2>Работающие функции — всё покажу вживую</h2>
+  <ul class="feat"><li>Собирает анонсы из вашего расписания и отправляет три волны — за сутки, за час и в момент начала: тема, преподаватель, ссылка или адрес с картой, фото, кнопка «Подключиться». Каждый анонс дублируется в MAX.</li><li>Отвечает ученикам круглосуточно за секунды в вашем тоне и простым языком; понимает уточняющие вопросы и молчит, когда участники общаются между собой.</li><li>Домашние задания и материалы уходят отдельным сообщением; на «не могу подключиться» разворачивает пошаговую помощь.</li><li>Всё, в чём не уверен, передаёт живому куратору в личные сообщения с кнопками «Ответить / Передать». Замечает недовольство в чате и тихо сигналит команде.</li><li>Рассылки во все выбранные группы одним постом, с картинкой или видео и предпросмотром себе. Официальные письма и уведомления — черновик за минуту, отправляет человек.</li><li>Пульт в Telegram: календарь каждой группы, утверждение анонса в два клика, разделы «Вопросы» и «Операции», роли владелец → директор → координатор → куратор, подключение сотрудников по коду.</li><li>Учится на правках: куратор исправил ответ — система запомнила формулировку. Данные на серверах в России, российская нейросеть, журнал аудита, резервные копии каждую ночь.</li></ul>
+</div></section>
+
+<section class="sec alt" id="how"><div class="wrap rv">
+  <span class="label">Как это работает</span>
+  <h2>Пять шагов — от начала до результата</h2>
+  <div class="steps"><div class="step"><div class="k">01</div><b>Расписание</b><p>Система читает вашу таблицу расписания и собирает анонс на каждое занятие: дата, время, тема, преподаватель, ссылка или адрес.</p></div><div class="step"><div class="k">02</div><b>Утверждение</b><p>Куратор видит анонс в пульте и утверждает в два клика — или группа работает на автопилоте, если вы её туда перевели.</p></div><div class="step"><div class="k">03</div><b>Три волны</b><p>За сутки, за час и в момент начала анонс уходит в Telegram и дублируется в MAX, с фото и кнопкой «Подключиться».</p></div><div class="step"><div class="k">04</div><b>Вопросы</b><p>Типовые вопросы система закрывает за секунды фактами из анонса и расписания. Всё остальное — куратору с кнопками, в личные сообщения.</p></div><div class="step"><div class="k">05</div><b>Пульт и журнал</b><p>Руководитель видит очередь анонсов, открытые вопросы и статус каждой отправки. Система запоминает правки, копия данных — каждую ночь.</p></div></div>
+</div></section>
+
+<section class="sec" id="story"><div class="wrap rv">
+  <span class="label">История</span>
+  <h2>Было → стало</h2>
+  <div class="story"><h3>Академия Наталии Эдис: было 15 кураторов — стало 4</h3><p class="ctx">7 000 учеников, 176 групп, занятия каждый день. Поддержка росла вместе с каждым потоком, и этот рост выглядел нормой.</p><div class="cols"><div class="col"><b>Было</b><p>15 кураторов в штате, около 700 000 ₽ в месяц на поддержку. Анонсы писались руками, посещаемость велась в таблицах, ответ ученику приходил, когда куратор освобождался.</p></div><div class="col"><b>Что сделали</b><p>В чаты пришла команда ИИ-кураторов: анонсы из расписания тремя волнами, ответы за секунды, сложное — живому куратору с кнопками. Потом добавилась Долька в Zoom и пульт для руководства.</p></div><div class="col now"><b>Стало</b><p>Четыре человека управляют системой с телефона. 500 000 ₽ в месяц остаются у владельца, больше 19 000 сообщений обработано, ученики получают ответ за секунды. Система живёт у школы и работает годами.</p></div></div></div>
+</div></section>
+
+<section class="sec alt" id="fears"><div class="wrap rv">
+  <span class="label">Говорим честно</span>
+  <h2>Про то, чего все боятся</h2>
+  <p class="sec-sub">Эти вопросы задаёт каждый руководитель. Отвечаю прямо.</p>
+  <div class="qa"><div class="card"><b>— А если нейросеть ошибётся?</b><p>Первое время система работает в режиме проверки: каждый анонс публикуется только после утверждения человеком. На «автопилот» группы переводите вы сами — по одной, когда убедитесь. Ошибка правится за минуты и больше не повторяется.</p></div><div class="card"><b>— Ученики почувствуют робота?</b><p>Куратор отвечает в тоне школы, по вашим правилам; деликатное и сложное сразу уходит живому человеку. Большинство учеников сами за смешанный формат: живой педагог и быстрые ответы.</p></div><div class="card"><b>— Персональные данные — это же 152-ФЗ?</b><p>Данные хранятся на серверах в России, с сообщениями работает российская нейросеть. Система хранит минимум, переписка групп не архивируется, каждое обращение — в журнале аудита.</p></div><div class="card"><b>— А что будет с нашими кураторами?</b><p>Решаете вы. Старшие остаются на контроле системы и на людях, рутина уходит машине. Система подстраивается под вашу структуру.</p></div></div>
+  <h3 style="font-size:20px;margin:44px 0 16px">Честные ограничения</h3>
+  <ul class="limits"><li>Система не ведёт занятия и не знает их содержания — такие вопросы уходят педагогу или куратору.</li><li>Источник правды — ваше расписание: его нужно вести актуальным, тогда анонсы точны.</li><li>Запуск — это настройка под вас: таблица расписания, боты, чаты, роли команды. Процедура отработана и описана.</li></ul>
+</div></section>
+
+<section class="sec" id="process"><div class="wrap rv">
+  <span class="label">Как внедряем</span>
+  <h2>Четыре шага — и система полностью ваша</h2>
+  <div class="proc"><div class="p"><div class="k">01</div><b>Разбор</b><p>Смотрим ваш проект и считаем, сколько денег рутина забирает сейчас. План действий получаете в любом случае.</p></div><div class="p"><div class="k">02</div><b>Пилот</b><p>Запускаем систему на части проекта параллельно с командой, в режиме проверки человеком.</p></div><div class="p"><div class="k">03</div><b>Запуск</b><p>Разворачиваем на весь проект, настраиваю тексты и правила под ваш стиль.</p></div><div class="p"><div class="k">04</div><b>Передача</b><p>Два месяца обучаю вашу команду, затем передаю систему полностью — она ваша.</p></div></div>
+  <div class="note"><b>Все системы — автономные.</b> Пульт и исходники остаются у вас, ваша команда управляет системой сама. Вы платите за систему один раз — работает она годами.</div>
+</div></section>
+
+<section class="sec alt" id="related"><div class="wrap rv">
+  <span class="label">Другие части системы</span>
+  <h2>С чем это работает вместе</h2>
+  <div class="rel"><a href="../dolka/"><span class="n">02</span><b>Долька — ИИ-ведущая в Zoom</b><p>Администраторы — на продажах — вместо дежурств на занятиях</p><span class="go">Подробнее →</span></a><a href="../calls/"><span class="n">05</span><b>Автообзвон</b><p>Группы наполняются — продажи с базы, которая вам доверяет</p><span class="go">Подробнее →</span></a><a href="../site/"><span class="n">06</span><b>Сайт школы и поставщика</b><p>Рост оборота за счёт сайта — заявки приходят сами</p><span class="go">Подробнее →</span></a></div>
+  <p style="margin-top:28px"><a class="plink" href="../../md-curator/">Страница для поставщиков: скрины пульта и сравнение с живым куратором →</a> <a class="plink" href="../">Все 14 продуктов на одной странице →</a></p>
+</div></section>
+
+<section class="final" id="contact">
+  <a class="slab" href="https://t.me/apilsen" target="_blank">
+    <div class="wrap">
+      <h2>Покажу вживую за 20 минут</h2>
+      <p>Разбираем ваш проект, показываю живую систему и считаю, сколько денег она вернёт собственнику. Без обязательств.</p>
+      <div><span class="fakebtn">Написать мне в Telegram →</span></div>
+      <div class="sig">@apilsen · отвечаю лично, обычно в течение часа</div>
+    </div>
+  </a>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 aipilsen · Иван Уманец — ИИ-системы для школ и бизнеса</div>
+    <div><a href="../../schools/">Главная</a> · <a href="../">Все продукты</a> · Telegram: <a href="https://t.me/apilsen">@apilsen</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.rv'));
+  function inView(el){var r=el.getBoundingClientRect();return r.top<innerHeight*.9&&r.bottom>0}
+  function sweep(){for(var i=els.length-1;i>=0;i--){if(inView(els[i])){els[i].classList.add('on');els.splice(i,1)}}}
+  addEventListener('scroll',sweep,{passive:true});addEventListener('resize',sweep);
+  sweep();setTimeout(sweep,150);setTimeout(sweep,700);
+})();
+</script>
+</body>
+</html>
