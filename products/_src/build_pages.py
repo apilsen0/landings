@@ -163,13 +163,13 @@ def render(p):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{e(p["title"])}</title>
 <meta name="description" content="{e(p["meta"])}">
-<link rel="canonical" href="https://apilsen0.github.io/landings/products/{p["slug"]}/">
+<link rel="canonical" href="https://apilsen.com/products/{p["slug"]}/">
 <link rel="icon" type="image/png" href="../../schools/assets/favicon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{e(p["name"])} — aipilsen">
 <meta property="og:description" content="{e(p["meta"])}">
-<meta property="og:image" content="https://apilsen0.github.io/landings/schools/assets/ivan.jpg">
-<meta property="og:url" content="https://apilsen0.github.io/landings/products/{p["slug"]}/">
+<meta property="og:image" content="https://apilsen.com/schools/assets/ivan.jpg">
+<meta property="og:url" content="https://apilsen.com/products/{p["slug"]}/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;900&display=swap" rel="stylesheet">
