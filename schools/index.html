@@ -359,6 +359,15 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
   .photo-ring{clip-path:none}
   .kmarq .track{animation:none}
 }
+/* ── телефоны и планшеты: без тяжёлых эффектов, которые перерисовываются при прокрутке */
+#pbar{width:100%;transform:scaleX(0);transform-origin:0 50%}
+.kmarq .track{will-change:transform}
+.kmarq.is-off .track{animation-play-state:paused}
+@media (max-width:1024px),(hover:none){
+  header{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(255,255,255,.97)}
+  .photo-ring::after{display:none}
+  .case{transform:none!important;filter:none!important}
+}
 </style>
 </head>
 <body>
@@ -815,9 +824,21 @@ const dialog=[
   ['stu','Ученица · 22:48','Спасибо! А когда следующий эфир?'],
   ['bot','ИИ-куратор · 22:48','В четверг в 19:00. Поставила вам напоминание ⏰']
 ];
-let ci=0;
+let ci=0,chatVisible=false,chatParked=false;
+// резервируем высоту под весь диалог, чтобы страница под чатом не прыгала
+function chatReserve(){
+  if(!chatBox||!chatBox.parentNode)return;
+  const probe=chatBox.cloneNode(false);probe.removeAttribute('id');
+  probe.style.cssText='position:absolute;visibility:hidden;pointer-events:none;left:0;top:0;min-height:0';
+  probe.style.width=chatBox.getBoundingClientRect().width+'px';
+  probe.innerHTML=dialog.map(([cls,who,text])=>'<div class="msg '+cls+'"><span class="who">'+who+'</span><span class="txt">'+text+'</span></div>').join('');
+  chatBox.parentNode.appendChild(probe);
+  chatBox.style.minHeight=probe.offsetHeight+'px';
+  probe.remove();
+}
 function chatStep(){
   if(!chatBox)return;
+  if(!chatVisible){chatParked=true;return}
   if(ci>=dialog.length){setTimeout(()=>{chatBox.innerHTML='';ci=0;chatStep()},5000);return}
   const [cls,who,text]=dialog[ci];
   const m=document.createElement('div');m.className='msg '+cls;
@@ -830,14 +851,9 @@ function chatStep(){
   },28);
 }
 let chatStarted=false;
+chatReserve();
+if(document.fonts)document.fonts.ready.then(chatReserve);
 
-// ── шапка + прогресс
-let lastY=0;
-addEventListener('scroll',()=>{
-  const y=scrollY;
-  document.getElementById('hdr').style.transform=(y>420&&y>lastY)?'translateY(-100%)':'';
-  lastY=y;
-},{passive:true});
 
 // ── счётчики
 function runCount(el){
@@ -850,38 +866,53 @@ function runCount(el){
   },16);
 }
 
-// ── проявитель + стек кейсов + прогресс-бар
-const pendRv=[...document.querySelectorAll('.rv')];
-const pendFade=[...document.querySelectorAll('.fade')].filter(el=>!el.closest('.rv'));
-const pendCnt=[...document.querySelectorAll('[data-count]')];
+// ── проявитель, счётчики, ленты и чат — браузер сам сообщает, когда блок на экране
+const hdr=document.getElementById('hdr'),pbar=document.getElementById('pbar');
 const caseEls=[...document.querySelectorAll('.case')];
-function inView(el,k){const r=el.getBoundingClientRect();return r.top<innerHeight*(k||.86)&&r.bottom>0}
-let busy=false;
-function sweep(){
-  if(busy)return;busy=true;setTimeout(()=>busy=false,70);
-  for(let i=pendRv.length-1;i>=0;i--)
-    if(inView(pendRv[i])){pendRv[i].classList.add('on');pendRv[i].querySelectorAll('.fade').forEach(f=>f.classList.add('on'));pendRv.splice(i,1)}
-  for(let i=pendFade.length-1;i>=0;i--)
-    if(inView(pendFade[i])){pendFade[i].classList.add('on');pendFade.splice(i,1)}
-  for(let i=pendCnt.length-1;i>=0;i--)
-    if(inView(pendCnt[i],.92)){runCount(pendCnt[i]);pendCnt.splice(i,1)}
-  if(!chatStarted&&chatBox&&inView(chatBox,.9)){chatStarted=true;chatStep()}
-  // липкий стек
-  caseEls.forEach((c,i)=>{
-    if(i===caseEls.length-1)return;
-    const next=caseEls[i+1].getBoundingClientRect().top;
-    const k=Math.min(1,Math.max(0,(innerHeight-next)/innerHeight));
-    c.style.transform=`scale(${1-k*.045}) translateY(${-k*14}px)`;
-    c.style.filter=`brightness(${1-k*.07})`;
-  });
-  // прогресс
-  const H=document.documentElement.scrollHeight-innerHeight;
-  document.getElementById('pbar').style.width=(H>0?Math.min(100,scrollY/H*100):0)+'%';
+const stackMQ=matchMedia('(min-width:1025px) and (hover:hover)');
+function reveal(el){el.classList.add('on');if(el.classList.contains('rv'))el.querySelectorAll('.fade').forEach(f=>f.classList.add('on'))}
+const revealEls=[...document.querySelectorAll('.rv'),...[...document.querySelectorAll('.fade')].filter(el=>!el.closest('.rv'))];
+const cntEls=[...document.querySelectorAll('[data-count]')];
+function chatShown(v){
+  chatVisible=v;
+  if(v){if(!chatStarted){chatStarted=true;chatStep()}else if(chatParked){chatParked=false;chatStep()}}
 }
-addEventListener('scroll',sweep,{passive:true});
-addEventListener('resize',sweep);
-setInterval(sweep,600);
-sweep();
+if('IntersectionObserver' in window){
+  // верхний отступ огромный: блоки, которые пролистали слишком быстро, тоже проявятся
+  const ioR=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){reveal(e.target);ioR.unobserve(e.target)}}),{rootMargin:'100000px 0px -14% 0px'});
+  revealEls.forEach(el=>ioR.observe(el));
+  const ioC=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){runCount(e.target);ioC.unobserve(e.target)}}),{rootMargin:'100000px 0px -8% 0px'});
+  cntEls.forEach(el=>ioC.observe(el));
+  const ioM=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('is-off',!e.isIntersecting)),{rootMargin:'150px 0px'});
+  document.querySelectorAll('.kmarq').forEach(el=>ioM.observe(el));
+  if(chatBox)new IntersectionObserver(es=>es.forEach(e=>chatShown(e.isIntersecting)),{rootMargin:'0px 0px -10% 0px'}).observe(chatBox);
+}else{
+  revealEls.forEach(reveal);cntEls.forEach(runCount);if(chatBox)chatShown(true);
+}
+
+// ── прокрутка: шапка, полоса прогресса и (только на компьютере) стопка кейсов — не чаще одного раза за кадр
+let lastY=scrollY,ticking=false;
+function onFrame(){
+  ticking=false;
+  const y=scrollY;
+  hdr.style.transform=(y>420&&y>lastY)?'translateY(-100%)':'';
+  lastY=y;
+  const H=document.documentElement.scrollHeight-innerHeight;
+  pbar.style.transform='scaleX('+(H>0?Math.min(1,y/H):0)+')';
+  if(stackMQ.matches){
+    caseEls.forEach((c,i)=>{
+      if(i===caseEls.length-1)return;
+      const next=caseEls[i+1].getBoundingClientRect().top;
+      const k=Math.min(1,Math.max(0,(innerHeight-next)/innerHeight));
+      c.style.transform=`scale(${1-k*.045}) translateY(${-k*14}px)`;
+      c.style.filter=`brightness(${1-k*.07})`;
+    });
+  }
+}
+function requestFrame(){if(!ticking){ticking=true;requestAnimationFrame(onFrame)}}
+addEventListener('scroll',requestFrame,{passive:true});
+addEventListener('resize',()=>{requestFrame();chatReserve()});
+onFrame();
 </script>
 </body>
 </html>
