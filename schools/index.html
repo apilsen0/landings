@@ -48,14 +48,6 @@ section{position:relative;scroll-margin-top:90px}
 /* прогресс чтения */
 #pbar{position:fixed;top:0;left:0;height:3px;background:var(--orange);width:0;z-index:200}
 
-/* курсор */
-#cur{
-  position:fixed;top:0;left:0;width:12px;height:12px;border-radius:50%;background:#fff;
-  mix-blend-mode:difference;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
-  transition:width .25s,height .25s;
-}
-#cur.big{width:56px;height:56px}
-@media (hover:none){#cur{display:none}}
 
 /* реавилы */
 .fade{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.19,.7,.22,1),transform .9s cubic-bezier(.19,.7,.22,1)}
@@ -373,7 +365,6 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(
 <body>
 
 <div id="pbar"></div>
-<div id="cur" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -779,16 +770,6 @@ document.querySelectorAll('[data-split]').forEach(el=>{
   el.innerHTML='';parts.forEach(p=>el.appendChild(p));
   let i=0;el.querySelectorAll('.ch,.wd').forEach(s=>s.style.setProperty('--i',i++));
 });
-
-// ── курсор
-const cur=document.getElementById('cur');
-if(matchMedia('(hover:hover)').matches){
-  addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
-  document.querySelectorAll('a,button,summary').forEach(el=>{
-    el.addEventListener('mouseenter',()=>cur.classList.add('big'));
-    el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
-  });
-}
 
 // ── магнитные кнопки
 if(matchMedia('(hover:hover)').matches){

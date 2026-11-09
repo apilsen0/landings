@@ -28,11 +28,6 @@ body::before{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.4;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.cursor,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%}
-.cursor{width:6px;height:6px;background:var(--acc);transform:translate(-50%,-50%)}
-.cursor-ring{width:32px;height:32px;border:1px solid rgba(255,92,51,.4);transform:translate(-50%,-50%);transition:width .25s,height .25s}
-.cursor-ring.hot{width:58px;height:58px;border-color:var(--acc)}
-@media (hover:none),(max-width:900px){.cursor,.cursor-ring{display:none}}
 .lr{display:block;overflow:hidden}
 .lr>span{display:block;transform:translateY(112%);transition:transform 1s cubic-bezier(.19,.7,.22,1)}
 .on .lr>span{transform:none}
@@ -266,7 +261,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
 </head>
 <body>
 
-<div class="cursor"></div><div class="cursor-ring"></div>
+
 
 <header id="hdr">
   <div class="wrap nav">
@@ -504,16 +499,6 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:va
 </footer>
 
 <script>
-const cur=document.querySelector('.cursor'),ring=document.querySelector('.cursor-ring');
-if(matchMedia('(hover:hover)').matches){
-  let rx=0,ry=0,tx=0,ty=0;
-  addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;cur.style.left=tx+'px';cur.style.top=ty+'px'});
-  (function lerp(){rx+=(tx-rx)*.15;ry+=(ty-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(lerp)})();
-  document.querySelectorAll('a,button,.s-card,.shot,.tcard').forEach(el=>{
-    el.addEventListener('mouseenter',()=>ring.classList.add('hot'));
-    el.addEventListener('mouseleave',()=>ring.classList.remove('hot'));
-  });
-}
 const burger=document.querySelector('.burger'),navLinks=document.querySelector('.nav-links');
 burger.addEventListener('click',()=>navLinks.classList.toggle('mob'));
 navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('mob')));
